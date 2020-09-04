@@ -16,3 +16,7 @@
 ###< symfony/phpunit-bridge ###
 .idea
 .env.local
+/error/
+/favicon.ico
+/robots.txt
+/stats/
