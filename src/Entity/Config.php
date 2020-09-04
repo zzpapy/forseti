@@ -23,7 +23,7 @@ class Config
     private $label;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $value;
 
