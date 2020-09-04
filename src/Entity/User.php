@@ -101,18 +101,16 @@ class User implements UserInterface
      */
     private $coefficient_general;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Recette::class, mappedBy="user")
+     */
+    private $recettes;
+
     public function __construct()
     {
         $this->coefficient_general = new ArrayCollection();
+        $this->recettes = new ArrayCollection();
     }
-
-   
-
-    
-
-   
-
-   
 
     public function getId(): ?int
     {
@@ -397,10 +395,4 @@ class User implements UserInterface
 
         return $this;
     }
-
-   
-
-    
-
-   
 }
