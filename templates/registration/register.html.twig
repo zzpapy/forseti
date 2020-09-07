@@ -16,6 +16,9 @@
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
+        {{ form_row(registrationForm.password, {
+            label: 'repeat password'
+        }) }}
         {{ form_row(registrationForm.firstname) }}
         {{ form_row(registrationForm.lastname) }}
         {{ form_row(registrationForm.address) }}
@@ -27,7 +30,7 @@
         {{ form_row(registrationForm.nbPart) }}
         {{ form_row(registrationForm.telephone) }}
         {{ form_row(registrationForm.agreeTerms) }}
-
+        {{form_row(formConfig)}}
         <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
 {% endblock %}
