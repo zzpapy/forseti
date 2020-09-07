@@ -2,11 +2,93 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>{% block title %}{% endblock %}</title>
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block preloader %}
+            <div class="preloader-it">
+                <div class="la-anim-1"></div>
+            </div>
+        {% endblock %}
+            <div class="wrapper theme-1-active pimary-color-pink">
+                    <nav class="navbar navbar-inverse navbar-fixed-top">
+                        <div class="mobile-only-brand pull-left">
+                            <div class="nav-header pull-left">
+                                <div class="logo-wrap">
+                                    <a href="{{ path('home') }}">
+                                        <img class="brand-img" src="{{ asset('img/forseti.gif') }}" alt="brand"/>
+                                        <span class="brand-text">Forseti</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="mobile_only_nav" class="mobile-only-nav pull-right">
+                            <ul class="nav navbar-right top-nav pull-right">
+                                <li>
+                                    <a id="open_right_sidebar" href="#"><i class="zmdi zmdi-settings top-nav-icon"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                    <div class="fixed-sidebar-left">
+                        <ul class="nav navbar-nav side-nav nicescroll-bar">
+                            <li class="navigation-header">
+                                <span>Main</span>
+                                <i class="zmdi zmdi-more"></i>
+                            </li>
+                        </ul>
+                        {% block left %}{% endblock %}
+                    </div>
+                    <div class="fixed-sidebar-right">
+                        <ul class="right-sidebar">
+                            <li></li>
+                        </ul>
+                    </div>
+                <div class="page-wrapper">
+                    <div class="container-fluid">
+                        <!-- Title -->
+                        <div class="row heading-bg">
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                                <h5 class="txt-dark">{% block page_title %}{% endblock %}</h5>
+                            </div>
+                            <!-- Breadcrumb -->
+                            <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                                <ol class="breadcrumb">
+                                    {% block page_breadcrumbs %}{% endblock %}
+                                </ol>
+                            </div>
+                            <!-- /Breadcrumb -->
+                        </div>
+                        <!-- /Title -->
+
+                        <div class="row">
+                        {% block body %}{% endblock %}
+                        </div>
+                    </div>
+                    <footer class="footer container-fluid pl-30 pr-30">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p>2018 &copy; Grandin. Pampered by Hencework</p>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        {% block javascripts %}
+            {{ encore_entry_script_tags('grandin_jquery') }}
+            {{ encore_entry_script_tags('grandin_bootstrap') }}
+            {{ encore_entry_script_tags('grandin_owl') }}
+            {{ encore_entry_script_tags('grandin_datatable') }}
+            {{ encore_entry_script_tags('grandin_datatabletheme') }}
+            {{ encore_entry_script_tags('grandin_slimscroll') }}
+            {{ encore_entry_script_tags('grandin_switchery') }}
+            {{ encore_entry_script_tags('grandin_fancydropdown') }}
+            {{ encore_entry_script_tags('grandin_init') }}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
     </body>
 </html>
