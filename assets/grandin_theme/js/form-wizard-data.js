@@ -1,19 +1,8 @@
 /*FormWizard Init*/
 $(function(){
 	"use strict";
-	
-	/* Basic Wizard Init*/
-	if($('#example-basic').length >0)
-		$("#example-basic").steps({
-			headerTag: "h3",
-			bodyTag: "section",
-			transitionEffect: "fade",
-			autoFocus: true,
-			titleTemplate: '<span class="number">#index#</span> #title#',
-		});
-
-	if($('#example-advanced-form').length >0){
-		var form_2 = $("#example-advanced-form");
+	if($('#registration_form').length >0){
+		var form_2 = $("#registration_form");
 		form_2.steps({
 			headerTag: "h3",
 			bodyTag: "fieldset",
@@ -21,8 +10,8 @@ $(function(){
 			titleTemplate: '#title#',
 			labels: {
 				finish: "place order",
-				next: "Next",
-				previous: "Previous",
+				next: "Suivant",
+				previous: "Précédent",
 			},
 			onStepChanging: function (event, currentIndex, newIndex)
 			{
@@ -31,11 +20,7 @@ $(function(){
 				{
 					return true;
 				}
-				// Forbid next action on "Warning" step if the user is to young
-				if (newIndex === 3 && Number($("#age-2").val()) < 18)
-				{
-					return false;
-				}
+
 				// Needed in some cases if the user went back (clean up)
 				if (currentIndex < newIndex)
 				{
@@ -53,13 +38,13 @@ $(function(){
 			},
 			onFinished: function (event, currentIndex)
 			{
-				alert("Submitted!");
+				alert("Envoyé !");
 			}
 		}).validate({
 			errorPlacement: function errorPlacement(error, element) { element.before(error); },
 			rules: {
-				confirm: {
-					equalTo: "#password-2"
+				'registration_form[password][second]': {
+					equalTo: "#registration_form_password_first"
 				}
 			}
 		});

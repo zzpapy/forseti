@@ -21,8 +21,8 @@
                 </div>
                 <div class="panel-wrapper collapse in">
                     <div class="panel-body">
-                        <form id="example-advanced-form" action="#">
-                            {{ form_start(registrationForm) }}
+{#                        <form id="example-advanced-form" action="#">#}
+                            {{ form_start(registrationForm, {'attr':{'id':'registration_form'}}) }}
                             <h3><span class="number"><i class="icon-eye txt-black"></i></span><span class="head-font capitalize-font">Enregistrement de l'administrateur</span></h3>
                             <fieldset>
                                 <div class="row">
@@ -269,7 +269,7 @@
                                 <!--CREDIT CART PAYMENT END-->
                             </fieldset>
                             {{ form_end(registrationForm) }}
-                        </form>
+{#                        </form>#}
                     </div>
                 </div>
             </div>
