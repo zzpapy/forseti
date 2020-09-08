@@ -37,9 +37,9 @@ class RegistrationFormType extends AbstractType
             ->add('address', TextType::class)
             ->add('zipcode', TextType::class)
             ->add('city', TextType::class)
-            ->add('state', TextType::class)
+            ->add('state', TextType::class, ['required' => false])
             ->add('country', TextType::class)
-            ->add('picture', UrlType::class)
+            ->add('picture', UrlType::class, ['required' => false])
             ->add('nbPart', IntegerType::class)
             ->add('telephone', TelType::class)
         ;
