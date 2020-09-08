@@ -144,61 +144,150 @@
                                     <div class="col-sm-12">
                                         <div class="form-wrap">
                                             <div class="form-group">
-                                                <label class="control-label mb-10" for="exampleCountry">country:</label>
-                                                <select id="exampleCountry" class="form-control required" name="country">
-                                                    <option value="1">India</option>
-                                                    <option value="2">Australia</option>
-                                                    <option value="3">USA</option>
-                                                    <option value="4">Japan</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-6 col-xs-12">
-                                                        <label class="control-label mb-10" for="firstName">first name:</label>
-                                                        <input id="firstName" type="text" name="first_name" class="form-control required" value="" />
-                                                    </div>
-                                                    <div class="span1"></div>
-                                                    <div class="col-md-6 col-xs-12">
-                                                        <label class="control-label mb-10" for="lastName">last name:</label>
-                                                        <input id="lastName" type="text" name="last_name" class="form-control required" value="" />
-                                                    </div>
+                                                <div class="input-group">
+                                                    {{ form_widget(formScm.logo, {'attr': {
+                                                        'placeholder':'logo'
+                                                    }}) }}
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label mb-10" for="addressDetail">Address:</label>
-                                                <input id="addressDetail"  type="text" name="address" class="form-control required" value="" />
+                                                <div class="input-group">
+                                                    {{ form_widget(formScm.raison_sociale, {'attr': {
+                                                        'placeholder':'Raison Sociale'
+                                                    }}) }}
+                                                </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label mb-10" for="cityName">city:</label>
-                                                <select id="cityName" class="form-control required" name="country">
-                                                    <option value="">Banglore</option>
-                                                    <option value="">Pune</option>
-                                                </select>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-book-open"></i></div>
+                                                    {{ form_widget(formScm.adresse, {'attr': {
+                                                        'placeholder':'Adresse'
+                                                    }}) }}
+                                                </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label mb-10" for="stateName">state:</label>
-                                                <select id="stateName" class="form-control required" name="country">
-                                                    <option value="">Karnataka</option>
-                                                    <option value="">Maharashtra</option>
-                                                </select>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-book-open"></i></div>
+                                                    {{ form_widget(formScm.cp, {'attr': {
+                                                        'placeholder':'Code Postal'
+                                                    }}) }}
+                                                </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label mb-10" for="postalCode">zip/postal code:</label>
-                                                <input id="postalCode" type="text" name="zip_code"  data-mask="99999-9999" class="form-control required" value="" />
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-book-open"></i></div>
+                                                    {{ form_widget(formScm.ville, {'attr': {
+                                                        'placeholder':'Ville'
+                                                    }}) }}
+                                                </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label mb-10" for="phoneNumber">phone number:</label>
-                                                <input type="text" id="phoneNumber"  data-mask="+40 999 999 999" name="phone_number" class="form-control required" value="" />
+                                                <div class="input-group">
+                                                    {{ form_widget(formScm.siret, {'attr': {
+                                                        'placeholder':'n°SIRET'
+                                                    }}) }}
+                                                </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label mb-10" for="emailAddress">email address:</label>
-                                                <input id="emailAddress" type="text" name="email_address" class="form-control required" value="" />
+                                                <div class="input-group">
+                                                    {{ form_widget(formScm.siren, {'attr': {
+                                                        'placeholder':'n°SIREN'
+                                                    }}) }}
+                                                </div>
+                                            </div>                                            
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">Début exercice comptable</i></div>
+                                                    {{ form_widget(formScm.debut_ex_compta, {'attr': {
+                                                        'label':'Début exercice comptable'
+                                                    }}) }}
+                                                </div>
                                             </div>
-                                            <div class="form-group mb-0">
-                                                <div class="checkbox checkbox-success">
-                                                    <input id="checkbox_1" type="checkbox">
-                                                    <label for="checkbox_1">Billing address is same as shipping address.</label>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">Fin exercice comptable</i></div>
+                                                    {{ form_widget(formScm.fin_ex_compta, {'attr': {
+                                                        'label':'Fin exercice comptable'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    {{ form_widget(formScm.ref_local, {'attr': {
+                                                        'placeholder':'Référence du local'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    {{ form_widget(formScm.invariant_local, {'attr': {
+                                                        'placeholder':'Invariant local'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    {{ form_widget(formScm.proprieter_local, {'attr': {
+                                                        'placeholder':'Propiétaire du local'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">                                                
+                                                <div class="input-group">
+                                                    {{ form_widget(formScm.siren_local, {'attr': {
+                                                        'placeholder':'n°SIREN du local'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">                                                
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">Type d'occupation</div>
+                                                    {{ form_widget(formScm.type_occup, {'attr': {
+                                                        'placeholder':'logo'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">                                                
+                                                <div class="input-group">
+                                                    {{ form_widget(formScm.mt_loyer_annu, {'attr': {
+                                                        'placeholder':'Montant loyer annuel'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">                                                
+                                                <div class="input-group">
+                                                    {{ form_widget(formScm.mt_prev_charges, {'attr': {
+                                                        'placeholder':'Montant prévisionnel des charges'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">                                                
+                                                <div class="input-group">
+                                                    {{ form_widget(formScm.total_charge_annee_precedente, {'attr': {
+                                                        'placeholder':'Total de charges année prcécédente.'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">                                                
+                                                <div class="input-group">
+                                                    {{ form_widget(formScm.min_assoc, {'attr': {
+                                                        'placeholder':"Nombre minimum d'associé"
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">                                                
+                                                <div class="input-group">
+                                                    {{ form_widget(formScm.max_assoc, {'attr': {
+                                                        'placeholder':"Nombre maximum d'associé"
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">                                                
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-phone"></i></div>
+                                                    {{ form_widget(formScm.telephone, {'attr': {
+                                                        'placeholder':'Téléphone'
+                                                    }}) }}
                                                 </div>
                                             </div>
                                         </div>
@@ -267,9 +356,11 @@
                                     </div>
                                 </div>
                                 <!--CREDIT CART PAYMENT END-->
+                                <button class="btn btn-lg btn-primary" type="submit">
+                                    Sign in
+                                </button>
                             </fieldset>
                             {{ form_end(registrationForm) }}
-{#                        </form>#}
                     </div>
                 </div>
             </div>

@@ -2,17 +2,19 @@
 
 namespace App\Controller;
 
-use App\Entity\Config;
+use App\Entity\Scm;
 use App\Entity\User;
+use App\Form\ScmType;
+use App\Entity\Config;
 use App\Form\ConfigType;
-use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
+use App\Form\RegistrationFormType;
+use Symfony\Component\Mime\Address;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
@@ -31,19 +33,27 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = new User();
+        $scm = new Scm();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
+        $formScm = $this->createForm(ScmType::class, $scm);
+        $formScm->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
+           
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($scm);
+            $entityManager->flush();
+
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $form->get('password')->getData()
                 )
             );
             $user->setRoles(["ROLE_ADMIN"]);
-            $entityManager = $this->getDoctrine()->getManager();
+            $user->setScm($scm);
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -61,7 +71,8 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView()
+            'registrationForm' => $form->createView(),
+            'formScm' => $formScm->createView()
         ]);
     }
 
@@ -72,8 +83,6 @@ class RegistrationController extends AbstractController
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
-        $config = new Config();
-        $formConfig = $this->createForm(ConfigType::class, $config);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -81,7 +90,7 @@ class RegistrationController extends AbstractController
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $form->get('password')->getData()
                 )
             );
             $entityManager = $this->getDoctrine()->getManager();
@@ -103,7 +112,6 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
-            'formConfig' => $formConfig->createView(),
         ]);
     }
 

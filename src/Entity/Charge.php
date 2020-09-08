@@ -60,6 +60,12 @@ class Charge
      */
     private $type;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Scm::class, inversedBy="charges")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $scm;
+
     public function __construct()
     {
         $this->coefficientSpecifiques = new ArrayCollection();
@@ -181,6 +187,18 @@ class Charge
     public function setType(?ChargeType $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getScm(): ?Scm
+    {
+        return $this->scm;
+    }
+
+    public function setScm(?Scm $scm): self
+    {
+        $this->scm = $scm;
 
         return $this;
     }

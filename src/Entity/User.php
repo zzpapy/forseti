@@ -118,6 +118,12 @@ class User implements UserInterface
      */
     private $isVerified = false;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Scm::class, inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $scm;
+
     public function __construct()
     {
         $this->coefficient_general = new ArrayCollection();
@@ -430,6 +436,18 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getScm(): ?Scm
+    {
+        return $this->scm;
+    }
+
+    public function setScm(?Scm $scm): self
+    {
+        $this->scm = $scm;
 
         return $this;
     }

@@ -9,7 +9,6 @@ $(function(){
 			transitionEffect: "fade",
 			titleTemplate: '#title#',
 			labels: {
-				finish: "place order",
 				next: "Suivant",
 				previous: "Précédent",
 			},
