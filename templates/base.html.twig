@@ -9,11 +9,9 @@
         {% endblock %}
     </head>
     <body>
-        {% block preloader %}
             <div class="preloader-it">
                 <div class="la-anim-1"></div>
             </div>
-        {% endblock %}
             <div class="wrapper theme-1-active pimary-color-pink">
                     <nav class="navbar navbar-inverse navbar-fixed-top">
                         <div class="mobile-only-brand pull-left">
@@ -26,13 +24,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="mobile_only_nav" class="mobile-only-nav pull-right">
-                            <ul class="nav navbar-right top-nav pull-right">
-                                <li>
-                                    <a id="open_right_sidebar" href="#"><i class="zmdi zmdi-settings top-nav-icon"></i></a>
-                                </li>
-                            </ul>
-                        </div>
                     </nav>
                     <div class="fixed-sidebar-left">
                         <ul class="nav navbar-nav side-nav nicescroll-bar">
@@ -40,12 +31,6 @@
                                 <span>Main</span>
                                 <i class="zmdi zmdi-more"></i>
                             </li>
-                        </ul>
-                        {% block left %}{% endblock %}
-                    </div>
-                    <div class="fixed-sidebar-right">
-                        <ul class="right-sidebar">
-                            <li></li>
                         </ul>
                     </div>
                 <div class="page-wrapper">
@@ -64,31 +49,59 @@
                             <!-- /Breadcrumb -->
                         </div>
                         <!-- /Title -->
-
-                        <div class="row">
                         {% block body %}{% endblock %}
                         </div>
                     </div>
                     <footer class="footer container-fluid pl-30 pr-30">
                         <div class="row">
                             <div class="col-sm-12">
-                                <p>2018 &copy; Grandin. Pampered by Hencework</p>
+                                <p>2020 &copy;Ryan Soufi</p>
                             </div>
                         </div>
                     </footer>
                 </div>
             </div>
         {% block javascripts %}
-            {{ encore_entry_script_tags('grandin_jquery') }}
-            {{ encore_entry_script_tags('grandin_bootstrap') }}
-            {{ encore_entry_script_tags('grandin_owl') }}
-            {{ encore_entry_script_tags('grandin_datatable') }}
-            {{ encore_entry_script_tags('grandin_datatabletheme') }}
-            {{ encore_entry_script_tags('grandin_slimscroll') }}
-            {{ encore_entry_script_tags('grandin_switchery') }}
-            {{ encore_entry_script_tags('grandin_fancydropdown') }}
-            {{ encore_entry_script_tags('grandin_init') }}
-            {{ encore_entry_script_tags('app') }}
+            // JQuery
+            {{ encore_entry_script_tags('grandin_jquery')}}
+
+            // Bootstrap Core Js
+            {{ encore_entry_script_tags('grandin_bootstrap')}}
+            {{ encore_entry_script_tags('grandin_bootstrap_jasny')}}
+
+            // Datatable
+            {{ encore_entry_script_tags('grandin_datatable')}}
+            {{ encore_entry_script_tags('grandin_datatabletheme')}}
+
+            // Slimscroll
+            {{ encore_entry_script_tags('grandin_slimscroll')}}
+
+            // Switchery
+            {{ encore_entry_script_tags('grandin_switchery')}}
+
+            // Fancy Dropdown
+            {{ encore_entry_script_tags('grandin_fancydropdown')}}
+
+            // Form Wizard JavaScript
+            {{ encore_entry_script_tags('grandin_formwizard')}}
+            {{ encore_entry_script_tags('grandin_ajax_jqueryvalidata')}}
+
+            // Form Wizard Data JavaScript
+            {{ encore_entry_script_tags('grandin_formwizard_data')}}
+
+            // Bootstrap Touchspin JavaScript -->
+            {{ encore_entry_script_tags('grandin_bootstrap_touchspin')}}
+
+            // Starrr JavaScript
+            {{ encore_entry_script_tags('grandin_starrr')}}
+            // Init
+            {{ encore_entry_script_tags('grandin_init')}}
+            {{ encore_entry_script_tags('app')}}
+
         {% endblock %}
+
+        {% block javascripts_specifique %}
+        {% endblock %}
+
     </body>
 </html>

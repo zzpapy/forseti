@@ -1,36 +1,281 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
-{% block page_title %}Register{% endblock %}
+{% block title %}Création de la SCM{% endblock %}
 {% block page_breadcrumbs %}
-    <li><a href="{{ path('home') }}">Home</a></li>
-    <li class="active">Register</li>
+    <li><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="active">Création de votre SCM</li>
 {% endblock %}
+
 {% block body %}
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default card-view">
+                <div class="panel-heading">
+                    <div class="pull-left">
+                        <h6 class="panel-title txt-dark">Assistant de création et de configuration de votre SCM</h6>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-wrapper collapse in">
+                    <div class="panel-body">
+{#                        <form id="example-advanced-form" action="#">#}
+                            {{ form_start(registrationForm, {'attr':{'id':'registration_form'}}) }}
+                            <h3><span class="number"><i class="icon-eye txt-black"></i></span><span class="head-font capitalize-font">Enregistrement de l'administrateur</span></h3>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-wrap">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-envelope-open"></i></div>
+                                                    {{ form_widget(registrationForm.email, {'attr': {
+                                                        'placeholder':'Email'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-lock"></i></div>
+                                                    {{ form_widget(registrationForm.password.first, {'attr': {
+                                                        'placeholder':'Mot de passe'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-lock"></i></div>
+                                                    {{ form_widget(registrationForm.password.second, {'attr': {
+                                                        'placeholder':'Répéter le mot de passe'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-user"></i></div>
+                                                    {{ form_widget(registrationForm.firstname, {'attr': {
+                                                        'placeholder':'Prénom'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-user"></i></div>
+                                                    {{ form_widget(registrationForm.lastname, {'attr': {
+                                                        'placeholder':'Nom'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-book-open"></i></div>
+                                                    {{ form_widget(registrationForm.zipcode, {'attr': {
+                                                        'placeholder':'Code postal'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-book-open"></i></div>
+                                                    {{ form_widget(registrationForm.address, {'attr': {
+                                                        'placeholder':'Adresse'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-book-open"></i></div>
+                                                    {{ form_widget(registrationForm.city, {'attr': {
+                                                        'placeholder':'Ville'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-globe"></i></div>
+                                                    {{ form_widget(registrationForm.state, {'attr': {
+                                                        'placeholder':'Région'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-globe"></i></div>
+                                                    {{ form_widget(registrationForm.country, {'attr': {
+                                                        'placeholder':'Pays'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-picture"></i></div>
+                                                    {{ form_widget(registrationForm.picture, {'attr': {
+                                                        'placeholder':'Image de profil'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-question"></i></div>
+                                                    {{ form_widget(registrationForm.nbPart, {'attr': {
+                                                        'placeholder':'Nombre de parts dans la SCM'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-phone"></i></div>
+                                                    {{ form_widget(registrationForm.telephone, {'attr': {
+                                                        'placeholder':'Téléphone',
+                                                        'data-mask':'+33 (0)9 99 99 99 99'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.password, {
-            label: 'repeat password'
-        }) }}
-        {{ form_row(registrationForm.firstname) }}
-        {{ form_row(registrationForm.lastname) }}
-        {{ form_row(registrationForm.address) }}
-        {{ form_row(registrationForm.zipcode) }}
-        {{ form_row(registrationForm.city) }}
-        {{ form_row(registrationForm.state) }}
-        {{ form_row(registrationForm.country) }}
-        {{ form_row(registrationForm.picture) }}
-        {{ form_row(registrationForm.nbPart) }}
-        {{ form_row(registrationForm.telephone) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-        {{form_row(formConfig)}}
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+                            <h3><span class="number"><i class="icon-settings txt-black"></i></span><span class="head-font capitalize-font">Configuration de la SCM</span></h3>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-wrap">
+                                            <div class="form-group">
+                                                <label class="control-label mb-10" for="exampleCountry">country:</label>
+                                                <select id="exampleCountry" class="form-control required" name="country">
+                                                    <option value="1">India</option>
+                                                    <option value="2">Australia</option>
+                                                    <option value="3">USA</option>
+                                                    <option value="4">Japan</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-6 col-xs-12">
+                                                        <label class="control-label mb-10" for="firstName">first name:</label>
+                                                        <input id="firstName" type="text" name="first_name" class="form-control required" value="" />
+                                                    </div>
+                                                    <div class="span1"></div>
+                                                    <div class="col-md-6 col-xs-12">
+                                                        <label class="control-label mb-10" for="lastName">last name:</label>
+                                                        <input id="lastName" type="text" name="last_name" class="form-control required" value="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label mb-10" for="addressDetail">Address:</label>
+                                                <input id="addressDetail"  type="text" name="address" class="form-control required" value="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label mb-10" for="cityName">city:</label>
+                                                <select id="cityName" class="form-control required" name="country">
+                                                    <option value="">Banglore</option>
+                                                    <option value="">Pune</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label mb-10" for="stateName">state:</label>
+                                                <select id="stateName" class="form-control required" name="country">
+                                                    <option value="">Karnataka</option>
+                                                    <option value="">Maharashtra</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label mb-10" for="postalCode">zip/postal code:</label>
+                                                <input id="postalCode" type="text" name="zip_code"  data-mask="99999-9999" class="form-control required" value="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label mb-10" for="phoneNumber">phone number:</label>
+                                                <input type="text" id="phoneNumber"  data-mask="+40 999 999 999" name="phone_number" class="form-control required" value="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label mb-10" for="emailAddress">email address:</label>
+                                                <input id="emailAddress" type="text" name="email_address" class="form-control required" value="" />
+                                            </div>
+                                            <div class="form-group mb-0">
+                                                <div class="checkbox checkbox-success">
+                                                    <input id="checkbox_1" type="checkbox">
+                                                    <label for="checkbox_1">Billing address is same as shipping address.</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <h3><span class="number"><i class="icon-people txt-black"></i></span><span class="head-font capitalize-font">Ajout des associés</span></h3>
+                            <fieldset>
+                                <!--CREDIT CART PAYMENT-->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label class="control-label mb-10" for="CreditCardType">card type:</label>
+                                            <select id="CreditCardType" name="CreditCardType" class="form-control required">
+                                                <option value="5">Visa</option>
+                                                <option value="6">MasterCard</option>
+                                                <option value="7">American Express</option>
+                                                <option value="8">Discover</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label mb-10" for="cardNo">Credit Card Number:</label>
+                                            <input type="text" id="cardNo" data-mask="9999-9999-9999-9999" class="form-control required" name="car_number" value="" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label mb-10" for="cvv">card cvv:</label>
+                                            <input type="text" id="cvv" class="form-control  required" data-mask="999" name="car_code" value="" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label mb-10">expiration date:</label>
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                    <select class="form-control required" name="month">
+                                                        <option value="">Month</option>
+                                                        <option value="1">01</option>
+                                                        <option value="2">02</option>
+                                                        <option value="3">03</option>
+                                                        <option value="4">04</option>
+                                                        <option value="5">05</option>
+                                                        <option value="6">06</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                    <select class="form-control required" name="year">
+                                                        <option value="1">Year</option>
+                                                        <option value="2">2001</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-0">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <ul class="cards">
+                                                        <li class="visa hand"><img src="../img/1-s.png" alt="card"/></li>
+                                                        <li class="mastercard hand"><img src="../img/2-s.png" alt="card"/></li>
+                                                        <li class="amex hand"><img src="../img/3-s.png" alt="card"/></li>
+                                                        <li class="amex hand"><img src="../img/4-s.png" alt="card"/></li>
+                                                    </ul>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--CREDIT CART PAYMENT END-->
+                            </fieldset>
+                            {{ form_end(registrationForm) }}
+{#                        </form>#}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+   
 {% endblock %}

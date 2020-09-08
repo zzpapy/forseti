@@ -2,7 +2,23 @@
 
 {% block title %}Hello HomeController!{% endblock %}
 
-{% block page_title %}{% endblock %}
+{% block page_title %}Forseti{% endblock %}
+{% block page_breadcrumbs %}<li class="active">Accueil</li>{% endblock %}
 {% block body %}
-    toto
+    <div class="col-sm-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark">Bienvenue sur Forseti</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <p class="muted">Forseti est une application de gestion comptable pour votre SCM</p>
+                    <p class="muted">Pour commencer veuillez-vous enregistrer et configurer votre SCM <a href="{{ path('app_register') }}">ici</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
