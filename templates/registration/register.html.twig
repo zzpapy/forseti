@@ -152,7 +152,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="input-group">
-                                                    {{ form_widget(formScm.raison_sociale, {'attr': {
+                                                    {{ form_widget(formScm.company_name, {'attr': {
                                                         'placeholder':'Raison Sociale'
                                                     }}) }}
                                                 </div>
@@ -160,7 +160,7 @@
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-addon"><i class="icon-book-open"></i></div>
-                                                    {{ form_widget(formScm.adresse, {'attr': {
+                                                    {{ form_widget(formScm.address, {'attr': {
                                                         'placeholder':'Adresse'
                                                     }}) }}
                                                 </div>
@@ -168,7 +168,7 @@
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-addon"><i class="icon-book-open"></i></div>
-                                                    {{ form_widget(formScm.cp, {'attr': {
+                                                    {{ form_widget(formScm.zip_code, {'attr': {
                                                         'placeholder':'Code Postal'
                                                     }}) }}
                                                 </div>
@@ -176,7 +176,7 @@
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-addon"><i class="icon-book-open"></i></div>
-                                                    {{ form_widget(formScm.ville, {'attr': {
+                                                    {{ form_widget(formScm.city, {'attr': {
                                                         'placeholder':'Ville'
                                                     }}) }}
                                                 </div>
@@ -198,7 +198,7 @@
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-addon">Début exercice comptable</i></div>
-                                                    {{ form_widget(formScm.debut_ex_compta, {'attr': {
+                                                    {{ form_widget(formScm.accountingExerciceStartAt, {'attr': {
                                                         'label':'Début exercice comptable'
                                                     }}) }}
                                                 </div>
@@ -206,7 +206,7 @@
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-addon">Fin exercice comptable</i></div>
-                                                    {{ form_widget(formScm.fin_ex_compta, {'attr': {
+                                                    {{ form_widget(formScm.accountingExerciceEndAt, {'attr': {
                                                         'label':'Fin exercice comptable'
                                                     }}) }}
                                                 </div>
@@ -227,14 +227,14 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="input-group">
-                                                    {{ form_widget(formScm.proprieter_local, {'attr': {
+                                                    {{ form_widget(formScm.local_owner, {'attr': {
                                                         'placeholder':'Propiétaire du local'
                                                     }}) }}
                                                 </div>
                                             </div>
                                             <div class="form-group">                                                
                                                 <div class="input-group">
-                                                    {{ form_widget(formScm.siren_local, {'attr': {
+                                                    {{ form_widget(formScm.local_siren, {'attr': {
                                                         'placeholder':'n°SIREN du local'
                                                     }}) }}
                                                 </div>
@@ -242,28 +242,28 @@
                                             <div class="form-group">                                                
                                                 <div class="input-group">
                                                     <div class="input-group-addon">Type d'occupation</div>
-                                                    {{ form_widget(formScm.type_occup, {'attr': {
+                                                    {{ form_widget(formScm.typeTenantOwner, {'attr': {
                                                         'placeholder':'logo'
                                                     }}) }}
                                                 </div>
                                             </div>
                                             <div class="form-group">                                                
                                                 <div class="input-group">
-                                                    {{ form_widget(formScm.mt_loyer_annu, {'attr': {
+                                                    {{ form_widget(formScm.amountAnuallyRent, {'attr': {
                                                         'placeholder':'Montant loyer annuel'
                                                     }}) }}
                                                 </div>
                                             </div>
                                             <div class="form-group">                                                
                                                 <div class="input-group">
-                                                    {{ form_widget(formScm.mt_prev_charges, {'attr': {
+                                                    {{ form_widget(formScm.forecast_charge, {'attr': {
                                                         'placeholder':'Montant prévisionnel des charges'
                                                     }}) }}
                                                 </div>
                                             </div>
                                             <div class="form-group">                                                
                                                 <div class="input-group">
-                                                    {{ form_widget(formScm.total_charge_annee_precedente, {'attr': {
+                                                    {{ form_widget(formScm.AmountPreviousYearAccountingCharge, {'attr': {
                                                         'placeholder':'Total de charges année prcécédente.'
                                                     }}) }}
                                                 </div>
@@ -285,7 +285,7 @@
                                             <div class="form-group">                                                
                                                 <div class="input-group">
                                                     <div class="input-group-addon"><i class="icon-phone"></i></div>
-                                                    {{ form_widget(formScm.telephone, {'attr': {
+                                                    {{ form_widget(formScm.phone, {'attr': {
                                                         'placeholder':'Téléphone'
                                                     }}) }}
                                                 </div>

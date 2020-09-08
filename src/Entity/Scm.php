@@ -27,42 +27,42 @@ class Scm
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $raison_sociale;
+    private $company_name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $adresse;
+    private $address;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $cp;
+    private $zip_code;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $ville;
+    private $city;
 
     /**
-     * @ORM\Column(type="bigint")
+     * @ORM\Column(type="string", length=255)
      */
     private $siret;
 
     /**
-     * @ORM\Column(type="bigint")
+     * @ORM\Column(type="string", length=255)
      */
     private $siren;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $debut_ex_compta;
+    private $accountingExerciceStartAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $fin_ex_compta;
+    private $accountingExerciceEndAt;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -77,32 +77,27 @@ class Scm
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $proprieter_local;
+    private $local_owner;
 
     /**
-     * @ORM\Column(type="bigint")
+     * @ORM\Column(type="string", length=255)
      */
-    private $siren_local;
+    private $local_siren;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="string", length=255)
      */
-    private $type_occup;
+    private $typeTenantOwner;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $mt_loyer_annu;
+    private $amountAnuallyRent;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer")
      */
-    private $mt_prev_charges;
-
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
-    private $total_charge_annee_precedente;
+    private $AmountPreviousYearAccountingCharge;
 
     /**
      * @ORM\Column(type="integer")
@@ -115,11 +110,6 @@ class Scm
     private $max_assoc;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $telephone;
-
-    /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="scm", orphanRemoval=true)
      */
     private $users;
@@ -128,6 +118,16 @@ class Scm
      * @ORM\OneToMany(targetEntity=Charge::class, mappedBy="scm", orphanRemoval=true)
      */
     private $charges;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $forecast_charge;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $phone;
 
     public function __construct()
     {
@@ -152,98 +152,98 @@ class Scm
         return $this;
     }
 
-    public function getRaisonSociale(): ?string
+    public function getCompanyName(): ?string
     {
-        return $this->raison_sociale;
+        return $this->company_name;
     }
 
-    public function setRaisonSociale(string $raison_sociale): self
+    public function setCompanyName(string $company_name): self
     {
-        $this->raison_sociale = $raison_sociale;
+        $this->company_name = $company_name;
 
         return $this;
     }
 
-    public function getAdresse(): ?string
+    public function getAddress(): ?string
     {
-        return $this->adresse;
+        return $this->address;
     }
 
-    public function setAdresse(string $adresse): self
+    public function setAddress(string $address): self
     {
-        $this->adresse = $adresse;
+        $this->address = $address;
 
         return $this;
     }
 
-    public function getCp(): ?int
+    public function getZipCode(): ?int
     {
-        return $this->cp;
+        return $this->zip_code;
     }
 
-    public function setCp(int $cp): self
+    public function setZipCode(int $zip_code): self
     {
-        $this->cp = $cp;
+        $this->zip_code = $zip_code;
 
         return $this;
     }
 
-    public function getVille(): ?string
+    public function getCity(): ?string
     {
-        return $this->ville;
+        return $this->city;
     }
 
-    public function setVille(string $ville): self
+    public function setCity(string $city): self
     {
-        $this->ville = $ville;
+        $this->city = $city;
 
         return $this;
     }
 
-    public function getSiret(): ?int
+    public function getSiret(): ?string
     {
         return $this->siret;
     }
 
-    public function setSiret(int $siret): self
+    public function setSiret(string $siret): self
     {
         $this->siret = $siret;
 
         return $this;
     }
 
-    public function getSiren(): ?int
+    public function getSiren(): ?string
     {
         return $this->siren;
     }
 
-    public function setSiren(int $siren): self
+    public function setSiren(string $siren): self
     {
         $this->siren = $siren;
 
         return $this;
     }
 
-    public function getDebutExCompta(): ?\DateTimeInterface
+    public function getAccountingExerciceStartAt(): ?\DateTimeInterface
     {
-        return $this->debut_ex_compta;
+        return $this->accountingExerciceStartAt;
     }
 
-    public function setDebutExCompta(\DateTimeInterface $debut_ex_compta): self
+    public function setAccountingExerciceStartAt(\DateTimeInterface $accountingExerciceStartAt): self
     {
-        $this->debut_ex_compta = $debut_ex_compta;
+        $this->accountingExerciceStartAt = $accountingExerciceStartAt;
 
         return $this;
     }
 
-    public function getFinExCompta(): ?\DateTimeInterface
+    public function getAccountingExerciceEndAt(): ?\DateTimeInterface
     {
-        return $this->fin_ex_compta;
+        return $this->accountingExerciceEndAt;
     }
 
-    public function setFinExCompta(\DateTimeInterface $fin_ex_compta): self
+    public function setAccountingExerciceEndAt(\DateTimeInterface $accountingExerciceEndAt): self
     {
-        $this->fin_ex_compta = $fin_ex_compta;
+        $this->accountingExerciceEndAt = $accountingExerciceEndAt;
 
         return $this;
     }
@@ -272,74 +272,62 @@ class Scm
         return $this;
     }
 
-    public function getProprieterLocal(): ?string
+    public function getLocalOwner(): ?string
     {
-        return $this->proprieter_local;
+        return $this->local_owner;
     }
 
-    public function setProprieterLocal(string $proprieter_local): self
+    public function setLocalOwner(string $local_owner): self
     {
-        $this->proprieter_local = $proprieter_local;
+        $this->local_owner = $local_owner;
 
         return $this;
     }
 
-    public function getSirenLocal(): ?int
+    public function getLocalSiren(): ?string
     {
-        return $this->siren_local;
+        return $this->local_siren;
     }
 
-    public function setSirenLocal(int $siren_local): self
+    public function setLocalSiren(string $local_siren): self
     {
-        $this->siren_local = $siren_local;
+        $this->local_siren = $local_siren;
 
         return $this;
     }
 
-    public function getTypeOccup(): ?bool
+    public function getTypeTenantOwner(): ?string
     {
-        return $this->type_occup;
+        return $this->typeTenantOwner;
     }
 
-    public function setTypeOccup(bool $type_occup): self
+    public function setTypeTenantOwner(string $typeTenantOwner): self
     {
-        $this->type_occup = $type_occup;
+        $this->typeTenantOwner = $typeTenantOwner;
 
         return $this;
     }
 
-    public function getMtLoyerAnnu(): ?float
+    public function getAmountAnuallyRent(): ?int
     {
-        return $this->mt_loyer_annu;
+        return $this->amountAnuallyRent;
     }
 
-    public function setMtLoyerAnnu(float $mt_loyer_annu): self
+    public function setAmountAnuallyRent(?int $amountAnuallyRent): self
     {
-        $this->mt_loyer_annu = $mt_loyer_annu;
+        $this->amountAnuallyRent = $amountAnuallyRent;
 
         return $this;
     }
 
-    public function getMtPrevCharges(): ?float
+    public function getAmountPreviousYearAccountingCharge(): ?int
     {
-        return $this->mt_prev_charges;
+        return $this->AmountPreviousYearAccountingCharge;
     }
 
-    public function setMtPrevCharges(float $mt_prev_charges): self
+    public function setAmountPreviousYearAccountingCharge(int $AmountPreviousYearAccountingCharge): self
     {
-        $this->mt_prev_charges = $mt_prev_charges;
-
-        return $this;
-    }
-
-    public function getTotalChargeAnneePrecedente(): ?float
-    {
-        return $this->total_charge_annee_precedente;
-    }
-
-    public function setTotalChargeAnneePrecedente(?float $total_charge_annee_precedente): self
-    {
-        $this->total_charge_annee_precedente = $total_charge_annee_precedente;
+        $this->AmountPreviousYearAccountingCharge = $AmountPreviousYearAccountingCharge;
 
         return $this;
     }
@@ -364,18 +352,6 @@ class Scm
     public function setMaxAssoc(int $max_assoc): self
     {
         $this->max_assoc = $max_assoc;
-
-        return $this;
-    }
-
-    public function getTelephone(): ?int
-    {
-        return $this->telephone;
-    }
-
-    public function setTelephone(?int $telephone): self
-    {
-        $this->telephone = $telephone;
 
         return $this;
     }
@@ -438,6 +414,30 @@ class Scm
                 $charge->setScm(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getForecastCharge(): ?int
+    {
+        return $this->forecast_charge;
+    }
+
+    public function setForecastCharge(int $forecast_charge): self
+    {
+        $this->forecast_charge = $forecast_charge;
+
+        return $this;
+    }
+
+    public function getPhone(): ?int
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?int $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }

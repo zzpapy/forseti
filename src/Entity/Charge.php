@@ -66,6 +66,8 @@ class Charge
      */
     private $scm;
 
+  
+
     public function __construct()
     {
         $this->coefficientSpecifiques = new ArrayCollection();
@@ -202,4 +204,6 @@ class Charge
 
         return $this;
     }
+
+    
 }

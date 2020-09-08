@@ -124,6 +124,8 @@ class User implements UserInterface
      */
     private $scm;
 
+    
+
     public function __construct()
     {
         $this->coefficient_general = new ArrayCollection();
@@ -451,4 +453,6 @@ class User implements UserInterface
 
         return $this;
     }
+
+    
 }
