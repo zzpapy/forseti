@@ -100,6 +100,7 @@ Encore
     .addEntry('grandin_starrr', './assets/grandin_theme/js/starrr.js')
     // Init
     .addEntry('grandin_init', './assets/grandin_theme/js/init.js')
+
     .addEntry('app', './assets/js/app.js')
 
     // uncomment if you use API Platform Admin (composer req api-admin)
