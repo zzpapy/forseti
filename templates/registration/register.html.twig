@@ -21,11 +21,11 @@
                 </div>
                 <div class="panel-wrapper collapse in">
                     <div class="panel-body">
-                         <form id="registration_form" action="#">
+                         <form id="registration_form" method="POST" action="#">
 {#                        {{ form_start(registrationForm, {'attr':{'id':'registration_form'}}) }}#}
 
                         <h3><span class="number"><i class="icon-eye txt-black"></i></span><span
-                                    class="head-font capitalize-font">Enregistrement de l'administrateur</span></h3>
+                                    class="head-font capitalize-font">Enregistrement de l'administrateur</span></h3> 
                         <fieldset>
                             <div class="row">
                                 <div class="col-sm-6">
@@ -321,74 +321,23 @@
                                     </div>
                                 </div>
                             </div>
-                        </fieldset>
+                        </fieldset> 
 
 
                         <h3><span class="number"><i class="icon-people txt-black"></i></span><span
                                     class="head-font capitalize-font">Ajout des associés</span></h3>
                         <fieldset>
-                            <!--CREDIT CART PAYMENT-->
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label mb-10" for="CreditCardType">card type:</label>
-                                        <select id="CreditCardType" name="CreditCardType" class="form-control required">
-                                            <option value="5">Visa</option>
-                                            <option value="6">MasterCard</option>
-                                            <option value="7">American Express</option>
-                                            <option value="8">Discover</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label mb-10" for="cardNo">Credit Card Number:</label>
-                                        <input type="text" id="cardNo" data-mask="9999-9999-9999-9999"
-                                               class="form-control required" name="car_number" value=""/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label mb-10" for="cvv">card cvv:</label>
-                                        <input type="text" id="cvv" class="form-control  required" data-mask="999"
-                                               name="car_code" value=""/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label mb-10">expiration date:</label>
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <select class="form-control required" name="month">
-                                                    <option value="">Month</option>
-                                                    <option value="1">01</option>
-                                                    <option value="2">02</option>
-                                                    <option value="3">03</option>
-                                                    <option value="4">04</option>
-                                                    <option value="5">05</option>
-                                                    <option value="6">06</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <select class="form-control required" name="year">
-                                                    <option value="1">Year</option>
-                                                    <option value="2">2001</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-0">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <ul class="cards">
-                                                    <li class="visa hand"><img src="../img/1-s.png" alt="card"/></li>
-                                                    <li class="mastercard hand"><img src="../img/2-s.png" alt="card"/>
-                                                    </li>
-                                                    <li class="amex hand"><img src="../img/3-s.png" alt="card"/></li>
-                                                    <li class="amex hand"><img src="../img/4-s.png" alt="card"/></li>
-                                                </ul>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <div id="users"
+                                    data-prototype= "{{ form_widget(formScm.users.vars.prototype)|e }}"
+                                    data-widget-tags= "{{ ' <div class="form-group"><div class="input-group"><div class="userForm"></div></div></div>'|e}} "
+                                    data-widget-counter= "{{ formScm.users|length}} "
+                                >
 
                                 </div>
                             </div>
-                            <!--CREDIT CART PAYMENT END-->
+                            <button id='addButton'>Ajouter un associé</button>
                             <button class="btn btn-lg btn-primary" type="submit">
                                 Sign in
                             </button>

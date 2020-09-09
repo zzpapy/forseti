@@ -3,18 +3,20 @@
 namespace App\Form;
 
 use App\Entity\Scm;
+use App\Form\UserAdminType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class ScmType extends AbstractType
 {
@@ -79,6 +81,17 @@ class ScmType extends AbstractType
             ->add('min_assoc', NumberType::class)
             ->add('max_assoc', NumberType::class)
             ->add('phone', TelType::class)
+            ->add("users", CollectionType::class,[
+                'entry_type'=> UserAdminType::class,
+                "allow_add"=>true,
+                "allow_delete"=>true,
+                "by_reference"=>false,
+                'entry_options'=>[
+                    'label'=>false,
+                ]
+
+
+            ])
         ;
     }
 

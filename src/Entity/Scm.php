@@ -35,7 +35,7 @@ class Scm
     private $address;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private $zip_code;
 
@@ -110,7 +110,7 @@ class Scm
     private $max_assoc;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="scm", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="scm", orphanRemoval=true,cascade={"persist"})
      */
     private $users;
 
@@ -125,7 +125,7 @@ class Scm
     private $forecast_charge;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $phone;
 
@@ -435,7 +435,7 @@ class Scm
         return $this->phone;
     }
 
-    public function setPhone(?int $phone): self
+    public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
 

@@ -39,23 +39,36 @@ class RegistrationController extends AbstractController
 
         $formScm = $this->createForm(ScmType::class, $scm);
         $formScm->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-           
+        // dump($form->isSubmitted());
+        
+        if ($form->isSubmitted() ) {
+            
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($scm);
-            $entityManager->flush();
-
+            $users = $scm->getUsers();
+            foreach ($users as $assoc) {
+                $pass = $assoc->getPassword();
+                $assoc->setPassword(
+                    $passwordEncoder->encodePassword(
+                        $assoc,
+                        $pass
+                        )
+                    );
+                $entityManager->persist($assoc);
+                // dd($assoc);
+            }
+            // $entityManager->flush();
+            
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
                     $form->get('password')->getData()
-                )
-            );
-            $user->setRoles(["ROLE_ADMIN"]);
-            $user->setScm($scm);
-            $entityManager->persist($user);
-            $entityManager->flush();
+                    )
+                );
+                $user->setRoles(["ROLE_ADMIN"]);
+                $user->setScm($scm);
+                $entityManager->persist($user);
+                $entityManager->flush();
 
             // generate a signed url and email it to the user
              $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
