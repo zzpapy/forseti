@@ -22,6 +22,7 @@
                 <div class="panel-wrapper collapse in">
                     <div class="panel-body">
                          <form id="registration_form" method="POST" action="#">
+                            <input type="hidden" name="token" value="{{ csrf_token('register') }}"/>
 {#                        {{ form_start(registrationForm, {'attr':{'id':'registration_form'}}) }}#}
 
                         <h3><span class="number"><i class="icon-eye txt-black"></i></span><span

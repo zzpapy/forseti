@@ -39,9 +39,9 @@ class RegistrationController extends AbstractController
 
         $formScm = $this->createForm(ScmType::class, $scm);
         $formScm->handleRequest($request);
-        // dump($form->isSubmitted());
+        $submittedToken = $request->request->get('token');
         
-        if ($form->isSubmitted() ) {
+        if ($form->isSubmitted() && $this->isCsrfTokenValid('register', $submittedToken)) {
             
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($scm);
