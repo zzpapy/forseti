@@ -103,9 +103,12 @@ Encore
 
     .addEntry('app', './assets/js/app.js')
 
-    // uncomment if you use API Platform Admin (composer req api-admin)
-    //.enableReactPreset()
-    //.addEntry('admin', './assets/js/admin.js')
+    // Custom js
+    .addEntry('forseti_collection', './assets/js/collection.js')
+
+// uncomment if you use API Platform Admin (composer req api-admin)
+//.enableReactPreset()
+//.addEntry('admin', './assets/js/admin.js')
 ;
 
 module.exports = Encore.getWebpackConfig();

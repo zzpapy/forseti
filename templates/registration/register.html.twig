@@ -25,6 +25,21 @@
                             <input type="hidden" name="token" value="{{ csrf_token('register') }}"/>
 {#                        {{ form_start(registrationForm, {'attr':{'id':'registration_form'}}) }}#}
 
+                             <h3><span class="number"><i class="icon-people txt-black"></i></span><span
+                                         class="head-font capitalize-font">Ajout des associés</span></h3>
+                             <fieldset>
+                                 <div class="row">
+                                     <div class="col-sm-12">
+                                         <div id="users"
+                                              data-prototype= "{{ form_widget(formScm.users.vars.prototype)|e }}"
+                                              data-widget-tags= "{{ '<div class="form-group"><div class="input-group"><div class="userForm"></div></div></div>'|e}} "
+                                              data-widget-counter= "{{ formScm.users|length}} ">
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <button id='addButton'>Ajouter un associé</button>
+                             </fieldset>
+
                         <h3><span class="number"><i class="icon-eye txt-black"></i></span><span
                                     class="head-font capitalize-font">Enregistrement de l'administrateur</span></h3> 
                         <fieldset>
@@ -165,7 +180,7 @@
                                                 <i class="fa fa-upload"></i>
                                                 <span class="fileinput-new btn-text">Parcourir</span>
                                                 <span class="fileinput-exists btn-text">Modifier</span>
-                                                <input type="file" name="{{ registrationForm.picture.vars.name }}"id="{{ registrationForm.picture.vars.id }}">
+                                                <input type="file" name="{{ formScm.logo.vars.name }}"id="{{ formScm.logo.vars.id }}">
                                             </span>
                                             <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput">
                                                 <i class="fa fa-trash"></i>
@@ -322,26 +337,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </fieldset> 
-
-
-                        <h3><span class="number"><i class="icon-people txt-black"></i></span><span
-                                    class="head-font capitalize-font">Ajout des associés</span></h3>
-                        <fieldset>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div id="users"
-                                    data-prototype= "{{ form_widget(formScm.users.vars.prototype)|e }}"
-                                    data-widget-tags= "{{ ' <div class="form-group"><div class="input-group"><div class="userForm"></div></div></div>'|e}} "
-                                    data-widget-counter= "{{ formScm.users|length}} "
-                                    >
-                                    </div>
-                                </div>
-                            </div>
-                            <button id='addButton'>Ajouter un associé</button>
-                            <button class="btn btn-lg btn-primary" type="submit">
-                                Sign in
-                            </button>
                         </fieldset>
 {#                        {{ form_end(registrationForm) }}#}
                         </form>
@@ -350,7 +345,7 @@
             </div>
         </div>
     </div>
-
-
-
+{% endblock %}
+{% block javascripts_specifique %}
+    {{ encore_entry_script_tags('forseti_collection')}}
 {% endblock %}
