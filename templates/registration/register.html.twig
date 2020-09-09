@@ -21,8 +21,8 @@
                 </div>
                 <div class="panel-wrapper collapse in">
                     <div class="panel-body">
-                        {# <form id="example-advanced-form" action="#"> #}
-                        {{ form_start(registrationForm, {'attr':{'id':'registration_form'}}) }}
+                         <form id="registration_form" action="#">
+{#                        {{ form_start(registrationForm, {'attr':{'id':'registration_form'}}) }}#}
 
                         <h3><span class="number"><i class="icon-eye txt-black"></i></span><span
                                     class="head-font capitalize-font">Enregistrement de l'administrateur</span></h3>
@@ -119,8 +119,8 @@
                                                 }}) }}
                                             </div>
                                         </div>
-                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput_picture">
-                                            <div class="form-control" data-trigger="fileinput_picture">
+                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                            <div class="form-control" data-trigger="fileinput">
                                                 <i class="glyphicon glyphicon-file fileinput-exists"></i>
                                                 <span class="fileinput-filename"></span>
                                             </div>
@@ -130,7 +130,7 @@
                                                 <span class="fileinput-exists btn-text">Modifier</span>
                                                 <input type="file" name="{{ registrationForm.picture.vars.name }}"id="{{ registrationForm.picture.vars.id }}">
                                             </span>
-                                            <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput_picture">
+                                            <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput">
                                                 <i class="fa fa-trash"></i>
                                                 <span class="btn-text">Supprimer</span>
                                             </a>
@@ -155,8 +155,8 @@
                                 <div class="col-sm-12">
                                     <div class="form-wrap">
                                         <p class="mb-20">Identité de votre SCM :</p>
-                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput_logo">
-                                            <div class="form-control" data-trigger="fileinput_logo">
+                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                            <div class="form-control" data-trigger="fileinput">
                                                 <i class="glyphicon glyphicon-file fileinput-exists"></i>
                                                 <span class="fileinput-filename"></span>
                                             </div>
@@ -166,7 +166,7 @@
                                                 <span class="fileinput-exists btn-text">Modifier</span>
                                                 <input type="file" name="{{ registrationForm.picture.vars.name }}"id="{{ registrationForm.picture.vars.id }}">
                                             </span>
-                                            <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput_logo">
+                                            <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput">
                                                 <i class="fa fa-trash"></i>
                                                 <span class="btn-text">Supprimer</span>
                                             </a>
@@ -393,7 +393,7 @@
                                 Sign in
                             </button>
                         </fieldset>
-                        {{ form_end(registrationForm) }}
+{#                        {{ form_end(registrationForm) }}#}
                     </div>
                 </div>
             </div>
