@@ -67,9 +67,15 @@ class ScmType extends AbstractType
                 'expanded' => true,
                 'label' => "Type d'occupation"
             ])
-            ->add('amountAnuallyRent', MoneyType::class)
-            ->add('forecast_charge', MoneyType::class)
-            ->add('AmountPreviousYearAccountingCharge', MoneyType::class)
+            ->add('amountAnuallyRent', MoneyType::class, [
+                'currency' => '',
+            ])
+            ->add('forecast_charge', MoneyType::class, [
+                'currency' => '',
+            ])
+            ->add('AmountPreviousYearAccountingCharge', MoneyType::class, [
+                'currency' => '',
+            ])
             ->add('min_assoc', NumberType::class)
             ->add('max_assoc', NumberType::class)
             ->add('phone', TelType::class)
