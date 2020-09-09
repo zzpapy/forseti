@@ -112,6 +112,15 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="input-group">
+                                                <div class="input-group-addon"><i class="icon-phone"></i></div>
+                                                {{ form_widget(registrationForm.telephone, {'attr': {
+                                                    'placeholder':'Téléphone',
+                                                    'data-mask':'+33 (0)9 99 99 99 99'
+                                                }}) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
                                                 <div class="input-group-addon"><i class="icon-picture"></i></div>
                                                 {{ form_widget(registrationForm.picture, {'attr': {
                                                     'placeholder':'Image de profil'
@@ -123,15 +132,6 @@
                                                 <div class="input-group-addon"><i class="icon-question"></i></div>
                                                 {{ form_widget(registrationForm.nbPart, {'attr': {
                                                     'placeholder':'Nombre de parts dans la SCM'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-phone"></i></div>
-                                                {{ form_widget(registrationForm.telephone, {'attr': {
-                                                    'placeholder':'Téléphone',
-                                                    'data-mask':'+33 (0)9 99 99 99 99'
                                                 }}) }}
                                             </div>
                                         </div>
