@@ -100,12 +100,12 @@ class Scm
     private $AmountPreviousYearAccountingCharge;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 2})
      */
     private $min_assoc;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 15})
      */
     private $max_assoc;
 
