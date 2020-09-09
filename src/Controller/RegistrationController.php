@@ -31,7 +31,7 @@ class RegistrationController extends AbstractController
      * @Route("/register", name="app_register")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
-    {
+    { 
         $user = new User();
         $scm = new Scm();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -55,9 +55,7 @@ class RegistrationController extends AbstractController
                         )
                     );
                 $entityManager->persist($assoc);
-                // dd($assoc);
             }
-            // $entityManager->flush();
             
             $user->setPassword(
                 $passwordEncoder->encodePassword(
