@@ -10,6 +10,7 @@ import '../grandin_theme/vendors/bower_components/jquery-wizard.js/css/wizard.cs
 
 // jquery-steps css
 import '../grandin_theme/vendors/bower_components/jquery-wizard.js/css/wizard.css'
+
 // vector map CSS
 import '../grandin_theme/vendors/bower_components/jquery.steps/demo/css/jquery.steps.css';
 
@@ -18,6 +19,9 @@ import '../grandin_theme/vendors/bower_components/datatables/media/css/jquery.da
 
 // bootstrap-touchspin CSS
 import '../grandin_theme/vendors/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css';
+
+// Jasny-bootstrap CSS
+import '../grandin_theme/vendors/bower_components/jasny-bootstrap/dist/css/jasny-bootstrap.min.css';
 
 // custom style
 import '../grandin_theme/css/style.css';
