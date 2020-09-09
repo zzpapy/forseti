@@ -119,13 +119,20 @@
                                                 }}) }}
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-picture"></i></div>
-                                                {{ form_widget(registrationForm.picture, {'attr': {
-                                                    'placeholder':'Image de profil'
-                                                }}) }}
-                                            </div>
+                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                            <div class="form-control" data-trigger="fileinput"><i
+                                                        class="glyphicon glyphicon-file fileinput-exists"></i> <span
+                                                        class="fileinput-filename"></span></div>
+                                            <span class="input-group-addon fileupload btn btn-info btn-anim btn-file"><i
+                                                        class="fa fa-upload"></i> <span class="fileinput-new btn-text">Parcourir</span> <span
+                                                        class="fileinput-exists btn-text">Modifier</span>
+														<input type="file" name="{{ registrationForm.picture.vars.name }}"
+                                                               id="{{ registrationForm.picture.vars.id }}">
+														</span> <a href="#"
+                                                                   class="input-group-addon btn btn-danger btn-anim fileinput-exists"
+                                                                   data-dismiss="fileinput"><i
+                                                        class="fa fa-trash"></i><span
+                                                        class="btn-text"> Supprimer</span></a>
                                         </div>
                                         <div class="form-group">
                                             <div class="input-group">
@@ -152,15 +159,15 @@
                                                         class="glyphicon glyphicon-file fileinput-exists"></i> <span
                                                         class="fileinput-filename"></span></div>
                                             <span class="input-group-addon fileupload btn btn-info btn-anim btn-file"><i
-                                                        class="fa fa-upload"></i> <span class="fileinput-new btn-text">Select file</span> <span
-                                                        class="fileinput-exists btn-text">Change</span>
+                                                        class="fa fa-upload"></i> <span class="fileinput-new btn-text">Parcourir</span> <span
+                                                        class="fileinput-exists btn-text">Modifier</span>
 														<input type="file" name="{{ formScm.logo.vars.name }}"
                                                                id="{{ formScm.logo.vars.id }}">
 														</span> <a href="#"
                                                                    class="input-group-addon btn btn-danger btn-anim fileinput-exists"
                                                                    data-dismiss="fileinput"><i
                                                         class="fa fa-trash"></i><span
-                                                        class="btn-text"> Remove</span></a>
+                                                        class="btn-text"> Supprimer</span></a>
                                         </div>
                                         <div class="form-group">
                                             <div class="input-group">
@@ -288,7 +295,7 @@
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="icon-calculator"></i></div>
                                                 {{ form_widget(formScm.AmountPreviousYearAccountingCharge, {'attr': {
-                                                    'placeholder':'Total de charges année prcécédente.'
+                                                    'placeholder':'Total de charges année précécédente'
                                                 }}) }}
                                             </div>
                                         </div>
@@ -297,7 +304,7 @@
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="icon-people"></i></div>
                                                 {{ form_widget(formScm.min_assoc, {'attr': {
-                                                    'placeholder':"Nombre minimum d'associé"
+                                                    'placeholder':"Nombre minimum d'associés"
                                                 }}) }}
                                             </div>
                                         </div>
@@ -305,7 +312,7 @@
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="icon-people"></i></div>
                                                 {{ form_widget(formScm.max_assoc, {'attr': {
-                                                    'placeholder':"Nombre maximum d'associé"
+                                                    'placeholder':"Nombre maximum d'associés"
                                                 }}) }}
                                             </div>
                                         </div>
