@@ -1,5 +1,5 @@
 function putDeleteButton($form) {
-    let $deleteButton = $('<button type="button">Supprimer</button>')
+    let $deleteButton = $('<div class="row" id="button_remove_users"><button type="button" class="btn btn-danger mb-10 ml-15 col-sm-1">Supprimer</button></div>')
     $form.append($deleteButton)
     $deleteButton.on('click', function () {
         $form.remove()
@@ -13,6 +13,7 @@ $(document).ready(function () {
     })
 
     let $addButton = $("#addButton")
+    let $buttonContainer = $("#button_add_users")
 
     $addButton.on("click", (event) => {
         event.preventDefault()
@@ -24,7 +25,7 @@ $(document).ready(function () {
             $($("#users").data("widget-tags")).html($newUserForm)
         )
 
-        $("#users").append($addButton)
+        $("#users").append($buttonContainer)
     })
 })
 

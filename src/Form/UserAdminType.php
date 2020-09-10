@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -43,8 +44,8 @@ class UserAdminType extends AbstractType
             ->add('zipcode', TextType::class, [
                 'attr' => ['placeholder' => 'Code Postal']
             ])
-            ->add('city', TextType::class, [
-                'attr' => ['placeholder' => 'Ville']
+            ->add('city', CountryType::class, [
+                'preferred_choices' => ['FR']
             ])
             ->add('state', TextType::class, [
                 'required' => false,
