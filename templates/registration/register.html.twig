@@ -29,106 +29,161 @@
                             <h3><span class="number"><i class="icon-eye txt-black"></i></span><span
                                         class="head-font capitalize-font">Enregistrement de l'administrateur</span></h3>
                             <fieldset>
+                                <h6 class="txt-dark capitalize-font">
+                                    <i class="zmdi zmdi-account mr-10"></i>
+                                    Informations personnelles
+                                </h6>
+                                <hr class="light-grey-hr">
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-wrap">
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon"><i class="icon-envelope-open"></i>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i
+                                                                        class="icon-envelope-open"></i>
+                                                            </div>
+                                                            {{ form_widget(registrationForm.email, {'attr': {
+                                                                'placeholder':'Email'
+                                                            }}) }}
+                                                        </div>
                                                     </div>
-                                                    {{ form_widget(registrationForm.email, {'attr': {
-                                                        'placeholder':'Email'
-                                                    }}) }}
+                                                </div>
+                                                <div class="col-md-6">
+                                                    {{ form_widget(registrationForm.picture) }}
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon"><i class="icon-lock"></i></div>
-                                                    {{ form_widget(registrationForm.password.first, {'attr': {
-                                                        'placeholder':'Mot de passe'
-                                                    }}) }}
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i class="icon-lock"></i>
+                                                            </div>
+                                                            {{ form_widget(registrationForm.password.first, {'attr': {
+                                                                'placeholder':'Mot de passe'
+                                                            }}) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i class="icon-lock"></i>
+                                                            </div>
+                                                            {{ form_widget(registrationForm.password.second, {'attr': {
+                                                                'placeholder':'Répéter le mot de passe'
+                                                            }}) }}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon"><i class="icon-lock"></i></div>
-                                                    {{ form_widget(registrationForm.password.second, {'attr': {
-                                                        'placeholder':'Répéter le mot de passe'
-                                                    }}) }}
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i class="icon-user"></i>
+                                                            </div>
+                                                            {{ form_widget(registrationForm.firstname, {'attr': {
+                                                                'placeholder':'Prénom'
+                                                            }}) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i class="icon-user"></i>
+                                                            </div>
+                                                            {{ form_widget(registrationForm.lastname, {'attr': {
+                                                                'placeholder':'Nom'
+                                                            }}) }}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon"><i class="icon-user"></i></div>
-                                                    {{ form_widget(registrationForm.firstname, {'attr': {
-                                                        'placeholder':'Prénom'
-                                                    }}) }}
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i class="icon-question"></i>
+                                                            </div>
+                                                            {{ form_widget(registrationForm.nbPart, {'attr': {
+                                                                'placeholder':'Nombre de parts dans la SCM'
+                                                            }}) }}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon"><i class="icon-user"></i></div>
-                                                    {{ form_widget(registrationForm.lastname, {'attr': {
-                                                        'placeholder':'Nom'
-                                                    }}) }}
+                                            <div class="seprator-block"></div>
+                                            <h6 class="txt-dark capitalize-font">
+                                                <i class="zmdi zmdi-account-box mr-10"></i>
+                                                Adresse
+                                            </h6>
+                                            <hr class="light-grey-hr">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i
+                                                                        class="icon-book-open"></i>
+                                                            </div>
+                                                            {{ form_widget(registrationForm.address, {'attr': {
+                                                                'placeholder':'Adresse'
+                                                            }}) }}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon"><i class="icon-book-open"></i></div>
-                                                    {{ form_widget(registrationForm.zipcode, {'attr': {
-                                                        'placeholder':'Code postal'
-                                                    }}) }}
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i
+                                                                        class="icon-book-open"></i>
+                                                            </div>
+                                                            {{ form_widget(registrationForm.city, {'attr': {
+                                                                'placeholder':'Ville'
+                                                            }}) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i class="icon-globe"></i>
+                                                            </div>
+                                                            {{ form_widget(registrationForm.country, {'attr': {
+                                                                'placeholder':'Pays'
+                                                            }}) }}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon"><i class="icon-book-open"></i></div>
-                                                    {{ form_widget(registrationForm.address, {'attr': {
-                                                        'placeholder':'Adresse'
-                                                    }}) }}
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i
+                                                                        class="icon-book-open"></i>
+                                                            </div>
+                                                            {{ form_widget(registrationForm.zipcode, {'attr': {
+                                                                'placeholder':'Code postal'
+                                                            }}) }}
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon"><i class="icon-book-open"></i></div>
-                                                    {{ form_widget(registrationForm.city, {'attr': {
-                                                        'placeholder':'Ville'
-                                                    }}) }}
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon"><i class="icon-globe"></i></div>
-                                                    {{ form_widget(registrationForm.state, {'attr': {
-                                                        'placeholder':'Région'
-                                                    }}) }}
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon"><i class="icon-globe"></i></div>
-                                                    {{ form_widget(registrationForm.country, {'attr': {
-                                                        'placeholder':'Pays'
-                                                    }}) }}
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon"><i class="icon-phone"></i></div>
-                                                    {{ form_widget(registrationForm.telephone, {'attr': {
-                                                        'placeholder':'Téléphone',
-                                                        'data-mask':'+33 (0)9 99 99 99 99'
-                                                    }}) }}
-                                                </div>
-                                            </div>
-                                            {{ form_widget(registrationForm.picture) }}
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon"><i class="icon-question"></i></div>
-                                                    {{ form_widget(registrationForm.nbPart, {'attr': {
-                                                        'placeholder':'Nombre de parts dans la SCM'
-                                                    }}) }}
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon"><i class="icon-phone"></i>
+                                                            </div>
+                                                            {{ form_widget(registrationForm.telephone, {'attr': {
+                                                                'placeholder':'Téléphone',
+                                                                'data-mask':'+33 (0)9 99 99 99 99'
+                                                            }}) }}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -327,11 +382,12 @@
                                     </div>
                                 </div>
                                 <div class="row" id="button_add_users">
-                                    <button id='addButton' class="btn btn-primary ml-15 col-sm-1">Ajouter un associé</button>
+                                    <button id='addButton' class="btn btn-primary ml-15 col-sm-1">Ajouter un associé
+                                    </button>
                                 </div>
                             </fieldset>
 
-                             {{ form_end(registrationForm) }}
+                            {{ form_end(registrationForm) }}
                         </form>
                     </div>
                 </div>

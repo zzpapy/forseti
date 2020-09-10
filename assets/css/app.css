@@ -1,3 +1,7 @@
 .wizard > .actions > ul{
     display: block;
 }
+
+.wizard .steps ul > li{
+    width: 33%;
+}
