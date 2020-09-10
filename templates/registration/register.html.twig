@@ -21,9 +21,11 @@
                 </div>
                 <div class="panel-wrapper collapse in">
                     <div class="panel-body">
-                         <form id="registration_form" method="POST" action="#">
-                            <input type="hidden" name="token" value="{{ csrf_token('register') }}"/>
 {#                        {{ form_start(registrationForm, {'attr':{'id':'registration_form'}}) }}#}
+                        <form name="registration_form" method="post" id="registration_form" enctype="multipart/form-data" role="application" class="wizard clearfix" novalidate="novalidate">
+{#                         <form id="registration_form" method="POST" action="#">#}
+                            <input type="hidden" name="token" value="{{ csrf_token('register') }}"/>
+
 
                              <h3><span class="number"><i class="icon-people txt-black"></i></span><span
                                          class="head-font capitalize-font">Ajout des associés</span></h3>
