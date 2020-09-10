@@ -44,13 +44,15 @@ class UserAdminType extends AbstractType
             ->add('zipcode', TextType::class, [
                 'attr' => ['placeholder' => 'Code Postal']
             ])
-            ->add('city', TextType::class)
+            ->add('city', TextType::class,[
+                'attr' => ['placeholder' => 'Ville']
+            ])
             ->add('state', TextType::class, [
                 'required' => false,
                 'attr' => ['placeholder' => 'Région']
             ])
             ->add('country', CountryType::class, [
-                'attr' => ['placeholder' => 'Pays']
+                'preferred_choices' => ['FR']
             ])
             ->add('picture', FileType::class, [
                 'label' => 'Image de profil',

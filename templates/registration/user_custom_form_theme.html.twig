@@ -1,3 +1,5 @@
+{% use "bootstrap_4_layout.html.twig" %}
+
 {% block _registration_form_picture_widget %}
     <div class="fileinput fileinput-new input-group" data-provides="fileinput">
         <div class="form-control" data-trigger="fileinput">
@@ -107,9 +109,9 @@
 {% block _scm_user_list_entry_country_label %}
 {% endblock %}
 {% block _scm_user_list_entry_country_widget %}
-    <div class="input-group">
+        <div class="input-group">
         <div class="input-group-addon"><i class="icon-globe"></i></div>
-        {{- block('form_widget') -}}
+            {{- block('choice_widget_collapsed') -}}
     </div>
 {% endblock %}
 
