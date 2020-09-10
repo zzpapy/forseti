@@ -14,9 +14,12 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class RegistrationController extends AbstractController
 {
@@ -30,7 +33,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, SluggerInterface $slugger): Response
     { 
         $user = new User();
         $scm = new Scm();
@@ -41,13 +44,29 @@ class RegistrationController extends AbstractController
         $formScm->handleRequest($request);
         $submittedToken = $request->request->get('token');
         
-        if ($form->isSubmitted() && $this->isCsrfTokenValid('register', $submittedToken)) {
+        if ($form->isSubmitted()) {
             
             $entityManager = $this->getDoctrine()->getManager();
+            
+            $logo = $request->files->get("logo");
+            if ($logo) {
+                $originalFilename = pathinfo($logo->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilenameLogo = $safeFilename.'-'.uniqid().'.'.$logo->guessExtension();
+                try {
+                    $logo->move(
+                        $this->getParameter('photo'),
+                        $newFilenameLogo
+                    );
+                } catch (FileException $e) {
+                }
+                $scm->setLogo($newFilenameLogo);
+            }
             $entityManager->persist($scm);
             $users = $scm->getUsers();
             foreach ($users as $assoc) {
                 $pass = $assoc->getPassword();
+                $avatar = $assoc->getPicture();
                 $assoc->setPassword(
                     $passwordEncoder->encodePassword(
                         $assoc,
@@ -56,7 +75,21 @@ class RegistrationController extends AbstractController
                     );
                 $entityManager->persist($assoc);
             }
-            
+            $photo = $request->files->get("picture");
+
+            if ($photo) {
+                $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
+                try {
+                    $photo->move(
+                        $this->getParameter('photo'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                }
+                $user->setPicture($newFilename);
+            }
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
