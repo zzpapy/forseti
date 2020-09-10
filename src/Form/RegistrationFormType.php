@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -35,7 +36,8 @@ class RegistrationFormType extends AbstractType
             ->add('zipcode', TextType::class)
             ->add('city', TextType::class)
             ->add('state', TextType::class, ['required' => false])
-            ->add('country', TextType::class)
+            ->add('country', CountryType::class, [
+                'preferred_choices' => ['FR']])
             ->add('picture', FileType::class, [
                 'label' => 'Image de profil',
 
