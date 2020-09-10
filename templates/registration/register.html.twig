@@ -21,385 +21,324 @@
                 </div>
                 <div class="panel-wrapper collapse in">
                     <div class="panel-body">
-                         <form id="registration_form" action="#">
-{#                        {{ form_start(registrationForm, {'attr':{'id':'registration_form'}}) }}#}
+                        <form name="registration_form" method="post" id="registration_form"
+                              enctype="multipart/form-data" role="application" class="wizard clearfix"
+                              novalidate="novalidate">
+                            <input type="hidden" name="token" value="{{ csrf_token('register') }}"/>
 
-                        <h3><span class="number"><i class="icon-eye txt-black"></i></span><span
-                                    class="head-font capitalize-font">Enregistrement de l'administrateur</span></h3>
-                        <fieldset>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-wrap">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-envelope-open"></i></div>
-                                                {{ form_widget(registrationForm.email, {'attr': {
-                                                    'placeholder':'Email'
-                                                }}) }}
+                            <h3><span class="number"><i class="icon-eye txt-black"></i></span><span
+                                        class="head-font capitalize-font">Enregistrement de l'administrateur</span></h3>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-wrap">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-envelope-open"></i>
+                                                    </div>
+                                                    {{ form_widget(registrationForm.email, {'attr': {
+                                                        'placeholder':'Email'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-lock"></i></div>
+                                                    {{ form_widget(registrationForm.password.first, {'attr': {
+                                                        'placeholder':'Mot de passe'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-lock"></i></div>
+                                                    {{ form_widget(registrationForm.password.second, {'attr': {
+                                                        'placeholder':'Répéter le mot de passe'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-user"></i></div>
+                                                    {{ form_widget(registrationForm.firstname, {'attr': {
+                                                        'placeholder':'Prénom'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-user"></i></div>
+                                                    {{ form_widget(registrationForm.lastname, {'attr': {
+                                                        'placeholder':'Nom'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-book-open"></i></div>
+                                                    {{ form_widget(registrationForm.zipcode, {'attr': {
+                                                        'placeholder':'Code postal'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-book-open"></i></div>
+                                                    {{ form_widget(registrationForm.address, {'attr': {
+                                                        'placeholder':'Adresse'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-book-open"></i></div>
+                                                    {{ form_widget(registrationForm.city, {'attr': {
+                                                        'placeholder':'Ville'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-globe"></i></div>
+                                                    {{ form_widget(registrationForm.state, {'attr': {
+                                                        'placeholder':'Région'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-globe"></i></div>
+                                                    {{ form_widget(registrationForm.country, {'attr': {
+                                                        'placeholder':'Pays'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-phone"></i></div>
+                                                    {{ form_widget(registrationForm.telephone, {'attr': {
+                                                        'placeholder':'Téléphone',
+                                                        'data-mask':'+33 (0)9 99 99 99 99'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            {{ form_widget(registrationForm.picture) }}
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-question"></i></div>
+                                                    {{ form_widget(registrationForm.nbPart, {'attr': {
+                                                        'placeholder':'Nombre de parts dans la SCM'
+                                                    }}) }}
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-lock"></i></div>
-                                                {{ form_widget(registrationForm.password.first, {'attr': {
-                                                    'placeholder':'Mot de passe'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-lock"></i></div>
-                                                {{ form_widget(registrationForm.password.second, {'attr': {
-                                                    'placeholder':'Répéter le mot de passe'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-user"></i></div>
-                                                {{ form_widget(registrationForm.firstname, {'attr': {
-                                                    'placeholder':'Prénom'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-user"></i></div>
-                                                {{ form_widget(registrationForm.lastname, {'attr': {
-                                                    'placeholder':'Nom'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-book-open"></i></div>
-                                                {{ form_widget(registrationForm.zipcode, {'attr': {
-                                                    'placeholder':'Code postal'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-book-open"></i></div>
-                                                {{ form_widget(registrationForm.address, {'attr': {
-                                                    'placeholder':'Adresse'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-book-open"></i></div>
-                                                {{ form_widget(registrationForm.city, {'attr': {
-                                                    'placeholder':'Ville'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-globe"></i></div>
-                                                {{ form_widget(registrationForm.state, {'attr': {
-                                                    'placeholder':'Région'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-globe"></i></div>
-                                                {{ form_widget(registrationForm.country, {'attr': {
-                                                    'placeholder':'Pays'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-phone"></i></div>
-                                                {{ form_widget(registrationForm.telephone, {'attr': {
-                                                    'placeholder':'Téléphone',
-                                                    'data-mask':'+33 (0)9 99 99 99 99'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                                            <div class="form-control" data-trigger="fileinput">
-                                                <i class="glyphicon glyphicon-file fileinput-exists"></i>
-                                                <span class="fileinput-filename"></span>
-                                            </div>
-                                            <span class="input-group-addon fileupload btn btn-info btn-anim btn-file">
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <h3><span class="number"><i class="icon-settings txt-black"></i></span><span
+                                        class="head-font capitalize-font">Configuration de la SCM</span></h3>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-wrap">
+                                            <p class="mb-20">Identité de votre SCM :</p>
+                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                <div class="form-control" data-trigger="fileinput">
+                                                    <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                                                    <span class="fileinput-filename"></span>
+                                                </div>
+                                                <span class="input-group-addon fileupload btn btn-info btn-anim btn-file">
                                                 <i class="fa fa-upload"></i>
                                                 <span class="fileinput-new btn-text">Parcourir</span>
                                                 <span class="fileinput-exists btn-text">Modifier</span>
-                                                <input type="file" name="{{ registrationForm.picture.vars.name }}"id="{{ registrationForm.picture.vars.id }}">
+                                                <input type="file" name="{{ formScm.logo.vars.name }}"
+                                                       id="{{ formScm.logo.vars.id }}">
                                             </span>
-                                            <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput">
-                                                <i class="fa fa-trash"></i>
-                                                <span class="btn-text">Supprimer</span>
-                                            </a>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-question"></i></div>
-                                                {{ form_widget(registrationForm.nbPart, {'attr': {
-                                                    'placeholder':'Nombre de parts dans la SCM'
-                                                }}) }}
+                                                <a href="#"
+                                                   class="input-group-addon btn btn-danger btn-anim fileinput-exists"
+                                                   data-dismiss="fileinput">
+                                                    <i class="fa fa-trash"></i>
+                                                    <span class="btn-text">Supprimer</span>
+                                                </a>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-book-open"></i></div>
+                                                    {{ form_widget(formScm.company_name, {'attr': {
+                                                        'placeholder':'Raison Sociale'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-book-open"></i></div>
+                                                    {{ form_widget(formScm.address, {'attr': {
+                                                        'placeholder':'Adresse'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-book-open"></i></div>
+                                                    {{ form_widget(formScm.zip_code, {'attr': {
+                                                        'placeholder':'Code Postal'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-book-open"></i></div>
+                                                    {{ form_widget(formScm.city, {'attr': {
+                                                        'placeholder':'Ville'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-info"></i></div>
+                                                    {{ form_widget(formScm.siret, {'attr': {
+                                                        'placeholder':'n°SIRET',
+                                                        'data-mask':'999 999 999 999999'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-info"></i></div>
+                                                    {{ form_widget(formScm.siren, {'attr': {
+                                                        'placeholder':'n°SIREN',
+                                                        'data-mask':'999 999 999'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-phone"></i></div>
+                                                    {{ form_widget(formScm.phone, {'attr': {
+                                                        'placeholder':'Téléphone',
+                                                        'data-mask':'+33 (0)9 99 99 99 99'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <p class="mb-20">Dates de début et de fin de l'excercice comptable :</p>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-calender"></i></div>
+                                                    {{ form_widget(formScm.accountingExerciceStartAt) }}
+                                                    {{ form_widget(formScm.accountingExerciceEndAt) }}
+                                                </div>
+                                            </div>
+                                            <p class="mb-20">Informations relatives au local :</p>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-home"></i></div>
+                                                    {{ form_widget(formScm.ref_local, {'attr': {
+                                                        'placeholder':'Référence du local'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-home"></i></div>
+                                                    {{ form_widget(formScm.invariant_local, {'attr': {
+                                                        'placeholder':'Invariant du local'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-home"></i></div>
+                                                    {{ form_widget(formScm.local_owner, {'attr': {
+                                                        'placeholder':'Propriétaire du local'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-home"></i></div>
+                                                    {{ form_widget(formScm.local_siren, {'attr': {
+                                                        'placeholder':'n°SIREN du local',
+                                                        'data-mask':'999 999 999'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <p class="mb-20">Êtes-vous ?</p>
+                                            <div class="radio radio-info">
+                                                {{ form_widget(formScm.typeTenantOwner) }}
+                                            </div>
+                                            <p class="mb-20">Informations comptables :</p>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-calculator"></i></div>
+                                                    {{ form_widget(formScm.amountAnuallyRent, {'attr': {
+                                                        'placeholder':'Montant loyer annuel'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-calculator"></i></div>
+                                                    {{ form_widget(formScm.forecast_charge, {'attr': {
+                                                        'placeholder':'Montant prévisionnel des charges'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-calculator"></i></div>
+                                                    {{ form_widget(formScm.AmountPreviousYearAccountingCharge, {'attr': {
+                                                        'placeholder':'Total de charges année précécédente'
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <p class="mb-20">Paramètres :</p>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-people"></i></div>
+                                                    {{ form_widget(formScm.min_assoc, {'attr': {
+                                                        'placeholder':"Nombre minimum d'associés"
+                                                    }}) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="icon-people"></i></div>
+                                                    {{ form_widget(formScm.max_assoc, {'attr': {
+                                                        'placeholder':"Nombre maximum d'associés"
+                                                    }}) }}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </fieldset>
+                            </fieldset>
 
-                        <h3><span class="number"><i class="icon-settings txt-black"></i></span><span
-                                    class="head-font capitalize-font">Configuration de la SCM</span></h3>
-                        <fieldset>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-wrap">
-                                        <p class="mb-20">Identité de votre SCM :</p>
-                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                                            <div class="form-control" data-trigger="fileinput">
-                                                <i class="glyphicon glyphicon-file fileinput-exists"></i>
-                                                <span class="fileinput-filename"></span>
-                                            </div>
-                                            <span class="input-group-addon fileupload btn btn-info btn-anim btn-file">
-                                                <i class="fa fa-upload"></i>
-                                                <span class="fileinput-new btn-text">Parcourir</span>
-                                                <span class="fileinput-exists btn-text">Modifier</span>
-                                                <input type="file" name="{{ registrationForm.picture.vars.name }}"id="{{ registrationForm.picture.vars.id }}">
-                                            </span>
-                                            <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput">
-                                                <i class="fa fa-trash"></i>
-                                                <span class="btn-text">Supprimer</span>
-                                            </a>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-book-open"></i></div>
-                                                {{ form_widget(formScm.company_name, {'attr': {
-                                                    'placeholder':'Raison Sociale'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-book-open"></i></div>
-                                                {{ form_widget(formScm.address, {'attr': {
-                                                    'placeholder':'Adresse'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-book-open"></i></div>
-                                                {{ form_widget(formScm.zip_code, {'attr': {
-                                                    'placeholder':'Code Postal'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-book-open"></i></div>
-                                                {{ form_widget(formScm.city, {'attr': {
-                                                    'placeholder':'Ville'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-info"></i></div>
-                                                {{ form_widget(formScm.siret, {'attr': {
-                                                    'placeholder':'n°SIRET',
-                                                    'data-mask':'999 999 999 999999'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-info"></i></div>
-                                                {{ form_widget(formScm.siren, {'attr': {
-                                                    'placeholder':'n°SIREN',
-                                                    'data-mask':'999 999 999'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-phone"></i></div>
-                                                {{ form_widget(formScm.phone, {'attr': {
-                                                    'placeholder':'Téléphone',
-                                                    'data-mask':'+33 (0)9 99 99 99 99'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <p class="mb-20">Dates de début et de fin de l'excercice comptable :</p>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-calender"></i></div>
-                                                {{ form_widget(formScm.accountingExerciceStartAt) }}
-                                                {{ form_widget(formScm.accountingExerciceEndAt) }}
-                                            </div>
-                                        </div>
-                                        <p class="mb-20">Informations relatives au local :</p>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-home"></i></div>
-                                                {{ form_widget(formScm.ref_local, {'attr': {
-                                                    'placeholder':'Référence du local'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-home"></i></div>
-                                                {{ form_widget(formScm.invariant_local, {'attr': {
-                                                    'placeholder':'Invariant du local'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-home"></i></div>
-                                                {{ form_widget(formScm.local_owner, {'attr': {
-                                                    'placeholder':'Propriétaire du local'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-home"></i></div>
-                                                {{ form_widget(formScm.local_siren, {'attr': {
-                                                    'placeholder':'n°SIREN du local',
-                                                    'data-mask':'999 999 999'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <p class="mb-20">Êtes-vous ?</p>
-                                        <div class="radio radio-info">
-                                            {{ form_widget(formScm.typeTenantOwner) }}
-                                        </div>
-                                        <p class="mb-20">Informations comptables :</p>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-calculator"></i></div>
-                                                {{ form_widget(formScm.amountAnuallyRent, {'attr': {
-                                                    'placeholder':'Montant loyer annuel'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-calculator"></i></div>
-                                                {{ form_widget(formScm.forecast_charge, {'attr': {
-                                                    'placeholder':'Montant prévisionnel des charges'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-calculator"></i></div>
-                                                {{ form_widget(formScm.AmountPreviousYearAccountingCharge, {'attr': {
-                                                    'placeholder':'Total de charges année précécédente'
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <p class="mb-20">Paramètres :</p>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-people"></i></div>
-                                                {{ form_widget(formScm.min_assoc, {'attr': {
-                                                    'placeholder':"Nombre minimum d'associés"
-                                                }}) }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="icon-people"></i></div>
-                                                {{ form_widget(formScm.max_assoc, {'attr': {
-                                                    'placeholder':"Nombre maximum d'associés"
-                                                }}) }}
-                                            </div>
+                            <h3><span class="number"><i class="icon-people txt-black"></i></span><span
+                                        class="head-font capitalize-font">Ajout des associés</span></h3>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div id="users"
+                                             data-prototype="{{ form_widget(formScm.users.vars.prototype)|e }}"
+                                             data-widget-tags="{{ '<div></div>'|e }}"
+                                             data-widget-counter="{{ formScm.users|length }} ">
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </fieldset>
-
-
-                        <h3><span class="number"><i class="icon-people txt-black"></i></span><span
-                                    class="head-font capitalize-font">Ajout des associés</span></h3>
-                        <fieldset>
-                            <!--CREDIT CART PAYMENT-->
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label mb-10" for="CreditCardType">card type:</label>
-                                        <select id="CreditCardType" name="CreditCardType" class="form-control required">
-                                            <option value="5">Visa</option>
-                                            <option value="6">MasterCard</option>
-                                            <option value="7">American Express</option>
-                                            <option value="8">Discover</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label mb-10" for="cardNo">Credit Card Number:</label>
-                                        <input type="text" id="cardNo" data-mask="9999-9999-9999-9999"
-                                               class="form-control required" name="car_number" value=""/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label mb-10" for="cvv">card cvv:</label>
-                                        <input type="text" id="cvv" class="form-control  required" data-mask="999"
-                                               name="car_code" value=""/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label mb-10">expiration date:</label>
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <select class="form-control required" name="month">
-                                                    <option value="">Month</option>
-                                                    <option value="1">01</option>
-                                                    <option value="2">02</option>
-                                                    <option value="3">03</option>
-                                                    <option value="4">04</option>
-                                                    <option value="5">05</option>
-                                                    <option value="6">06</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <select class="form-control required" name="year">
-                                                    <option value="1">Year</option>
-                                                    <option value="2">2001</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-0">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <ul class="cards">
-                                                    <li class="visa hand"><img src="../img/1-s.png" alt="card"/></li>
-                                                    <li class="mastercard hand"><img src="../img/2-s.png" alt="card"/>
-                                                    </li>
-                                                    <li class="amex hand"><img src="../img/3-s.png" alt="card"/></li>
-                                                    <li class="amex hand"><img src="../img/4-s.png" alt="card"/></li>
-                                                </ul>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                <div class="row" id="button_add_users">
+                                    <button id='addButton' class="btn btn-primary ml-15 col-sm-1">Ajouter un associé</button>
                                 </div>
-                            </div>
-                            <!--CREDIT CART PAYMENT END-->
-                            <button class="btn btn-lg btn-primary" type="submit">
-                                Sign in
-                            </button>
-                        </fieldset>
-{#                        {{ form_end(registrationForm) }}#}
+                            </fieldset>
+
+                             {{ form_end(registrationForm) }}
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-
+{% endblock %}
+{% block javascripts_specifique %}
+    {{ encore_entry_script_tags('forseti_collection') }}
 {% endblock %}
