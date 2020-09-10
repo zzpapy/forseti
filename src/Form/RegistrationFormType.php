@@ -35,7 +35,6 @@ class RegistrationFormType extends AbstractType
             ->add('address', TextType::class)
             ->add('zipcode', TextType::class)
             ->add('city', TextType::class)
-            ->add('state', TextType::class, ['required' => false])
             ->add('country', CountryType::class, [
                 'preferred_choices' => ['FR']])
             ->add('picture', FileType::class, [

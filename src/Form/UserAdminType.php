@@ -47,10 +47,6 @@ class UserAdminType extends AbstractType
             ->add('city', TextType::class,[
                 'attr' => ['placeholder' => 'Ville']
             ])
-            ->add('state', TextType::class, [
-                'required' => false,
-                'attr' => ['placeholder' => 'Région']
-            ])
             ->add('country', CountryType::class, [
                 'preferred_choices' => ['FR']
             ])

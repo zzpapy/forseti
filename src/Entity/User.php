@@ -66,11 +66,6 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $state;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $country;
 
     /**
@@ -268,18 +263,6 @@ class User implements UserInterface
     public function setCity(string $city): self
     {
         $this->city = $city;
-
-        return $this;
-    }
-
-    public function getState(): ?string
-    {
-        return $this->state;
-    }
-
-    public function setState(string $state): self
-    {
-        $this->state = $state;
 
         return $this;
     }
