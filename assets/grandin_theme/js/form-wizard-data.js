@@ -47,6 +47,13 @@ $(function(){
 				}
 			}
 		});
+
+		$("a[href='#previous']").parent('li').addClass("col-sm-1");
+		$("a[href='#previous']").addClass('text-center');
+		$("a[href='#next']").parent('li').addClass("col-sm-1");
+		$("a[href='#next']").addClass('text-center');
+		$("a[href='#finish']").parent('li').addClass("col-sm-1");
+		$("a[href='#finish']").addClass('text-center');
 	}
 });
 		

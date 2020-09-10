@@ -26,6 +26,7 @@ import '../grandin_theme/vendors/bower_components/jasny-bootstrap/dist/css/jasny
 // custom style
 import '../grandin_theme/css/style.css';
 
+import '../css/app.css';
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 import $ from 'jquery';

@@ -21,11 +21,9 @@
                 </div>
                 <div class="panel-wrapper collapse in">
                     <div class="panel-body">
-                        {# {{ form_start(registrationForm, {'attr':{'id':'registration_form'}}) }} #}
                         <form name="registration_form" method="post" id="registration_form"
                               enctype="multipart/form-data" role="application" class="wizard clearfix"
                               novalidate="novalidate">
-                            {# <form id="registration_form" method="POST" action="#"> #}
                             <input type="hidden" name="token" value="{{ csrf_token('register') }}"/>
 
                             <h3><span class="number"><i class="icon-eye txt-black"></i></span><span
@@ -124,25 +122,7 @@
                                                     }}) }}
                                                 </div>
                                             </div>
-                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                                                <div class="form-control" data-trigger="fileinput">
-                                                    <i class="glyphicon glyphicon-file fileinput-exists"></i>
-                                                    <span class="fileinput-filename"></span>
-                                                </div>
-                                                <span class="input-group-addon fileupload btn btn-info btn-anim btn-file">
-                                                <i class="fa fa-upload"></i>
-                                                <span class="fileinput-new btn-text">Parcourir</span>
-                                                <span class="fileinput-exists btn-text">Modifier</span>
-                                                <input type="file" name="{{ registrationForm.picture.vars.name }}"
-                                                       id="{{ registrationForm.picture.vars.id }}">
-                                            </span>
-                                                <a href="#"
-                                                   class="input-group-addon btn btn-danger btn-anim fileinput-exists"
-                                                   data-dismiss="fileinput">
-                                                    <i class="fa fa-trash"></i>
-                                                    <span class="btn-text">Supprimer</span>
-                                                </a>
-                                            </div>
+                                            {{ form_widget(registrationForm.picture) }}
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-addon"><i class="icon-question"></i></div>
@@ -350,7 +330,7 @@
                                     <button id='addButton' class="btn btn-primary ml-15 col-sm-1">Ajouter un associé</button>
                                 </div>
                             </fieldset>
-                            {# {{ form_end(registrationForm) }} #}
+                             {{ form_end(registrationForm) }}
                         </form>
                     </div>
                 </div>

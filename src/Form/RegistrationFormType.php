@@ -38,6 +38,8 @@ class RegistrationFormType extends AbstractType
             ->add('country', TextType::class)
             ->add('picture', FileType::class, [
                 'label' => 'Image de profil',
+
+                'block_name' => 'picture',
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
 

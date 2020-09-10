@@ -1,107 +1,100 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <title>{% block title %}{% endblock %}</title>
-        <link rel="stylesheet" href="{{asset('styles/style.css')}}">
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-            <div class="preloader-it">
-                <div class="la-anim-1"></div>
-            </div>
-            <div class="wrapper theme-1-active pimary-color-pink">
-                    <nav class="navbar navbar-inverse navbar-fixed-top">
-                        <div class="mobile-only-brand pull-left">
-                            <div class="nav-header pull-left">
-                                <div class="logo-wrap">
-                                    <a href="{{ path('home') }}">
-                                        <img class="brand-img" src="{{ asset('img/forseti.gif') }}" alt="brand"/>
-                                        <span class="brand-text">Forseti</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </nav>
-                    <div class="fixed-sidebar-left">
-                        <ul class="nav navbar-nav side-nav nicescroll-bar">
-                            <li class="navigation-header">
-                                <span>Main</span>
-                                <i class="zmdi zmdi-more"></i>
-                            </li>
-                        </ul>
-                    </div>
-                <div class="page-wrapper">
-                    <div class="container-fluid">
-                        <!-- Title -->
-                        <div class="row heading-bg">
-                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                                <h5 class="txt-dark">{% block page_title %}{% endblock %}</h5>
-                            </div>
-                            <!-- Breadcrumb -->
-                            <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-                                <ol class="breadcrumb">
-                                    {% block page_breadcrumbs %}{% endblock %}
-                                </ol>
-                            </div>
-                            <!-- /Breadcrumb -->
-                        </div>
-                        <!-- /Title -->
-                        {% block body %}{% endblock %}
-                        </div>
-                    </div>
-                    <footer class="footer container-fluid pl-30 pr-30">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <p>2020 &copy;Ryan Soufi</p>
-                            </div>
-                        </div>
-                    </footer>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>{% block title %}{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+<div class="preloader-it">
+    <div class="la-anim-1"></div>
+</div>
+<div class="wrapper theme-1-active pimary-color-pink clearfix">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="mobile-only-brand pull-left">
+            <div class="nav-header pull-left">
+                <div class="logo-wrap">
+                    <a href="{{ path('home') }}">
+                        <img class="brand-img" src="{{ asset('img/forseti.gif') }}" alt="brand"/>
+                        <span class="brand-text">Forseti</span>
+                    </a>
                 </div>
             </div>
-        {% block javascripts %}
-            // JQuery
-            {{ encore_entry_script_tags('grandin_jquery')}}
+        </div>
+    </nav>
+    <div class="fixed-sidebar-left">
+        <ul class="nav navbar-nav side-nav nicescroll-bar">
+            <li class="navigation-header">
+                <span>Main</span>
+                <i class="zmdi zmdi-more"></i>
+            </li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+        <div class="container-fluid">
+            <!-- Title -->
+            <div class="row heading-bg">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                    <h5 class="txt-dark">{% block page_title %}{% endblock %}</h5>
+                </div>
+                <!-- Breadcrumb -->
+                <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                    <ol class="breadcrumb">
+                        {% block page_breadcrumbs %}{% endblock %}
+                    </ol>
+                </div>
+                <!-- /Breadcrumb -->
+            </div>
+            <!-- /Title -->
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+</div>
+</div>
 
-            // Bootstrap Core Js
-            {{ encore_entry_script_tags('grandin_bootstrap')}}
-            {{ encore_entry_script_tags('grandin_bootstrap_jasny')}}
+{% block javascripts %}
+    {# JQuery #}
+    {{ encore_entry_script_tags('grandin_jquery') }}
 
-            // Datatable
-            {{ encore_entry_script_tags('grandin_datatable')}}
-            {{ encore_entry_script_tags('grandin_datatabletheme')}}
+    {# Bootstrap Core Js #}
+    {{ encore_entry_script_tags('grandin_bootstrap') }}
+    {{ encore_entry_script_tags('grandin_bootstrap_jasny') }}
 
-            // Slimscroll
-            {{ encore_entry_script_tags('grandin_slimscroll')}}
+    {# Datatable #}
+    {{ encore_entry_script_tags('grandin_datatable') }}
+    {{ encore_entry_script_tags('grandin_datatabletheme') }}
 
-            // Switchery
-            {{ encore_entry_script_tags('grandin_switchery')}}
+    {# Slimscroll #}
+    {{ encore_entry_script_tags('grandin_slimscroll') }}
 
-            // Fancy Dropdown
-            {{ encore_entry_script_tags('grandin_fancydropdown')}}
+    {# Switchery #}
+    {{ encore_entry_script_tags('grandin_switchery') }}
 
-            // Form Wizard JavaScript
-            {{ encore_entry_script_tags('grandin_formwizard')}}
-            {{ encore_entry_script_tags('grandin_ajax_jqueryvalidata')}}
+    {# Fancy Dropdown #}
+    {{ encore_entry_script_tags('grandin_fancydropdown') }}
 
-            // Form Wizard Data JavaScript
-            {{ encore_entry_script_tags('grandin_formwizard_data')}}
+    {# Form Wizard JavaScript #}
+    {{ encore_entry_script_tags('grandin_formwizard') }}
+    {{ encore_entry_script_tags('grandin_ajax_jqueryvalidata') }}
 
-            // Bootstrap Touchspin JavaScript -->
-            {{ encore_entry_script_tags('grandin_bootstrap_touchspin')}}
+    {# Form Wizard Data JavaScript #}
+    {{ encore_entry_script_tags('grandin_formwizard_data') }}
 
-            // Starrr JavaScript
-            {{ encore_entry_script_tags('grandin_starrr')}}
-            // Init
-            {{ encore_entry_script_tags('grandin_init')}}
-            {{ encore_entry_script_tags('app')}}
+    {# Bootstrap Touchspin JavaScript #}
+    {{ encore_entry_script_tags('grandin_bootstrap_touchspin') }}
 
-        {% endblock %}
+    {# Starrr JavaScript #}
+    {{ encore_entry_script_tags('grandin_starrr') }}
+    {# Init #}
+    {{ encore_entry_script_tags('grandin_init') }}
+    {{ encore_entry_script_tags('app') }}
 
-        {% block javascripts_specifique %}{% endblock %}
+{% endblock %}
 
-    </body>
+{% block javascripts_specifique %}{% endblock %}
+
+</body>
 </html>
