@@ -83,6 +83,7 @@ class ScmType extends AbstractType
             ->add('phone', TelType::class)
             ->add("users", CollectionType::class,[
                 'entry_type'=> UserAdminType::class,
+                'block_name'=>'user_list',
                 "allow_add"=>true,
                 "allow_delete"=>true,
                 "by_reference"=>false,

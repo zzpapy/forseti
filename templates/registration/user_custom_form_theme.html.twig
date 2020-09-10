@@ -1,0 +1,133 @@
+{% block _scm_user_list_entry_email_label %}
+{% endblock %}
+{% block _scm_user_list_entry_email_widget %}
+    <div class="input-group">
+        <div class="input-group-addon"><i class="icon-envelope-open"></i>
+        </div>
+        {{- block('form_widget') -}}
+    </div>
+{% endblock %}
+
+{% block _scm_user_list_entry_password_first_label %}
+{% endblock %}
+{% block _scm_user_list_entry_password_first_widget %}
+    {%- set type = type|default('password') -%}
+    <div class="input-group">
+        <div class="input-group-addon"><i class="icon-lock"></i></div>
+        {{- block('form_widget_simple') -}}
+    </div>
+{% endblock %}
+
+{% block _scm_user_list_entry_password_second_label %}
+{% endblock %}
+{% block _scm_user_list_entry_password_second_widget %}
+    {%- set type = type|default('password') -%}
+    <div class="input-group">
+        <div class="input-group-addon"><i class="icon-lock"></i></div>
+        {{- block('form_widget_simple') -}}
+    </div>
+{% endblock %}
+
+{% block _scm_user_list_entry_firstname_label %}
+{% endblock %}
+{% block _scm_user_list_entry_firstname_widget %}
+    <div class="input-group">
+        <div class="input-group-addon"><i class="icon-user"></i></div>
+        {{- block('form_widget') -}}
+    </div>
+{% endblock %}
+
+{% block _scm_user_list_entry_lastname_label %}
+{% endblock %}
+{% block _scm_user_list_entry_lastname_widget %}
+    <div class="input-group">
+        <div class="input-group-addon"><i class="icon-user"></i></div>
+        {{- block('form_widget') -}}
+    </div>
+{% endblock %}
+
+{% block _scm_user_list_entry_zipcode_label %}
+{% endblock %}
+{% block _scm_user_list_entry_zipcode_widget %}
+    <div class="input-group">
+        <div class="input-group-addon"><i class="icon-book-open"></i></div>
+        {{- block('form_widget') -}}
+    </div>
+{% endblock %}
+
+{% block _scm_user_list_entry_address_label %}
+{% endblock %}
+{% block _scm_user_list_entry_address_widget %}
+    <div class="input-group">
+        <div class="input-group-addon"><i class="icon-book-open"></i></div>
+        {{- block('form_widget') -}}
+    </div>
+{% endblock %}
+
+{% block _scm_user_list_entry_city_label %}
+{% endblock %}
+{% block _scm_user_list_entry_city_widget %}
+    <div class="input-group">
+        <div class="input-group-addon"><i class="icon-book-open"></i></div>
+        {{- block('form_widget') -}}
+    </div>
+{% endblock %}
+
+{% block _scm_user_list_entry_state_label %}
+{% endblock %}
+{% block _scm_user_list_entry_state_widget %}
+    <div class="input-group">
+        <div class="input-group-addon"><i class="icon-globe"></i></div>
+        {{- block('form_widget') -}}
+    </div>
+{% endblock %}
+
+{% block _scm_user_list_entry_country_label %}
+{% endblock %}
+{% block _scm_user_list_entry_country_widget %}
+    <div class="input-group">
+        <div class="input-group-addon"><i class="icon-globe"></i></div>
+        {{- block('form_widget') -}}
+    </div>
+{% endblock %}
+
+{% block _scm_user_list_entry_telephone_label %}
+{% endblock %}
+{% block _scm_user_list_entry_telephone_widget %}
+    <div class="input-group">
+        <div class="input-group-addon"><i class="icon-phone"></i></div>
+        {{- block('form_widget') -}}
+    </div>
+{% endblock %}
+
+{% block _scm_user_list_entry_picture_label %}
+{% endblock %}
+{% block _scm_user_list_entry_picture_widget %}
+    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+        <div class="form-control" data-trigger="fileinput">
+            <i class="glyphicon glyphicon-file fileinput-exists"></i>
+            <span class="fileinput-filename"></span>
+        </div>
+        <span class="input-group-addon fileupload btn btn-info btn-anim btn-file">
+                                                <i class="fa fa-upload"></i>
+                                                <span class="fileinput-new btn-text">Parcourir</span>
+                                                <span class="fileinput-exists btn-text">Modifier</span>
+                                               {{- block('form_widget') -}}
+                                            </span>
+        <a href="#"
+           class="input-group-addon btn btn-danger btn-anim fileinput-exists"
+           data-dismiss="fileinput">
+            <i class="fa fa-trash"></i>
+            <span class="btn-text">Supprimer</span>
+        </a>
+    </div>
+{% endblock %}
+
+{% block _scm_user_list_entry_nbPart_label %}
+{% endblock %}
+{% block _scm_user_list_entry_nbPart_widget %}
+    <div class="input-group">
+        <div class="input-group-addon"><i class="icon-question"></i></div>
+        {{- block('form_widget') -}}
+    </div>
+{% endblock %}

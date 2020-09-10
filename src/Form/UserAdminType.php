@@ -20,22 +20,39 @@ class UserAdminType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class)
+            ->add('email', EmailType::class, [
+                'attr' => ['placeholder' => 'Email']
+            ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options'  => ['label' => 'Password'],
-                'second_options' => ['label' => 'Repeat Password'],
+                'first_options'  => ['label' => 'Password', 'attr' => ['placeholder' => 'Mot de passe']],
+                'second_options' => ['label' => 'Repeat Password', 'attr' => ['placeholder' => 'Confirmer']],
             ])
-            ->add('firstname', TextType::class)
-            ->add('lastname', TextType::class)
-            ->add('address', TextType::class)
-            ->add('zipcode', TextType::class)
-            ->add('city', TextType::class)
-            ->add('state', TextType::class, ['required' => false])
-            ->add('country', TextType::class)
+            ->add('firstname', TextType::class, [
+                'attr' => ['placeholder' => 'Prénom']
+            ])
+            ->add('lastname', TextType::class, [
+                'attr' => ['placeholder' => 'Nom']
+            ])
+            ->add('address', TextType::class, [
+                'attr' => ['placeholder' => 'Adresse']
+            ])
+            ->add('zipcode', TextType::class, [
+                'attr' => ['placeholder' => 'Code Postal']
+            ])
+            ->add('city', TextType::class, [
+                'attr' => ['placeholder' => 'Ville']
+            ])
+            ->add('state', TextType::class, [
+                'required' => false,
+                'attr' => ['placeholder' => 'Région']
+            ])
+            ->add('country', TextType::class, [
+                'attr' => ['placeholder' => 'Pays']
+            ])
             ->add('picture', FileType::class, [
                 'label' => 'Image de profil',
                 // unmapped means that this field is not associated to any entity property
@@ -59,7 +76,9 @@ class UserAdminType extends AbstractType
                     ])
                 ],
             ])
-            ->add('nbPart', IntegerType::class)
+            ->add('nbPart', IntegerType::class, [
+                'attr' => ['placeholder' => 'Nombre de parts']
+            ])
             ->add('telephone', TelType::class,[
                 "attr"=>[
                     'placeholder'=>'Téléphone',
