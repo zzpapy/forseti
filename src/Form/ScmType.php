@@ -15,7 +15,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class ScmType extends AbstractType
@@ -49,9 +48,7 @@ class ScmType extends AbstractType
             ->add('company_name', TextType::class)
             ->add('address', TextType::class)
             ->add('zip_code', TextType::class)
-            ->add('city', CountryType::class, [
-                'preferred_choices' => ['FR'],
-            ])
+            ->add('city', TextType::class)
             ->add('siret', TextType::class)
             ->add('siren', TextType::class)
             ->add('accountingExerciceStartAt', DateType::class, ['widget' => 'single_text'])
