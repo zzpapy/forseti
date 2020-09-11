@@ -79,7 +79,7 @@ class RegistrationController extends AbstractController
                 $entityManager->persist($assoc);
                 $entityManager->flush();
 
-                $this->sendEmailVerifier($assoc);
+                // $this->sendEmailVerifier($assoc);
             }
 
             $userAdminAvatar = $request->files->get("picture");
@@ -97,7 +97,7 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->sendEmailVerifier($user);
+            // $this->sendEmailVerifier($user);
 
             return $this->redirectToRoute('home');
         }

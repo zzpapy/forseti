@@ -24,6 +24,9 @@
                                 <img class="brand-img" src="{{ asset('img/forseti.png') }}" alt="brand"/>
                                 <span class="brand-text">Forseti</span>
                             </a>
+                            {% if app.user %}
+                                <span>Bonjour {{app.user.firstname}}</span>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -36,6 +39,13 @@
                         <a href="{{ path('app_login') }}">Accueil</a>
                         {% if app.user %}
                             <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('profile_admin',{ id : app.user.id }) }}">ProfileAdmin</a>
+                        {% elseif is_granted('ROLE_USER') %}
+                            <a href="{{ path('profile_user') }}">profileUser</a>
+                        {% else %}
+                            Anonymous
                         {% endif %}
                     </li>
                 </ul>
