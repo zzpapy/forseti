@@ -1,67 +1,77 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>{% block title %}{% endblock %}</title>
-    {% block stylesheets %}
-        {{ encore_entry_link_tags('app') }}
-    {% endblock %}
-</head>
-<body>
-{% block preloader %}
-    <div class="preloader-it">
-        <div class="la-anim-1"></div>
-    </div>
-{% endblock %}
-{% block wrapper %}
-    <div class="wrapper theme-1-active pimary-color-pink clearfix">
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="mobile-only-brand pull-left">
-                <div class="nav-header pull-left">
-                    <div class="logo-wrap">
-                        <a href="{{ path('home') }}">
-                            <img class="brand-img" src="{{ asset('img/forseti.png') }}" alt="brand"/>
-                            <span class="brand-text">Forseti</span>
-                        </a>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <title>{% block title %}{% endblock %}</title>
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        {% block preloader %}
+        <div class="preloader-it">
+            <div class="la-anim-1"></div>
+        </div>
+        {% endblock %}
+        {% block wrapper %}
+        <div class="wrapper theme-1-active pimary-color-pink clearfix">
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="mobile-only-brand pull-left">
+                    <div class="nav-header pull-left">
+                        <div class="logo-wrap">
+                            <a href="{{ path('home') }}">
+                                <img class="brand-img" src="{{ asset('img/forseti.png') }}" alt="brand"/>
+                                <span class="brand-text">Forseti</span>
+                            </a>
+                            {% if app.user %}
+                                <span>Bonjour {{app.user.firstname}}</span>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
+            </nav>
+            <div class="fixed-sidebar-left">
+                <ul class="nav navbar-nav side-nav nicescroll-bar">
+                    <li class="navigation-header">
+                        <span>Main</span>
+                        <i class="zmdi zmdi-more"></i>
+                        <a href="{{ path('app_login') }}">Accueil</a>
+                        {% if app.user %}
+                            <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('profile_admin',{ id : app.user.id }) }}">ProfileAdmin</a>
+                        {% elseif is_granted('ROLE_USER') %}
+                            <a href="{{ path('profile_user') }}">profileUser</a>
+                        {% else %}
+                            Anonymous
+                        {% endif %}
+                    </li>
+                </ul>
             </div>
-        </nav>
-        <div class="fixed-sidebar-left">
-            <ul class="nav navbar-nav side-nav nicescroll-bar">
-                <li class="navigation-header">
-                    <span>Main</span>
-                    <i class="zmdi zmdi-more"></i>
-                    <a href="{{ path('app_login') }}">Accueil</a>
-                    {% if app.user %}
-                        <a href="{{ path('app_logout') }}">Se déconnecter</a>
-                    {% endif %}
-                </li>
-            </ul>
-        </div>
-        <div class="page-wrapper">
-            <div class="container-fluid">
-                <!-- Title -->
-                <div class="row heading-bg">
-                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h5 class="txt-dark">{% block page_title %}{% endblock %}</h5>
+            <div class="page-wrapper">
+                <div class="container-fluid">
+                    <!-- Title -->
+                    <div class="row heading-bg">
+                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                            <h5 class="txt-dark">{% block page_title %}{% endblock %}</h5>
+                        </div>
+                        <!-- Breadcrumb -->
+                        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                            <ol class="breadcrumb">
+                                {% block page_breadcrumbs %}{% endblock %}
+                            </ol>
+                        </div>
+                        <!-- /Breadcrumb -->
                     </div>
-                    <!-- Breadcrumb -->
-                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-                        <ol class="breadcrumb">
-                            {% block page_breadcrumbs %}{% endblock %}
-                        </ol>
-                    </div>
-                    <!-- /Breadcrumb -->
+                    <!-- /Title -->
+                    {% block body %}{% endblock %}
                 </div>
-                <!-- /Title -->
-                {% block body %}{% endblock %}
             </div>
         </div>
+        {% endblock %}
     </div>
-{% endblock %}
-</div>
 
 {% block javascripts %}
     {# JQuery #}
