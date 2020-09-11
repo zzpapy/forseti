@@ -59,7 +59,7 @@ class RegistrationFormType extends AbstractType
                             'image/png',
                             'image/gif',
                         ],
-                        'mimeTypesMessage' => 'Formats jpeg,png ou gif',
+                        'mimeTypesMessage' => 'Veuillez uploader une image valide (jpeg,png ou gif)',
                     ])
                 ],
             ])
