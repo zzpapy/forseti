@@ -1,60 +1,74 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Log in!{% endblock %}
-{% block page_title %}Forseti{% endblock %}
-{% block page_breadcrumbs %}<li class="active">Accueil</li>{% endblock %}
-{% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+{%  block wrapper %}
+		<div class="wrapper pa-0">
+			<header class="sp-header">
+				<div class="sp-logo-wrap pull-left">
+					<a href="index.html">
+						<img class="brand-img mr-10" src="{{ asset('img/forseti-white.png') }}" alt="forseti"/>
+						<span class="brand-text">Forseti</span>
+					</a>
+				</div>
+				<div class="form-group mb-0 pull-right">
+					<span class="inline-block pr-10">Vous n'avez pas encore de compte ?</span>
+					<a class="inline-block btn btn-primary  btn-rounded" href="{{ path('app_register') }}">S'enregistrer</a>
+				</div>
+				<div class="clearfix"></div>
+			</header>
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
-    <div class="col-sm-12">
-        <div class="panel panel-default card-view">
-            <div class="panel-heading">
-                <div class="pull-left">
-                    <h6 class="panel-title txt-dark">Bienvenue sur Forseti</h6>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="panel-wrapper collapse in">
-                <div class="panel-body">
-                    <p class="muted">Forseti est une application de gestion comptable pour votre SCM</p>
-                    <p class="muted">Pour commencer veuillez-vous enregistrer et configurer votre SCM <a href="{{ path('app_register') }}">ici</a></p>
-                    <p class="muted">Déjà un compte connectez vous <a href="{{ path('app_login') }}">ici</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
+			<!-- Main Content -->
+			<div class="page-wrapper pa-0 ma-0 auth-page">
+				<div class="container-fluid">
+					<!-- Row -->
+					<div class="table-struct full-width full-height">
+						<div class="table-cell vertical-align-middle auth-form-wrap">
+							<div class="auth-form  ml-auto mr-auto no-float card-view pt-30 pb-30">
+								<div class="row">
+									<div class="col-sm-12 col-xs-12">
+										<div class="mb-30">
+											<h3 class="text-center txt-dark mb-10">Se connecter à Forseti</h3>
+											<h6 class="text-center nonecase-font txt-grey">Entrez vos identifiants</h6>
+										</div>
+										<div class="form-wrap">
+											<form method="post">
+												{% if error %}
+													<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+												{% endif %}
+												<div class="form-group">
+													<label class="control-label mb-10" for="exampleInputEmail_2">Email</label>
+													<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus placeholder="Email">
+												</div>
+												<div class="form-group">
+													<label class="pull-left control-label mb-10" for="exampleInputpwd_2">Mot de passe</label>
+													<a class="capitalize-font txt-primary block mb-10 pull-right font-12" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
+													<div class="clearfix"></div>
+													<input type="password" name="password" id="inputPassword" class="form-control" required placeholder="Mot de passe">
+												</div>
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" required>
+{#												<div class="form-group">#}
+{#													<div class="checkbox checkbox-primary pr-10 pull-left">#}
+{#														<input id="checkbox_2" required="" type="checkbox">#}
+{#														<label for="checkbox_2"> Keep me logged in</label>#}
+{#													</div>#}
+{#													<div class="clearfix"></div>#}
+{#												</div>#}
+												<div class="form-group text-center">
+													<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+													<button type="submit" class="btn btn-primary  btn-rounded">Se connecter</button>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /Row -->
+				</div>
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    #}
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+			</div>
+			<!-- /Main Content -->
+		</div>
+		<!-- /#wrapper -->
 {% endblock %}
