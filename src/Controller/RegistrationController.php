@@ -24,17 +24,19 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class RegistrationController extends AbstractController
 {
     private $emailVerifier;
+    private $slugger;
 
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct(EmailVerifier $emailVerifier, SluggerInterface $slugger)
     {
         $this->emailVerifier = $emailVerifier;
+        $this->slugger = $slugger;
     }
 
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, SluggerInterface $slugger): Response
-    { 
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    {
         $user = new User();
         $scm = new Scm();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -43,72 +45,59 @@ class RegistrationController extends AbstractController
         $formScm = $this->createForm(ScmType::class, $scm);
         $formScm->handleRequest($request);
         $submittedToken = $request->request->get('token');
-        
+
         if ($form->isSubmitted()) {
-            
+
             $entityManager = $this->getDoctrine()->getManager();
-            
-            $logo = $request->files->get("logo");
-            if ($logo) {
-                $originalFilename = pathinfo($logo->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilenameLogo = $safeFilename.'-'.uniqid().'.'.$logo->guessExtension();
-                try {
-                    $logo->move(
-                        $this->getParameter('photo'),
-                        $newFilenameLogo
-                    );
-                } catch (FileException $e) {
-                }
-                $scm->setLogo($newFilenameLogo);
-            }
+
+            $scmLogo = $request->files->get("logo");
+
+            $scm->setLogo($this->recordPhoto($scmLogo, $scm->getCompanyName()));
+
             $entityManager->persist($scm);
+
             $users = $scm->getUsers();
-            foreach ($users as $assoc) {
+            foreach ($users as $key => $assoc) {
                 $pass = $assoc->getPassword();
-                $avatar = $assoc->getPicture();
+
+                $postedFiles = $request->files->get('scm');
+
+                $userAvatar = $postedFiles['users']['_' . $key . '_']['picture'];
+
+                $assoc->setPicture($this->recordPhoto($userAvatar, $assoc->getEmail()));
+
                 $assoc->setPassword(
                     $passwordEncoder->encodePassword(
                         $assoc,
                         $pass
-                        )
-                    );
+                    )
+                );
                 $entityManager->persist($assoc);
             }
-            $photo = $request->files->get("picture");
 
-            if ($photo) {
-                $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
-                try {
-                    $photo->move(
-                        $this->getParameter('photo'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                }
-                $user->setPicture($newFilename);
-            }
+            $userAdminAvatar = $request->files->get("picture");
+
+            $user->setPicture($this->recordPhoto($userAdminAvatar, $user->getEmail()));
+
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
                     $form->get('password')->getData()
-                    )
-                );
-                $user->setRoles(["ROLE_ADMIN"]);
-                $user->setScm($scm);
-                $entityManager->persist($user);
-                $entityManager->flush();
+                )
+            );
+            $user->setRoles(["ROLE_ADMIN"]);
+            $user->setScm($scm);
+            $entityManager->persist($user);
+            $entityManager->flush();
 
             // generate a signed url and email it to the user
-             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                 (new TemplatedEmail())
-                     ->from(new Address('contact@agentom.com', 'Team Forseti'))
-                     ->to($user->getEmail())
-                     ->subject('Please Confirm your Email')
-                     ->htmlTemplate('registration/confirmation_email.html.twig')
-             );
+            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                (new TemplatedEmail())
+                    ->from(new Address('contact@agentom.com', 'Team Forseti'))
+                    ->to($user->getEmail())
+                    ->subject('Please Confirm your Email')
+                    ->htmlTemplate('registration/confirmation_email.html.twig')
+            );
             // do anything else you need here, like send an email
 
             return $this->redirectToRoute('home');
@@ -120,7 +109,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-   
+
     /**
      * @Route("/verify/email", name="app_verify_email")
      */
@@ -141,5 +130,27 @@ class RegistrationController extends AbstractController
         $this->addFlash('success', 'Your email address has been verified.');
 
         return $this->redirectToRoute('app_login');
+    }
+
+    /**
+     * @param $photo
+     * @param string $name
+     * @return string $newFilename
+     */
+    private function recordPhoto($photo, string $name)
+    {
+        if ($photo) {
+            $safeFilenameUser = $this->slugger->slug($name);
+            $newFilename = $safeFilenameUser . '-' . uniqid() . '.' . $photo->guessExtension();
+            try {
+                $photo->move(
+                    $this->getParameter('photo'),
+                    $newFilename
+                );
+            } catch (FileException $e) {
+            }
+            return $newFilename;
+        }
+        return null;
     }
 }

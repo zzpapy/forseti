@@ -18,7 +18,7 @@ $(document).ready(function () {
     $addButton.on("click", (event) => {
         event.preventDefault()
         let $newUserForm = $("#users").data("prototype")
-        let counter = $("#users").children().length
+        let counter = $("#users").children('.formscm-user').length
         $newUserForm = $($newUserForm.replace(/_name_/g, counter))
         putDeleteButton($newUserForm)
         $("#users").append(
