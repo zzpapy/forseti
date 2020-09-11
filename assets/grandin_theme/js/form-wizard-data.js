@@ -9,9 +9,9 @@ $(function(){
 			transitionEffect: "fade",
 			titleTemplate: '#title#',
 			labels: {
-				next: "Suivant <i class='fa fa-arrow-right'></i>",
-				previous: "<i class='fa fa-arrow-left'></i> Précédent",
-				finish: "Valider<i class='fa fa-check'></i>",
+				next: "<span>Suivant</span> <i class='fa fa-arrow-right'></i>",
+				previous: "<i class='fa fa-arrow-left'></i> <span>Précédent</span>",
+				finish: "<span>Valider</span> <i class='fa fa-check'></i>",
 			},
 			onStepChanging: function (event, currentIndex, newIndex)
 			{
@@ -49,11 +49,11 @@ $(function(){
 			}
 		});
 
-		$("a[href='#previous']").parent('li').addClass("col-sm-1");
+		$("a[href='#previous']").parent('li').addClass("col-sm-4 col-xs-4 col-lg-2 col-md-4");
 		$("a[href='#previous']").addClass('btn btn-info text-center');
-		$("a[href='#next']").parent('li').addClass("col-sm-1");
+		$("a[href='#next']").parent('li').addClass("col-sm-4 col-xs-4 col-lg-2 col-md-4");
 		$("a[href='#next']").addClass('btn btn-info text-center');
-		$("a[href='#finish']").parent('li').addClass("col-sm-1");
+		$("a[href='#finish']").parent('li').addClass("col-sm-4 col-xs-4 col-lg-2 col-md-4");
 		$("a[href='#finish']").addClass('btn btn-success text-center');
 	}
 });
