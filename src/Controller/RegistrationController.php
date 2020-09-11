@@ -77,6 +77,9 @@ class RegistrationController extends AbstractController
                     )
                 );
                 $entityManager->persist($assoc);
+                $entityManager->flush();
+
+                $this->sendEmailVerifier($assoc);
             }
 
             $userAdminAvatar = $request->files->get("picture");
@@ -94,15 +97,7 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('contact@agentom.com', 'Team Forseti'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
-            // do anything else you need here, like send an email
+            $this->sendEmailVerifier($user);
 
             return $this->redirectToRoute('home');
         }
@@ -156,5 +151,20 @@ class RegistrationController extends AbstractController
             return $newFilename;
         }
         return null;
+    }
+
+    /**
+     * @param $user
+     */
+    private function sendEmailVerifier($user){
+        // generate a signed url and email it to the user
+        $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            (new TemplatedEmail())
+                ->from(new Address('contact@agentom.com', 'Team Forseti'))
+                ->to($user->getEmail())
+                ->subject('Please Confirm your Email')
+                ->htmlTemplate('registration/confirmation_email.html.twig')
+        );
+        // do anything else you need here, like send an email
     }
 }
