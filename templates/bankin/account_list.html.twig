@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TestApiController!{% endblock %}
+
+{% block body %}
+    {% for account in account_list %}
+            <p><a href="{{ path('saveaccount_bankin_app', {accountid:account.id}) }}">{{ account.name }}</a></p>
+    {% endfor %}
+{% endblock %}

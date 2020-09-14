@@ -1,108 +1,113 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-        <title>{% block title %}{% endblock %}</title>
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {% block preloader %}
-        <div class="preloader-it">
-            <div class="la-anim-1"></div>
-        </div>
-        {% endblock %}
-        {% block wrapper %}
-        <div class="wrapper theme-1-active pimary-color-pink clearfix">
-            <nav class="navbar navbar-inverse navbar-fixed-top">
-                <div class="mobile-only-brand pull-left">
-                    <div class="nav-header pull-left">
-                        <div class="logo-wrap">
-                            <a href="{{ path('home') }}">
-                                <img class="brand-img" src="{{ asset('img/forseti.png') }}" alt="brand"/>
-                                <span class="brand-text">Forseti</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-            <div class="fixed-sidebar-left">
-                <ul class="nav navbar-nav side-nav nicescroll-bar">
-                    <li class="navigation-header">
-                        <span>Main</span>
-                        <i class="zmdi zmdi-more"></i>
-                        <a href="{{ path('app_login') }}">Accueil</a>
-                        {% if app.user %}
-                            <a href="{{ path('app_logout') }}">Se déconnecter</a>
-                        {% endif %}
-                    </li>
-                </ul>
-            </div>
-            <div class="page-wrapper">
-                <div class="container-fluid">
-                    <!-- Title -->
-                    <div class="row heading-bg">
-                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                            <h5 class="txt-dark">{% block page_title %}{% endblock %}</h5>
-                        </div>
-                        <!-- Breadcrumb -->
-                        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-                            <ol class="breadcrumb">
-                                {% block page_breadcrumbs %}{% endblock %}
-                            </ol>
-                        </div>
-                        <!-- /Breadcrumb -->
-                    </div>
-                    <!-- /Title -->
-                    {% block body %}{% endblock %}
-                </div>
-            </div>
-        </div>
-        {% endblock %}
-    </div>
-
-    {% block javascripts %}
-        {# JQuery #}
-        {{ encore_entry_script_tags('grandin_jquery') }}
-
-        {# Bootstrap Core Js #}
-        {{ encore_entry_script_tags('grandin_bootstrap') }}
-        {{ encore_entry_script_tags('grandin_bootstrap_jasny') }}
-
-        {# Datatable #}
-        {{ encore_entry_script_tags('grandin_datatable') }}
-        {{ encore_entry_script_tags('grandin_datatabletheme') }}
-
-        {# Slimscroll #}
-        {{ encore_entry_script_tags('grandin_slimscroll') }}
-
-        {# Switchery #}
-        {{ encore_entry_script_tags('grandin_switchery') }}
-
-        {# Fancy Dropdown #}
-        {{ encore_entry_script_tags('grandin_fancydropdown') }}
-
-        {# Form Wizard JavaScript #}
-        {{ encore_entry_script_tags('grandin_formwizard') }}
-        {{ encore_entry_script_tags('grandin_ajax_jqueryvalidata') }}
-
-        {# Form Wizard Data JavaScript #}
-        {{ encore_entry_script_tags('grandin_formwizard_data') }}
-
-        {# Bootstrap Touchspin JavaScript #}
-        {{ encore_entry_script_tags('grandin_bootstrap_touchspin') }}
-
-        {# Starrr JavaScript #}
-        {{ encore_entry_script_tags('grandin_starrr') }}
-        {# Init #}
-        {{ encore_entry_script_tags('grandin_init') }}
-        {{ encore_entry_script_tags('app') }}
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>{% block title %}{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
     {% endblock %}
+</head>
+<body>
+{% block preloader %}
+    <div class="preloader-it">
+        <div class="la-anim-1"></div>
+    </div>
+{% endblock %}
+{% block wrapper %}
+    <div class="wrapper theme-1-active pimary-color-pink clearfix">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="mobile-only-brand pull-left">
+                <div class="nav-header pull-left">
+                    <div class="logo-wrap">
+                        <a href="{{ path('home') }}">
+                            <img class="brand-img" src="{{ asset('img/forseti.png') }}" alt="brand"/>
+                            <span class="brand-text">Forseti</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="fixed-sidebar-left">
+            <ul class="nav navbar-nav side-nav nicescroll-bar">
+                <li class="navigation-header">
+                    <span>Main</span>
+                    <i class="zmdi zmdi-more"></i>
+                    <a href="{{ path('app_login') }}">Accueil</a>
+                    {% if app.user %}
+                        <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+        <div class="page-wrapper">
+            <div class="container-fluid">
+                <!-- Title -->
+                <div class="row heading-bg">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h5 class="txt-dark">{% block page_title %}{% endblock %}</h5>
+                    </div>
+                    <!-- Breadcrumb -->
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <ol class="breadcrumb">
+                            {% block page_breadcrumbs %}{% endblock %}
+                        </ol>
+                    </div>
+                    <!-- /Breadcrumb -->
+                </div>
+                <!-- /Title -->
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+</div>
 
-    {% block javascripts_specifique %}{% endblock %}
+{% block javascripts %}
+    {# JQuery #}
+    {{ encore_entry_script_tags('grandin_jquery') }}
 
-    </body>
+    {# Bootstrap Core Js #}
+    {{ encore_entry_script_tags('grandin_bootstrap') }}
+    {{ encore_entry_script_tags('grandin_bootstrap_jasny') }}
+
+    {# Datatable #}
+    {{ encore_entry_script_tags('grandin_datatable') }}
+    {{ encore_entry_script_tags('grandin_datatabletheme') }}
+
+    {# Slimscroll #}
+    {{ encore_entry_script_tags('grandin_slimscroll') }}
+
+    {# Switchery #}
+    {{ encore_entry_script_tags('grandin_switchery') }}
+
+    {# Fancy Dropdown #}
+    {{ encore_entry_script_tags('grandin_fancydropdown') }}
+
+    {# Form Wizard JavaScript #}
+    {{ encore_entry_script_tags('grandin_formwizard') }}
+    {{ encore_entry_script_tags('grandin_ajax_jqueryvalidata') }}
+
+    {# Form Wizard Data JavaScript #}
+    {{ encore_entry_script_tags('grandin_formwizard_data') }}
+
+    {# Bootstrap Touchspin JavaScript #}
+    {{ encore_entry_script_tags('grandin_bootstrap_touchspin') }}
+
+    {# Starrr JavaScript #}
+    {{ encore_entry_script_tags('grandin_starrr') }}
+
+    {# Sweet-Alert #}
+    {{ encore_entry_script_tags('grandin_sweet_alert') }}
+    {{ encore_entry_script_tags('grandin_sweet_alert_data') }}
+
+    {# Init #}
+    {{ encore_entry_script_tags('grandin_init') }}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+
+{% block javascripts_specifique %}
+{% endblock %}
+
+</body>
 </html>

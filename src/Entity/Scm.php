@@ -129,6 +129,11 @@ class Scm
      */
     private $phone;
 
+    /**
+     * @ORM\OneToOne(targetEntity=BankAccount::class, mappedBy="scm", cascade={"persist", "remove"})
+     */
+    private $bankAccount;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -438,6 +443,23 @@ class Scm
     public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getBankAccount(): ?BankAccount
+    {
+        return $this->bankAccount;
+    }
+
+    public function setBankAccount(BankAccount $bankAccount): self
+    {
+        $this->bankAccount = $bankAccount;
+
+        // set the owning side of the relation if necessary
+        if ($bankAccount->getScm() !== $this) {
+            $bankAccount->setScm($this);
+        }
 
         return $this;
     }

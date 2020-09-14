@@ -119,6 +119,11 @@ class User implements UserInterface
      */
     private $scm;
 
+    /**
+     * @ORM\OneToOne(targetEntity=ApiUser::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $apiUser;
+
     
 
     public function __construct()
@@ -433,6 +438,23 @@ class User implements UserInterface
     public function setScm(?Scm $scm): self
     {
         $this->scm = $scm;
+
+        return $this;
+    }
+
+    public function getApiUser(): ?ApiUser
+    {
+        return $this->apiUser;
+    }
+
+    public function setApiUser(ApiUser $apiUser): self
+    {
+        $this->apiUser = $apiUser;
+
+        // set the owning side of the relation if necessary
+        if ($apiUser->getUser() !== $this) {
+            $apiUser->setUser($this);
+        }
 
         return $this;
     }
