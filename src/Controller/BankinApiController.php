@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class TestApiController extends AbstractController
+class BankinApiController extends AbstractController
 {
     private $session;
     private $bankinApiManager;
@@ -23,23 +23,25 @@ class TestApiController extends AbstractController
 
 
     /**
-     * @Route("/test/api", name="test_api")
+     * @Route("/bankin", name="bankin_app")
      */
     public function index(HttpClientInterface $bankin)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         $bankList = $this->bankinApiManager->listAllBanks();
 
-        return $this->render('test_api/index.html.twig', [
-            'controller_name' => 'TestApiController',
+        return $this->render('bankin/bank_list.html.twig', [
+            'controller_name' => 'BankinApiController',
             'bank_list' => $bankList,
         ]);
     }
 
 
     /**
-     * @Route("/test/connect/{bankid}", name="test_connect")
+     * @Route("/bankin/setbank/{bankid}", name="setbank_bankin_app")
      */
-    public function connect(Request $request)
+    public function setbank(Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -53,15 +55,15 @@ class TestApiController extends AbstractController
     }
 
     /**
-     * @Route("/test/success", name="test_success")
+     * @Route("/bankin/accountlist", name="accountlist_bankin_app")
      */
-    public function success(Request $request)
+    public function accountlist(Request $request)
     {
         if($request->get('success')){
             $authToken = $this->session->get('bankin_api_auth_token');
             $accountList = $this->bankinApiManager->listAccounts($authToken);
-            return $this->render('test_api/account_list.html.twig', [
-                'controller_name' => 'TestApiController',
+            return $this->render('bankin/account_list.html.twig', [
+                'controller_name' => 'BankinApiController',
                 'account_list' => $accountList,
             ]);
         }else{
@@ -71,7 +73,7 @@ class TestApiController extends AbstractController
     }
 
     /**
-     * @Route("/test/saveaccount/{accountid}", name="test_save_account")
+     * @Route("/bankin/saveaccount/{accountid}", name="saveaccount_bankin_app")
      */
     public function saveAccount(Request $request)
     {
@@ -100,6 +102,5 @@ class TestApiController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('home');
-
     }
 }

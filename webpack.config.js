@@ -26,6 +26,55 @@ Encore
 
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
+    // JQuery
+    .addEntry('grandin_jquery', './assets/grandin_theme/vendors/bower_components/jquery/dist/jquery.min.js')
+
+
+    // Bootstrap Core Js
+    .addEntry('grandin_bootstrap', './assets/grandin_theme/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js')
+    .addEntry('grandin_bootstrap_jasny', './assets/grandin_theme/vendors/bower_components/jasny-bootstrap/dist/js/jasny-bootstrap.min.js')
+
+    // Datatable
+    .addEntry('grandin_datatable', './assets/grandin_theme/vendors/bower_components/datatables/media/js/jquery.dataTables.min.js')
+    .addEntry('grandin_datatabletheme', './assets/grandin_theme/js/dataTables-data.js')
+
+    // Slimscroll
+    .addEntry('grandin_slimscroll', './assets/grandin_theme/js/jquery.slimscroll.js')
+
+    // Switchery
+    .addEntry('grandin_switchery', './assets/grandin_theme/vendors/bower_components/switchery/dist/switchery.min.js')
+
+    // Fancy Dropdown
+    .addEntry('grandin_fancydropdown', './assets/grandin_theme/js/dropdown-bootstrap-extended.js')
+
+    // Form Wizard JavaScript
+    .addEntry('grandin_formwizard', './assets/grandin_theme/vendors/bower_components/jquery.steps/build/jquery.steps.min.js')
+    .addEntry('grandin_ajax_jqueryvalidata', './assets/grandin_theme/js/jquery.validate.min.js')
+
+    // Form Wizard Data JavaScript
+    .addEntry('grandin_formwizard_data', './assets/grandin_theme/js/form-wizard-data.js')
+
+    // Bootstrap Touchspin JavaScript -->
+    .addEntry('grandin_bootstrap_touchspin', './assets/grandin_theme/vendors/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')
+
+    // Starrr JavaScript
+    .addEntry('grandin_starrr', './assets/grandin_theme/js/starrr.js')
+
+    // Sweet-Alert
+    .addEntry('grandin_sweet_alert', "./assets/grandin_theme/vendors/bower_components/sweetalert/dist/sweetalert.min.js")
+    .addEntry('grandin_sweet_alert_data', './assets/grandin_theme/js/sweetalert-data.js')
+
+    // Bootstrap Treview
+    .addEntry('grandin_bootstrap_treeview', './assets/grandin_theme/vendors/bower_components/bootstrap-treeview/dist/bootstrap-treeview.min.js')
+    .addEntry('grandin_bootstrap_treeview_data', './assets/grandin_theme/js/treeview-data.js')
+
+    // Init
+    .addEntry('grandin_init', './assets/grandin_theme/js/init.js')
+
+    .addEntry('app', './assets/js/app.js')
+
+    // Custom js
+    .addEntry('forseti_collection', './assets/js/collection.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -65,46 +114,6 @@ Encore
 
     // uncomment if you're having problems with a jQuery plugin
     .autoProvidejQuery()
-
-    // JQuery
-    .addEntry('grandin_jquery', './assets/grandin_theme/vendors/bower_components/jquery/dist/jquery.min.js')
-
-    // Bootstrap Core Js
-    .addEntry('grandin_bootstrap', './assets/grandin_theme/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js')
-    .addEntry('grandin_bootstrap_jasny', './assets/grandin_theme/vendors/bower_components/jasny-bootstrap/dist/js/jasny-bootstrap.min.js')
-
-    // Datatable
-    .addEntry('grandin_datatable', './assets/grandin_theme/vendors/bower_components/datatables/media/js/jquery.dataTables.min.js')
-    .addEntry('grandin_datatabletheme', './assets/grandin_theme/js/dataTables-data.js')
-
-    // Slimscroll
-    .addEntry('grandin_slimscroll', './assets/grandin_theme/js/jquery.slimscroll.js')
-
-    // Switchery
-    .addEntry('grandin_switchery', './assets/grandin_theme/vendors/bower_components/switchery/dist/switchery.min.js')
-
-    // Fancy Dropdown
-    .addEntry('grandin_fancydropdown', './assets/grandin_theme/js/dropdown-bootstrap-extended.js')
-
-    // Form Wizard JavaScript
-    .addEntry('grandin_formwizard', './assets/grandin_theme/vendors/bower_components/jquery.steps/build/jquery.steps.min.js')
-    .addEntry('grandin_ajax_jqueryvalidata', './assets/grandin_theme/js/jquery.validate.min.js')
-
-    // Form Wizard Data JavaScript
-    .addEntry('grandin_formwizard_data', './assets/grandin_theme/js/form-wizard-data.js')
-
-    // Bootstrap Touchspin JavaScript -->
-    .addEntry('grandin_bootstrap_touchspin', './assets/grandin_theme/vendors/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')
-
-    // Starrr JavaScript
-    .addEntry('grandin_starrr', './assets/grandin_theme/js/starrr.js')
-    // Init
-    .addEntry('grandin_init', './assets/grandin_theme/js/init.js')
-
-    .addEntry('app', './assets/js/app.js')
-
-    // Custom js
-    .addEntry('forseti_collection', './assets/js/collection.js')
 
 // uncomment if you use API Platform Admin (composer req api-admin)
 //.enableReactPreset()

@@ -4,7 +4,7 @@
 namespace App\Service;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class BankinApiManager
 {
@@ -12,10 +12,12 @@ class BankinApiManager
     const LIMIT = 500;
 
     private $bankin;
+    private $urlGenerator;
 
-    public function __construct(HttpClientInterface $bankin)
+    public function __construct(HttpClientInterface $bankin, UrlGeneratorInterface $urlGenerator)
     {
         $this->bankin = $bankin;
+        $this->urlGenerator = $urlGenerator;
     }
 
     public function createApiUser(string $email, string $password)
@@ -50,9 +52,21 @@ class BankinApiManager
         $bank_list = $response->toArray();
 
         if (isset($bank_list['resources'])) {
+
+            $bankListPrettyfied = [];
+
             foreach ($bank_list['resources'] as $banksByCountry) {
                 if ($banksByCountry['country_code'] == $country_code) {
-                    return $banksByCountry['parent_banks'];
+                    foreach ($banksByCountry['parent_banks'] as $key => $parentBank){
+                        $bankListPrettyfied[$key]['text'] = $parentBank['name'];
+                        $bankListPrettyfied[$key]['selectable'] = false;
+                        foreach ($parentBank['banks'] as $childkey => $childBank){
+                            $bankListPrettyfied[$key]['nodes'][$childkey]['href'] = $this->urlGenerator->generate('setbank_bankin_app', array('bankid' => $childBank['id']));
+                            $bankListPrettyfied[$key]['nodes'][$childkey]['text'] = $childBank['name'];
+                        }
+                    }
+
+                    return json_encode($bankListPrettyfied);
                 }
             }
         }

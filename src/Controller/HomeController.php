@@ -20,8 +20,15 @@ class HomeController extends AbstractController
      */
     public function index()
     {
+        $renderBankinConf = false;
+
+        if(in_array('ROLE_ADMIN', $this->getUser()->getRoles()) && is_null($this->getUser()->getScm()->getBankAccount())){
+            $renderBankinConf = true;
+        }
+
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
+            'render_bankin_conf' => $renderBankinConf,
         ]);
     }
 }

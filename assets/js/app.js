@@ -23,10 +23,21 @@ import '../grandin_theme/vendors/bower_components/bootstrap-touchspin/dist/jquer
 // Jasny-bootstrap CSS
 import '../grandin_theme/vendors/bower_components/jasny-bootstrap/dist/css/jasny-bootstrap.min.css';
 
+// Sweet alert
+import '../grandin_theme/vendors/bower_components/sweetalert/dist/sweetalert.css';
+
+// Boostrap Treeview
+import '../grandin_theme/vendors/bower_components/bootstrap-treeview/dist/bootstrap-treeview.min.css'
+
 // custom style
 import '../grandin_theme/css/style.css';
 
 import '../css/app.css';
 
+// require jQuery normally
+const $ = require('jquery');
+// create global $ and jQuery variables
+global.$ = global.jQuery = $;
+
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
-import $ from 'jquery';
+// import $ from 'jquery';
