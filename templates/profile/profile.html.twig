@@ -16,7 +16,11 @@
                 </div>
             </div>	
             <div class="social-info">
-                <button class="btn btn-success btn-block btn-anim mt-30" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil"></i><span class="btn-text">edit profile</span></button>
+                <button class="btn btn-success btn-block btn-anim mt-30" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil"></i><span class="btn-text">editer profile</span></button>
+                <button class="btn btn-success btn-block btn-anim mt-30" data-toggle="modal" data-target="#passModal"><i class="fa fa-pencil"></i><span class="btn-text">modifier mot de passe</span></button>
+                <div id="passModal" class="modal fade in">
+                    {{form(passForm)}}
+                </div>
                 <div id="myModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
