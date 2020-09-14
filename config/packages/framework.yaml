@@ -7,6 +7,7 @@ framework:
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.
     session:
+        enabled: true
         handler_id: null
         cookie_secure: auto
         cookie_samesite: lax
@@ -15,3 +16,15 @@ framework:
     #fragments: true
     php_errors:
         log: true
+
+    http_client:
+        default_options:
+            max_redirects: 7
+        scoped_clients:
+            bankin:
+                base_uri: '%env(BANKIN_URI)%'
+                headers:
+                    Client-Id: '%env(BANKIN_CLIENT_ID)%'
+                    Client-Secret: '%env(BANKIN_CLIENT_SECRET)%'
+                    Bankin-Version: '%env(BANKIN_VERSION)%'
+                    Content-Type: 'application/json'

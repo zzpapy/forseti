@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TestApiController!{% endblock %}
+
+{% block body %}
+    <p><a href="{{ path('test_connect', {bankid:408}) }}">Banque de test</a></p>
+    <img src="{{ asset('img/forseti.png') }}">
+    {% for bank in bank_list %}
+            {% for child_bank in bank.banks %}
+                <p><a href="{{ path('test_connect', {bankid:child_bank.id}) }}">{{ child_bank.name }}</a></p>
+                <img src="{{ child_bank.logo_url }}">
+
+            {% endfor %}
+    {% endfor %}
+{% endblock %}
