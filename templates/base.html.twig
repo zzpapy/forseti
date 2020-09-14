@@ -40,12 +40,8 @@
                         {% if app.user %}
                             <a href="{{ path('app_logout') }}">Se déconnecter</a>
                         {% endif %}
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <a href="{{ path('profile_admin',{ id : app.user.id }) }}">ProfileAdmin</a>
-                        {% elseif is_granted('ROLE_USER') %}
-                            <a href="{{ path('profile_user') }}">profileUser</a>
-                        {% else %}
-                            Anonymous
+                        {% if app.user %}
+                            <a href="{{ path('profile',{ id : app.user.id }) }}">ProfileAdmin</a>
                         {% endif %}
                     </li>
                 </ul>
