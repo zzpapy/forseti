@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\BankAccount;
 use App\Service\BankinApiManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -74,6 +75,31 @@ class TestApiController extends AbstractController
      */
     public function saveAccount(Request $request)
     {
-        dd($request->get('accountid'));
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $authToken = $this->session->get('bankin_api_auth_token');
+
+        $account = $this->bankinApiManager->listAccounts($authToken,$request->get('accountid'));
+
+        $scmBankAccount = new BankAccount();
+
+        $scmBankAccount->setBankinAccountId($account['id']);
+        $scmBankAccount->setAccountName($account['name']);
+
+        $bankInfos = $this->bankinApiManager->getSingleBank($account['bank']['id']);
+
+        $scmBankAccount->setBankinId($bankInfos['id']);
+        $scmBankAccount->setBankName($bankInfos['name']);
+        $scmBankAccount->setLogoUrl($bankInfos['logo_url']);
+
+        $scmBankAccount->setScm($this->getUser()->getScm());
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($scmBankAccount);
+        $em->flush();
+
+        return $this->redirectToRoute('home');
+
     }
 }
