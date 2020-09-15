@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profile{% endblock %}
-
+{% block title %}Mon compte{% endblock %}
+{% block page_title %}Mon compte{% endblock %}
+{% block page_breadcrumbs %}
+    <li><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="active">Mon compte</li>
+{% endblock %}
 {% block body %}
 <div class="row">
     <div class="col-lg-3 col-xs-12">
