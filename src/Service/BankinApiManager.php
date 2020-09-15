@@ -92,7 +92,15 @@ class BankinApiManager
             ]
         ]);
 
-        return (is_null($accountId)) ? $response->toArray()['resources'] : $response->toArray();
+        if(isset($response->toArray()['resources'])){
+            $accountListPrettyfied = [];
+            foreach ($response->toArray()['resources'] as $key => $account){
+                $accountListPrettyfied[$key]['text'] = $account['name'];
+                $accountListPrettyfied[$key]['href'] = $this->urlGenerator->generate('saveaccount_bankin_app', ['accountid' => $account['id']]);
+            }
+        }
+
+        return (is_null($accountId)) ? json_encode($accountListPrettyfied) : $response->toArray();
     }
 
     public function getSingleBank($bankId)

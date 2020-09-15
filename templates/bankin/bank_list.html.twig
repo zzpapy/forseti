@@ -5,12 +5,6 @@
 {% block body %}
     <p><a href="{{ path('setbank_bankin_app', {bankid:408}) }}">Banque de test</a></p>
     <img src="{{ asset('img/forseti.png') }}">
-    {% for bank in bank_list %}
-        {% for child_bank in bank.banks %}
-            <p><a href="{{ path('setbank_bankin_app', {bankid:child_bank.id}) }}">{{ child_bank.name }}</a></p>
-            <img src="{{ child_bank.logo_url }}">
-        {% endfor %}
-    {% endfor %}
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default card-view">
