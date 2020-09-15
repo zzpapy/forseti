@@ -106,6 +106,9 @@ Encore
     // Custom js
     .addEntry('forseti_collection', './assets/js/collection.js')
 
+    // readUrl js
+    .addEntry('forseti_readUrl', './assets/js/readUrl.js')
+
 // uncomment if you use API Platform Admin (composer req api-admin)
 //.enableReactPreset()
 //.addEntry('admin', './assets/js/admin.js')

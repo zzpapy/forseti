@@ -19,11 +19,21 @@
                 <button class="btn btn-success btn-block btn-anim mt-30" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil"></i><span class="btn-text">editer profile</span></button>
                 <button class="btn btn-success btn-block btn-anim mt-30" data-toggle="modal" data-target="#passModal"><i class="fa fa-pencil"></i><span class="btn-text">modifier mot de passe</span></button>
                 <div id="passModal" class="modal fade in">
-                    {{form(passForm)}}
+                    {{form_start(passForm)}}
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="icon-phone"></i>
+                                </div>
+                                {{ form_widget(passForm) }}
+                            </div>
+                        </div>
+                    </div>
+                    {{form_end(passForm)}}
                 </div>
                 <div id="myModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
-                        <div class="modal-content">
+                        <div class="modal-content modifUser">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h5 class="modal-title" id="myModalLabel">Edit Profile</h5>
@@ -36,7 +46,7 @@
                                         <div class="col-sm-6">
                                             <div class="form-wrap">
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <div class="input-group-addon"><i
@@ -48,16 +58,23 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <div class="profile-img-wrap">
-                                                            {% set avatar = app.user.picture %}                    
-                                                            <img class="inline-block mb-10" src="{{asset('uploads/'~avatar)}}" alt="user"/>
+                                                    <div class="col-md-12">
+                                                        <div class="profile-info text-center">
+                                                            <div class="profile-img-wrap">
+                                                                {% set avatar = app.user.picture %}                    
+                                                                <img class="picture inline-block mb-10" src="{{asset('uploads/'~avatar)}}" alt="user"/>
+                                                            </div>
+                                                        {{ form_widget(form.picture,{
+                                                            'attr':{
+                                                                "onchange":"readURL(this)",
+                                                                'id':'choicePic'
+                                                            }
+                                                        }) }}
                                                         </div>
-                                                        {{ form_widget(form.picture) }}
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <div class="input-group-addon"><i class="icon-user"></i>
@@ -68,7 +85,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <div class="input-group-addon"><i class="icon-user"></i>
@@ -81,7 +98,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <div class="input-group-addon"><i class="icon-question"></i>
@@ -114,7 +131,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <div class="input-group-addon"><i
@@ -126,7 +143,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <div class="input-group-addon"><i class="icon-globe"></i>
@@ -139,7 +156,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <div class="input-group-addon"><i
@@ -151,7 +168,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <div class="input-group-addon"><i class="icon-phone"></i>
@@ -180,4 +197,7 @@
             </div>
         </div>
 </div>
+{% endblock %}
+{% block javascripts_specifique %}
+    {{ encore_entry_script_tags('forseti_readUrl') }}
 {% endblock %}
