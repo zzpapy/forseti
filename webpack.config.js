@@ -75,6 +75,7 @@ Encore
 
     // Custom js
     .addEntry('forseti_collection', './assets/js/collection.js')
+    
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
