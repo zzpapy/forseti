@@ -3,175 +3,73 @@
 {% block title %}Profile{% endblock %}
 
 {% block body %}
-<div class="example-wrapper">
-    <div class="panel-body  pa-0">
-        <div class="profile-box">
-            <div class="profile-info text-center">
-                <div class="profile-img-wrap">
-                    {% set avatar = app.user.picture %}                    
-                    <img class="inline-block mb-10" src="{{asset('uploads/'~avatar)}}" alt="user"/>
-                </div>	
-                <h5 class="block mt-10 mb-5 weight-500 capitalize-font txt-warning">{{app.user.firstname}} {{app.user.lastname}}</h5>
-                <h6 class="block capitalize-font pb-20 txt-light">Developer Geek</h6>
-                </div>
-            </div>	
-            <div class="social-info">
-                <button class="btn btn-success btn-block btn-anim mt-30" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil"></i><span class="btn-text">editer profile</span></button>
-                <button class="btn btn-success btn-block btn-anim mt-30" data-toggle="modal" data-target="#passModal"><i class="fa fa-pencil"></i><span class="btn-text">modifier mot de passe</span></button>
-                <div id="passModal" class="modal fade in">
-                    {{form_start(passForm)}}
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-addon"><i class="icon-phone"></i>
-                                </div>
-                                {{ form_widget(passForm) }}
-                            </div>
+<div class="row">
+    <div class="col-lg-3 col-xs-12">
+        <div class="panel panel-default card-view  pa-0 bg-dark">
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body  pa-0">
+                    <div class="profile-box">
+                        <div class="profile-cover-pic">
+                            <div class="profile-image-overlay"></div>
                         </div>
-                    </div>
-                    {{form_end(passForm)}}
-                </div>
-                <div id="myModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content modifUser">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h5 class="modal-title" id="myModalLabel">Edit Profile</h5>
+                        <div class="profile-info text-center">
+                            <div class="profile-img-wrap">
+                                {% set avatar = app.user.picture %}
+                                <img class="inline-block mb-10" src="{{ asset('uploads/'~avatar) }}" alt="user"/>
                             </div>
-                            <div class="modal-body">
-                                <!-- Row -->
-                                {{form_start(form,{'attr': {'id': 'modif_user'}})}}
-                                <div class="row">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-wrap">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <div class="input-group">
-                                                                <div class="input-group-addon"><i
-                                                                            class="icon-envelope-open"></i>
+                            <h5 class="block mt-10 mb-5 weight-500 capitalize-font txt-warning">{{ app.user.firstname }} {{ app.user.lastname }}</h5>
+                            <h6 class="block capitalize-font pb-20 txt-light">
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    Administrateur
+                                {% else %}
+                                    Associé
+                                {% endif %}
+                            </h6>
+                        </div>
+                        <div class="social-info">
+                            <button class="btn btn-primary btn-block btn-anim mt-30" data-toggle="modal"
+                                    data-target="#profile-modal"><i
+                                        class="fa fa-pencil"></i><span
+                                        class="btn-text">Editer mes informations</span>
+                            </button>
+                            <button class="btn btn-danger btn-block btn-anim mt-30" data-toggle="modal"
+                                    data-target="#password-modal"><i
+                                        class="fa fa-pencil"></i><span
+                                        class="btn-text">Modifier mon mot de passe</span>
+                            </button>
+                            <div id="password-modal" class="modal fade in" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content modifUser">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-hidden="true">
+                                                ×
+                                            </button>
+                                            <h5 class="modal-title" id="myModalLabel">Modifier le mot de
+                                                passe</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div>
+                                                        <div class="panel-wrapper collapse in">
+                                                            <div class="panel-body pa-0">
+                                                                <div class="col-sm-12 col-xs-12">
+                                                                    {{ form_start(edit_password) }}
+                                                                    <div class="form-wrap">
+                                                                        <div class="form-body overflow-hide">
+                                                                            <div class="form-group">
+                                                                                {{ form_widget(edit_password.password.first) }}
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                {{ form_widget(edit_password.password.second) }}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    {{ form_end(edit_password) }}
                                                                 </div>
-                                                                {{ form_widget(form.email, {'attr': {
-                                                                    'placeholder':'Email'
-                                                                }}) }}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="profile-info text-center">
-                                                            <div class="profile-img-wrap">
-                                                                {% set avatar = app.user.picture %}                    
-                                                                <img id="current_admin_picture" class="picture inline-block mb-10" src="{{asset('uploads/'~avatar)}}" alt="user"/>
-                                                            </div>
-                                                        {{ form_widget(form.picture) }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <div class="input-group">
-                                                                <div class="input-group-addon"><i class="icon-user"></i>
-                                                                </div>
-                                                                {{ form_widget(form.firstname, {'attr': {
-                                                                    'placeholder':'Prénom'
-                                                                }}) }}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <div class="input-group">
-                                                                <div class="input-group-addon"><i class="icon-user"></i>
-                                                                </div>
-                                                                {{ form_widget(form.lastname, {'attr': {
-                                                                    'placeholder':'Nom'
-                                                                }}) }}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <div class="input-group">
-                                                                <div class="input-group-addon"><i class="icon-question"></i>
-                                                                </div>
-                                                                {{ form_widget(form.nbPart, {'attr': {
-                                                                    'placeholder':'Nombre de parts dans la SCM'
-                                                                }}) }}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="seprator-block"></div>
-                                                <h6 class="txt-dark capitalize-font">
-                                                    <i class="zmdi zmdi-account-box mr-10"></i>
-                                                    Adresse
-                                                </h6>
-                                                <hr class="light-grey-hr">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <div class="input-group">
-                                                                <div class="input-group-addon"><i
-                                                                            class="icon-book-open"></i>
-                                                                </div>
-                                                                {{ form_widget(form.address, {'attr': {
-                                                                    'placeholder':'Adresse'
-                                                                }}) }}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <div class="input-group">
-                                                                <div class="input-group-addon"><i
-                                                                            class="icon-book-open"></i>
-                                                                </div>
-                                                                {{ form_widget(form.city, {'attr': {
-                                                                    'placeholder':'Ville'
-                                                                }}) }}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <div class="input-group">
-                                                                <div class="input-group-addon"><i class="icon-globe"></i>
-                                                                </div>
-                                                                {{ form_widget(form.country, {'attr': {
-                                                                    'placeholder':'Pays'
-                                                                }}) }}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <div class="input-group">
-                                                                <div class="input-group-addon"><i
-                                                                            class="icon-book-open"></i>
-                                                                </div>
-                                                                {{ form_widget(form.zipcode, {'attr': {
-                                                                    'placeholder':'Code postal'
-                                                                }}) }}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <div class="input-group">
-                                                                <div class="input-group-addon"><i class="icon-phone"></i>
-                                                                </div>
-                                                                {{ form_widget(form.telephone, {'attr': {
-                                                                    'placeholder':'Téléphone',
-                                                                    'data-mask':'+33 (0)9 99 99 99 99'
-                                                                }}) }}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -179,20 +77,162 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             </div>
-                            <div class="modal-footer">
-                                <!-- <button type="button" onclick="form_submit()" class="btn btn-primary" >enregistrer</button> -->
+                            <div id="profile-modal" class="modal fade in" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content modifUser">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-hidden="true">
+                                                ×
+                                            </button>
+                                            <h5 class="modal-title" id="myModalLabel">Editer mes informations</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div>
+                                                        <div class="panel-wrapper collapse in">
+                                                            <div class="panel-body pa-0">
+                                                                <div class="col-sm-12 col-xs-12">
+                                                                    {{ form_start(edit_profile,{'attr': {'id': 'modif_user'}}) }}
+                                                                    <div class="form-wrap">
+                                                                        <div class="form-body overflow-hide">
+                                                                            <div class="form-group">
+                                                                                <div class="input-group">
+                                                                                    <div class="profile-img-wrap">
+                                                                                        {% set avatar = app.user.picture %}
+                                                                                        <img id="current_admin_picture"
+                                                                                             class="picture inline-block mb-10"
+                                                                                             src="{{ asset('uploads/'~avatar) }}"
+                                                                                             alt="user"/>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                {{ form_widget(edit_profile.picture) }}
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <div class="input-group">
+                                                                                    <div class="input-group-addon">
+                                                                                        <i
+                                                                                                class="icon-user"></i>
+                                                                                    </div>
+                                                                                    {{ form_widget(edit_profile.firstname, {'attr': {
+                                                                                        'placeholder':'Prénom'
+                                                                                    }}) }}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <div class="input-group">
+                                                                                    <div class="input-group-addon">
+                                                                                        <i
+                                                                                                class="icon-user"></i>
+                                                                                    </div>
+                                                                                    {{ form_widget(edit_profile.lastname, {'attr': {
+                                                                                        'placeholder':'Nom'
+                                                                                    }}) }}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <div class="input-group">
+                                                                                    <div class="input-group-addon">
+                                                                                        <i
+                                                                                                class="icon-question"></i>
+                                                                                    </div>
+                                                                                    {{ form_widget(edit_profile.nbPart, {'attr': {
+                                                                                        'placeholder':'Nombre de parts dans la SCM'
+                                                                                    }}) }}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="seprator-block"></div>
+                                                                            <h6 class="txt-dark capitalize-font">
+                                                                                <i class="zmdi zmdi-account-box mr-10"></i>
+                                                                                Adresse
+                                                                            </h6>
+                                                                            <hr class="light-grey-hr">
+                                                                            <div class="form-group">
+                                                                                <div class="input-group">
+                                                                                    <div class="input-group-addon">
+                                                                                        <i
+                                                                                                class="icon-book-open"></i>
+                                                                                    </div>
+                                                                                    {{ form_widget(edit_profile.address, {'attr': {
+                                                                                        'placeholder':'Adresse'
+                                                                                    }}) }}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <div class="input-group">
+                                                                                    <div class="input-group-addon">
+                                                                                        <i
+                                                                                                class="icon-book-open"></i>
+                                                                                    </div>
+                                                                                    {{ form_widget(edit_profile.city, {'attr': {
+                                                                                        'placeholder':'Ville'
+                                                                                    }}) }}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <div class="input-group">
+                                                                                    <div class="input-group-addon">
+                                                                                        <i
+                                                                                                class="icon-globe"></i>
+                                                                                    </div>
+                                                                                    {{ form_widget(edit_profile.country, {'attr': {
+                                                                                        'placeholder':'Pays'
+                                                                                    }}) }}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <div class="input-group">
+                                                                                    <div class="input-group-addon">
+                                                                                        <i
+                                                                                                class="icon-book-open"></i>
+                                                                                    </div>
+                                                                                    {{ form_widget(edit_profile.zipcode, {'attr': {
+                                                                                        'placeholder':'Code postal'
+                                                                                    }}) }}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <div class="input-group">
+                                                                                    <div class="input-group-addon">
+                                                                                        <i
+                                                                                                class="icon-phone"></i>
+                                                                                    </div>
+                                                                                    {{ form_widget(edit_profile.telephone, {'attr': {
+                                                                                        'placeholder':'Téléphone',
+                                                                                        'data-mask':'+33 (0)9 99 99 99 99'
+                                                                                    }}) }}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    {{ form_end(edit_profile) }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            {{form_end(form)}}
+                            <!-- /.modal-content -->
                         </div>
-                        <!-- /.modal-content -->
+                        <!-- /.modal-dialog -->
                     </div>
-                    <!-- /.modal-dialog -->
                 </div>
             </div>
         </div>
-</div>
-{% endblock %}
-{% block javascripts_specifique %}
+    </div>
+    {% endblock %}
+    {% block javascripts_specifique %}
     {{ encore_entry_script_tags('forseti_readUrl') }}
 {% endblock %}

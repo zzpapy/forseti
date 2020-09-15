@@ -23,8 +23,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class RegistrationController extends AbstractController
 {
-    private $emailVerifier;
-    private $slugger;
+    protected $emailVerifier;
+    protected $slugger;
 
     public function __construct(EmailVerifier $emailVerifier, SluggerInterface $slugger)
     {
@@ -136,7 +136,7 @@ class RegistrationController extends AbstractController
      * @param string $name
      * @return string $newFilename
      */
-    private function recordPhoto($photo, string $name)
+    protected function recordPhoto($photo, string $name)
     {
         if ($photo) {
             $safeFilenameUser = $this->slugger->slug($name);
@@ -156,7 +156,7 @@ class RegistrationController extends AbstractController
     /**
      * @param $user
      */
-    private function sendEmailVerifier($user){
+    protected function sendEmailVerifier($user){
         // generate a signed url and email it to the user
         $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
             (new TemplatedEmail())

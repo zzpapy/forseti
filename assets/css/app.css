@@ -5,9 +5,7 @@
 .wizard .steps ul > li{
     width: 33%;
 }
-.picture{
-    max-width: 100%;
-}
-.modifUser{
-    padding: 1em;
+
+.d-flex{
+    display: flex !important;
 }
