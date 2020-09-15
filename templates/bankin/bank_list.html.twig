@@ -1,21 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TestApiController!{% endblock %}
+{% block title %}Synchronisation du compte bancaire{% endblock %}
 
 {% block body %}
     <p><a href="{{ path('setbank_bankin_app', {bankid:408}) }}">Banque de test</a></p>
     <img src="{{ asset('img/forseti.png') }}">
     <div class="row">
         <div class="col-sm-12">
-            <div class="panel panel-default card-view">
+            <div class="panel panel-primary card-view">
                 <div class="panel-heading">
                     <div class="pull-left">
-                        <h6 class="panel-title txt-dark">Liste des banques</h6>
+                        <h6 class="panel-title txt-light">Synchronisation du compte de votre SCM - Etape 1/2</h6>
                     </div>
                     <div class="clearfix"></div>
                 </div>
                 <div class="panel-wrapper collapse in">
                     <div class="panel-body">
+                        <p class="mb-10">Afin de vous aider à gérer votre comptabilité, Forseti a besoin de se connecter au compte bancaire de votre SCM.</p>
+                        <p class="mb-10">Forseti récupérera ainsi les transactions et vous permettra de les catégoriser dans le but de générer le formulaire de déclaration n°2036.</p>
+                        <p class="mb-10">L'accès à votre compte est limité à l'utilisateur principal de la SCM et ne permet aucun mouvement de trésorerie.</p>
+                        <p class="mb-10">Pour commencer à synchroniser votre compte, veuillez choisir une banque dans la liste ci-dessous :</p>
                         <div class="treeview" id="treeview_bank"></div>
                     </div>
                 </div>

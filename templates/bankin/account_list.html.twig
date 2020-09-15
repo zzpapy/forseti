@@ -1,19 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TestApiController!{% endblock %}
+{% block title %}Synchronisation du compte bancaire{% endblock %}
 
 {% block body %}
     <div class="row">
         <div class="col-sm-12">
-            <div class="panel panel-default card-view">
+            <div class="panel panel-primary card-view">
                 <div class="panel-heading">
                     <div class="pull-left">
-                        <h6 class="panel-title txt-dark">Liste des comptes</h6>
+                        <h6 class="panel-title txt-light">Synchronisation du compte de votre SCM - Etape 2/2</h6>
                     </div>
                     <div class="clearfix"></div>
                 </div>
                 <div class="panel-wrapper collapse in">
                     <div class="panel-body">
+                        <p class="mb-10">Félicitation, vous êtes à une pas de terminer la synchronisation de votre compte bancaire !</p>
+                        <p class="mb-10">Veuillez choisir le compte qui s'occupe de la comptabilité de votre SCM et forseti s'occupe du reste :</p>
                         <div class="treeview" id="treeview_account"></div>
                     </div>
                 </div>
