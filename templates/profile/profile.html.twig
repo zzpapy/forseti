@@ -62,14 +62,9 @@
                                                         <div class="profile-info text-center">
                                                             <div class="profile-img-wrap">
                                                                 {% set avatar = app.user.picture %}                    
-                                                                <img class="picture inline-block mb-10" src="{{asset('uploads/'~avatar)}}" alt="user"/>
+                                                                <img id="current_admin_picture" class="picture inline-block mb-10" src="{{asset('uploads/'~avatar)}}" alt="user"/>
                                                             </div>
-                                                        {{ form_widget(form.picture,{
-                                                            'attr':{
-                                                                "onchange":"readURL(this)",
-                                                                'id':'choicePic'
-                                                            }
-                                                        }) }}
+                                                        {{ form_widget(form.picture) }}
                                                         </div>
                                                     </div>
                                                 </div>

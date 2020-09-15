@@ -1,13 +1,14 @@
 $(document).ready(function () {
-    function readURL(input) {
-        if (input.files && input.files[0]) {
+    $('#user_admin_picture').change(function (e) {
+
+        if ($('#user_admin_picture').val()) {
             var reader = new FileReader()
 
             reader.onload = function (e) {
-                $('#choicePic').attr('src', e.target.result)
+                $('#current_admin_picture').attr('src', e.target.result)
             }
 
-            reader.readAsDataURL(input.files[0])
+            reader.readAsDataURL($('#user_admin_picture')[0].files[0])
         }
-    };
-});
+    });
+})
