@@ -47,6 +47,7 @@ class ProfileController extends RegistrationController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+            return $this->redirectToRoute('profile', ['id' => $user->getId()]);
         }
         if ($passForm->isSubmitted() && $passForm->isValid()) {
             $encodedPassword = $passwordEncoder->encodePassword(
@@ -56,9 +57,9 @@ class ProfileController extends RegistrationController
 
             $user->setPassword($encodedPassword);
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('profile', ['id' => $user->getId()]);
         }
+
         return $this->render('profile/profile.html.twig', [
             'controller_name' => 'ProfileController',
             'edit_profile' => $form->createView(),
