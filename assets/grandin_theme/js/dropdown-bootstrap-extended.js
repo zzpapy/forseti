@@ -20,7 +20,7 @@ function dropdownEffectData(target) {
   var parentUl = dropdown.parents('ul.nav'); 
 
   // If parent is ul.nav allow global effect settings
-  if (parentUl.size() > 0) {
+  if (parentUl.length > 0) {
     effectInDefault = parentUl.data('dropdown-in') || null;
     effectOutDefault = parentUl.data('dropdown-out') || null;
   }

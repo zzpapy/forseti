@@ -1,73 +1,92 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-        <title>{% block title %}{% endblock %}</title>
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {% block preloader %}
-        <div class="preloader-it">
-            <div class="la-anim-1"></div>
-        </div>
-        {% endblock %}
-        {% block wrapper %}
-        <div class="wrapper theme-1-active pimary-color-pink clearfix">
-            <nav class="navbar navbar-inverse navbar-fixed-top">
-                <div class="mobile-only-brand pull-left">
-                    <div class="nav-header pull-left">
-                        <div class="logo-wrap">
-                            <a href="{{ path('home') }}">
-                                <img class="brand-img" src="{{ asset('img/forseti.png') }}" alt="brand"/>
-                                <span class="brand-text">Forseti</span>
-                            </a>
-                            {% if app.user %}
-                                <span>Bonjour {{app.user.firstname}}</span>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </nav>
-            <div class="fixed-sidebar-left">
-                <ul class="nav navbar-nav side-nav nicescroll-bar">
-                    <li class="navigation-header">
-                        <span>Main</span>
-                        <i class="zmdi zmdi-more"></i>
-                        <a href="{{ path('app_login') }}">Accueil</a>
-                        {% if app.user %}
-                            <a href="{{ path('app_logout') }}">Se déconnecter</a>
-                        {% endif %}
-                        {% if app.user %}
-                            <a href="{{ path('profile',{ id : app.user.id }) }}">Profile</a>
-                        {% endif %}
-                    </li>
-                </ul>
-            </div>
-            <div class="page-wrapper">
-                <div class="container-fluid">
-                    <!-- Title -->
-                    <div class="row heading-bg">
-                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                            <h5 class="txt-dark">{% block page_title %}{% endblock %}</h5>
-                        </div>
-                        <!-- Breadcrumb -->
-                        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-                            <ol class="breadcrumb">
-                                {% block page_breadcrumbs %}{% endblock %}
-                            </ol>
-                        </div>
-                        <!-- /Breadcrumb -->
-                    </div>
-                    <!-- /Title -->
-                    {% block body %}{% endblock %}
-                </div>
-            </div>
-        </div>
-        {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>{% block title %}{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+{% block preloader %}
+    <div class="preloader-it">
+        <div class="la-anim-1"></div>
     </div>
+{% endblock %}
+{% block wrapper %}
+    <div class="wrapper theme-1-active pimary-color-pink clearfix">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="mobile-only-brand pull-left">
+                <div class="nav-header pull-left">
+                    <div class="logo-wrap">
+                        <a href="{{ path('home') }}">
+                            <img class="brand-img" src="{{ asset('img/forseti.png') }}" alt="brand"/>
+                            <span class="brand-text">Forseti</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="fixed-sidebar-left">
+            <ul class="nav navbar-nav side-nav nicescroll-bar">
+                {% if app.user %}
+                    {# User Profile #}
+                    <li>
+                        <div class="user-profile text-center">
+                            <img src="{{ asset("uploads/" ~ app.user.picture()) }}" alt="user_auth" class="user-auth-img img-circle"/>
+                            <div class="dropdown mt-5">
+                                <a href="#" class="dropdown-toggle pr-0 bg-transparent" data-toggle="dropdown">{{ app.user.firstname ~ " " ~ app.user.lastname }}<span class="caret"></span></a>
+                                <ul class="dropdown-menu user-auth-dropdown" data-dropdown-in="flipInX"
+                                    data-dropdown-out="flipOutX">
+                                    <li>
+                                        <a href="{{ path('profile',{ id : app.user.id }) }}"><i class="zmdi zmdi-account"></i><span>Mon compte</span></a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="{{ path('app_logout') }}"><i class="zmdi zmdi-power"></i><span>Se déconnecter</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    {# End User Profile #}
+                {% endif %}
+                <li>
+                    <hr class="light-grey-hr mb-10">
+                </li>
+                <li class="navigation-header">
+                    <span>Menu</span>
+                    <i class="zmdi zmdi-more"></i>
+
+                </li>
+                <li>
+                    <a class="active" href="{{ path('app_login') }}">Accueil</a>
+                </li>
+            </ul>
+        </div>
+        <div class="page-wrapper">
+            <div class="container-fluid">
+                <!-- Title -->
+                <div class="row heading-bg">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h5 class="txt-dark">{% block page_title %}{% endblock %}</h5>
+                    </div>
+                    <!-- Breadcrumb -->
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <ol class="breadcrumb">
+                            {% block page_breadcrumbs %}{% endblock %}
+                        </ol>
+                    </div>
+                    <!-- /Breadcrumb -->
+                </div>
+                <!-- /Title -->
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+</div>
 
 {% block javascripts %}
     {# JQuery #}
