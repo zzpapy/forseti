@@ -76,6 +76,9 @@ Encore
     // Custom js
     .addEntry('forseti_collection', './assets/js/collection.js')
 
+    // readUrl js
+    .addEntry('forseti_readUrl', './assets/js/readUrl.js')
+
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 

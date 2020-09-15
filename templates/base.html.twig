@@ -30,13 +30,38 @@
         </nav>
         <div class="fixed-sidebar-left">
             <ul class="nav navbar-nav side-nav nicescroll-bar">
+                {% if app.user %}
+                    {# User Profile #}
+                    <li>
+                        <div class="user-profile text-center">
+                            <img src="{{ asset("uploads/" ~ app.user.picture()) }}" alt="user_auth" class="user-auth-img img-circle"/>
+                            <div class="dropdown mt-5">
+                                <a href="#" class="dropdown-toggle pr-0 bg-transparent" data-toggle="dropdown">{{ app.user.firstname ~ " " ~ app.user.lastname }}<span class="caret"></span></a>
+                                <ul class="dropdown-menu user-auth-dropdown" data-dropdown-in="flipInX"
+                                    data-dropdown-out="flipOutX">
+                                    <li>
+                                        <a href="{{ path('profile',{ id : app.user.id }) }}"><i class="zmdi zmdi-account"></i><span>Mon compte</span></a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="{{ path('app_logout') }}"><i class="zmdi zmdi-power"></i><span>Se déconnecter</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    {# End User Profile #}
+                {% endif %}
+                <li>
+                    <hr class="light-grey-hr mb-10">
+                </li>
                 <li class="navigation-header">
-                    <span>Main</span>
+                    <span>Menu</span>
                     <i class="zmdi zmdi-more"></i>
-                    <a href="{{ path('app_login') }}">Accueil</a>
-                    {% if app.user %}
-                        <a href="{{ path('app_logout') }}">Se déconnecter</a>
-                    {% endif %}
+
+                </li>
+                <li>
+                    <a class="active" href="{{ path('app_login') }}">Accueil</a>
                 </li>
             </ul>
         </div>

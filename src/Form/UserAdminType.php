@@ -26,11 +26,11 @@ class UserAdminType extends AbstractType
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
+                'invalid_message' => 'Les mots de passe doivent correspondre.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options'  => ['label' => 'Password', 'attr' => ['placeholder' => 'Mot de passe']],
-                'second_options' => ['label' => 'Repeat Password', 'attr' => ['placeholder' => 'Confirmer']],
+                'first_options'  => ['label' => 'Mot de passe', 'attr' => ['placeholder' => 'Mot de passe']],
+                'second_options' => ['label' => 'Confirmer le mot de passe', 'attr' => ['placeholder' => 'Confirmer']],
             ])
             ->add('firstname', TextType::class, [
                 'attr' => ['placeholder' => 'Prénom']
@@ -52,6 +52,7 @@ class UserAdminType extends AbstractType
             ])
             ->add('picture', FileType::class, [
                 'label' => 'Image de profil',
+                'block_name' => 'picture',
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
 
