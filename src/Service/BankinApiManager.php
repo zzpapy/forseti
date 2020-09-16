@@ -121,4 +121,29 @@ class BankinApiManager
         return $response->toArray();
     }
 
+    public function listTransactionsJson($authToken)
+    {
+        $response = $this->bankin->request('GET', "/v2/transactions", [
+            'headers' => [
+                'Authorization' => "Bearer $authToken"
+            ]
+        ]);
+
+        $transactionListPrettyfied = [];
+
+        foreach ($response->toArray()['resources'] as $key => $transac){
+            $transactionListPrettyfied[$key]['text'] = $transac['description'];
+            $transactionListPrettyfied[$key]['nodes'][] = [
+                'text' =>'Montant :' . $transac['amount']
+                ];
+            $transactionListPrettyfied[$key]['nodes'][] = [
+                'text' =>'Date : ' . $transac['date']
+            ];
+        }
+
+
+
+        return json_encode($transactionListPrettyfied);
+    }
+
 }

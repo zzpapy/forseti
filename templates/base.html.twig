@@ -41,7 +41,7 @@
                                 <ul class="dropdown-menu user-auth-dropdown" data-dropdown-in="flipInX"
                                     data-dropdown-out="flipOutX">
                                     <li>
-                                        <a href="{{ path('profile',{ id : app.user.id }) }}"><i class="zmdi zmdi-account"></i><span>Mon compte</span></a>
+                                        <a href="{{ path('app_profile',{ id : app.user.id }) }}"><i class="zmdi zmdi-account"></i><span>Mon compte</span></a>
                                     </li>
                                     <li class="divider"></li>
                                     {% if is_granted('ROLE_ADMIN') %}

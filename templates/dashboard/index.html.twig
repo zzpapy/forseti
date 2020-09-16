@@ -36,16 +36,13 @@
     <script type="application/javascript">
 
         $(document).ready(function($){
-            console.log(listTransactions["resources"])
             "use strict";
-            for (transaction in listTransactions["resources"]){
-                var listTransaction = $.parseJSON(JSON.stringify(transaction));
-                $('#treeview_account').treeview({
-                    enableLinks: true,
-                    data: listtransaction
-                });
+            var transactionJson = $.parseJSON(JSON.stringify({{ listTransactions | raw }}));
 
-           }
+            $('#treeview_account').treeview({
+                levels: 2,
+                data: transactionJson
+            });
         });
 
     </script>

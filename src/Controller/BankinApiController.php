@@ -12,8 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 class BankinApiController extends AbstractController
 {
-    private $session;
-    private $bankinApiManager;
+    protected $session;
+    protected $bankinApiManager;
 
     public function __construct(SessionInterface $session, BankinApiManager $bankinApiManager)
     {
@@ -25,7 +25,7 @@ class BankinApiController extends AbstractController
     /**
      * @Route("/bankin", name="bankin_app")
      */
-    public function index(HttpClientInterface $bankin)
+    public function index()
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         
@@ -100,8 +100,7 @@ class BankinApiController extends AbstractController
 
         $em->persist($scmBankAccount);
         $em->flush();
-        $listTransactions = $this->bankinApiManager->listTransactions($authToken);
-      
-        return $this->redirectToRoute('dashboard',["listTransactions" => $listTransactions]);
+
+        return $this->redirectToRoute('dashboard');
     }
 }
