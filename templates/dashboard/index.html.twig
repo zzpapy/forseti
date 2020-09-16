@@ -7,5 +7,47 @@
 
 <div class="example-wrapper">
     <h1>Tableau de bord</h1>
+    {{ dump(listTransactions)}}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-primary card-view">
+                <div class="panel-heading">
+                    <div class="pull-left">
+                        <h6 class="panel-title txt-light">Liste des transactions</h6>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-wrapper collapse in">
+                    <div class="panel-body">
+                        <div class="treeview" id="treeview_account"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% for transaction in listTransactions %}
+        
+    {% endfor %}
 </div>
 {% endblock %}
+{% block javascripts_specifique %}
+    {# Bootstrap treeview #}
+    {{ encore_entry_script_tags('grandin_bootstrap_treeview') }}
+    <script type="application/javascript">
+
+        $(document).ready(function($){
+            console.log(listTransactions["resources"])
+            "use strict";
+            for (transaction in listTransactions["resources"]){
+                var listTransaction = $.parseJSON(JSON.stringify(transaction));
+                $('#treeview_account').treeview({
+                    enableLinks: true,
+                    data: listtransaction
+                });
+
+           }
+        });
+
+    </script>
+{% endblock %}
+

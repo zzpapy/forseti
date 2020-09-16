@@ -1,0 +1,296 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ScmController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<fieldset>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-wrap">
+                <h6 class="txt-dark capitalize-font">
+                    <i class="zmdi zmdi-balance mr-10"></i>
+                    Votre SCM
+                </h6>
+                {{form_start(formScm)}}
+                <hr class="light-grey-hr">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i
+                                            class="icon-book-open"></i></div>
+                                {{ form_widget(formScm.company_name, {'attr': {
+                                    'placeholder':'Raison Sociale'
+                                }}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="fileinput fileinput-new input-group"
+                             data-provides="fileinput">
+                            <div class="form-control" data-trigger="fileinput">
+                                <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                                <span class="fileinput-filename"></span>
+                            </div>
+                            <span class="input-group-addon fileupload btn btn-info btn-anim btn-file">
+                                <i class="fa fa-upload"></i>
+                                <span class="fileinput-new btn-text">Parcourir</span>
+                                <span class="fileinput-exists btn-text">Modifier</span>
+                                <input type="file" name="{{ formScm.logo.vars.name }}"
+                                       id="{{ formScm.logo.vars.id }}">
+                            </span>
+                            <a href="#"
+                               class="input-group-addon btn btn-danger btn-anim fileinput-exists"
+                               data-dismiss="fileinput">
+                                <i class="fa fa-trash"></i>
+                                <span class="btn-text">Supprimer</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="icon-info"></i>
+                                </div>
+                                {{ form_widget(formScm.siret, {'attr': {
+                                    'placeholder':'n°SIRET',
+                                    'data-mask':'999 999 999 999999'
+                                }}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="icon-info"></i>
+                                </div>
+                                {{ form_widget(formScm.siren, {'attr': {
+                                    'placeholder':'n°SIREN',
+                                    'data-mask':'999 999 999'
+                                }}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="seprator-block"></div>
+                <h6 class="txt-dark capitalize-font">
+                    <i class="zmdi zmdi-account-box mr-10"></i>
+                    Adresse
+                </h6>
+                <hr class="light-grey-hr">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i
+                                            class="icon-book-open"></i></div>
+                                {{ form_widget(formScm.address, {'attr': {
+                                    'placeholder':'Adresse'
+                                }}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i
+                                            class="icon-book-open"></i></div>
+                                {{ form_widget(formScm.city, {'attr': {
+                                    'placeholder':'Ville'
+                                }}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i
+                                            class="icon-book-open"></i></div>
+                                {{ form_widget(formScm.zip_code, {'attr': {
+                                    'placeholder':'Code Postal'
+                                }}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="icon-phone"></i>
+                                </div>
+                                {{ form_widget(formScm.phone, {'attr': {
+                                    'placeholder':'Téléphone',
+                                    'data-mask':'+33 (0)9 99 99 99 99'
+                                }}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="seprator-block"></div>
+                <h6 class="txt-dark capitalize-font">
+                    <i class="zmdi zmdi-info mr-10"></i>
+                    Informations complémentaires
+                </h6>
+                <hr class="light-grey-hr">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="icon-home"></i>
+                                </div>
+                                {{ form_widget(formScm.ref_local, {'attr': {
+                                    'placeholder':'Référence du local'
+                                }}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="icon-home"></i>
+                                </div>
+                                {{ form_widget(formScm.invariant_local, {'attr': {
+                                    'placeholder':'Invariant du local'
+                                }}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="icon-home"></i>
+                                </div>
+                                {{ form_widget(formScm.local_owner, {'attr': {
+                                    'placeholder':'Propriétaire du local'
+                                }}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="icon-home"></i>
+                                </div>
+                                {{ form_widget(formScm.local_siren, {'attr': {
+                                    'placeholder':'n°SIREN du local',
+                                    'data-mask':'999 999 999'
+                                }}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="mb-20">Êtes-vous ?</p>
+                        <div class="radio radio-info">
+                            {{ form_widget(formScm.typeTenantOwner) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="seprator-block"></div>
+                <h6 class="txt-dark capitalize-font">
+                    <i class="zmdi zmdi-balance-wallet mr-10"></i>
+                    Configuration comptable
+                </h6>
+                <hr class="light-grey-hr">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="icon-calender"></i>
+                                </div>
+                                {{ form_widget(formScm.accountingExerciceStartAt) }}
+                                {{ form_widget(formScm.accountingExerciceEndAt) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i
+                                            class="icon-calculator"></i></div>
+                                {{ form_widget(formScm.AmountPreviousYearAccountingCharge, {'attr': {
+                                    'placeholder':'Total de charges année précécédente'
+                                }}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i
+                                            class="icon-calculator"></i></div>
+                                {{ form_widget(formScm.forecast_charge, {'attr': {
+                                    'placeholder':'Montant prévisionnel des charges'
+                                }}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i
+                                            class="icon-calculator"></i></div>
+                                {{ form_widget(formScm.amountAnuallyRent, {'attr': {
+                                    'placeholder':'Montant loyer annuel'
+                                }}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="icon-people"></i>
+                                </div>
+                                {{ form_widget(formScm.min_assoc, {'attr': {
+                                    'placeholder':"Nombre minimum d'associés"
+                                }}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="icon-people"></i>
+                                </div>
+                                {{ form_widget(formScm.max_assoc, {'attr': {
+                                    'placeholder':"Nombre maximum d'associés"
+                                }}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="icon-people"></i>
+                            </div>
+                            <button class="btn btn-primary">Modifier</button>
+                        </div>
+                    </div>
+                </div>
+                {{form_end(formScm)}}
+            </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+{% endblock %}

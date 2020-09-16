@@ -96,7 +96,8 @@ class RegistrationController extends AbstractController
             $user->setScm($scm);
             $entityManager->persist($user);
             $entityManager->flush();
-
+            
+            // dd($user);
             // $this->sendEmailVerifier($user);
 
             return $this->redirectToRoute('home');

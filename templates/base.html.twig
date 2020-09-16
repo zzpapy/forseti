@@ -44,6 +44,13 @@
                                         <a href="{{ path('profile',{ id : app.user.id }) }}"><i class="zmdi zmdi-account"></i><span>Mon compte</span></a>
                                     </li>
                                     <li class="divider"></li>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <li>
+                                            <a href="{{ path('app_scm',{ id : app.user.scm.id }) }}"><i class="zmdi zmdi-balance mr-10"></i><span>Ma Scm</span></a>
+                                        </li>
+                                       {{ app.user.scm.id}}
+                                    {% endif %}
+                                    <li class="divider"></li>
                                     <li>
                                         <a href="{{ path('app_logout') }}"><i class="zmdi zmdi-power"></i><span>Se déconnecter</span></a>
                                     </li>

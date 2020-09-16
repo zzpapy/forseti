@@ -110,4 +110,15 @@ class BankinApiManager
         return $response->toArray();
     }
 
+    public function listTransactions($authToken)
+    {
+        $response = $this->bankin->request('GET', "/v2/transactions", [
+            'headers' => [
+                'Authorization' => "Bearer $authToken"
+            ]
+        ]);
+
+        return $response->toArray();
+    }
+
 }

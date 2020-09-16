@@ -100,7 +100,8 @@ class BankinApiController extends AbstractController
 
         $em->persist($scmBankAccount);
         $em->flush();
-
-        return $this->redirectToRoute('home');
+        $listTransactions = $this->bankinApiManager->listTransactions($authToken);
+      
+        return $this->redirectToRoute('dashboard',["listTransactions" => $listTransactions]);
     }
 }
