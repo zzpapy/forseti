@@ -60,10 +60,13 @@ class ProfileController extends RegistrationController
             return $this->redirectToRoute('profile', ['id' => $user->getId()]);
         }
 
+        $scmEntity = $user->getScm();
+
         return $this->render('profile/profile.html.twig', [
             'controller_name' => 'ProfileController',
             'edit_profile' => $form->createView(),
-            'edit_password' => $passForm->createView()
+            'edit_password' => $passForm->createView(),
+            'scm' => $scmEntity
         ]);
     }
 
