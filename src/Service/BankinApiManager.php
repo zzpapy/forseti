@@ -57,10 +57,10 @@ class BankinApiManager
 
             foreach ($bank_list['resources'] as $banksByCountry) {
                 if ($banksByCountry['country_code'] == $country_code) {
-                    foreach ($banksByCountry['parent_banks'] as $key => $parentBank){
+                    foreach ($banksByCountry['parent_banks'] as $key => $parentBank) {
                         $bankListPrettyfied[$key]['text'] = $parentBank['name'];
                         $bankListPrettyfied[$key]['selectable'] = false;
-                        foreach ($parentBank['banks'] as $childkey => $childBank){
+                        foreach ($parentBank['banks'] as $childkey => $childBank) {
                             $bankListPrettyfied[$key]['nodes'][$childkey]['href'] = $this->urlGenerator->generate('setbank_bankin_app', array('bankid' => $childBank['id']));
                             $bankListPrettyfied[$key]['nodes'][$childkey]['text'] = $childBank['name'];
                         }
@@ -92,9 +92,9 @@ class BankinApiManager
             ]
         ]);
 
-        if(isset($response->toArray()['resources'])){
+        if (isset($response->toArray()['resources'])) {
             $accountListPrettyfied = [];
-            foreach ($response->toArray()['resources'] as $key => $account){
+            foreach ($response->toArray()['resources'] as $key => $account) {
                 $accountListPrettyfied[$key]['text'] = $account['name'];
                 $accountListPrettyfied[$key]['href'] = $this->urlGenerator->generate('saveaccount_bankin_app', ['accountid' => $account['id']]);
             }
@@ -130,18 +130,18 @@ class BankinApiManager
         ]);
 
         $transactionListPrettyfied = [];
+        $key = 0;
 
-        foreach ($response->toArray()['resources'] as $key => $transac){
-            $transactionListPrettyfied[$key]['text'] = $transac['description'];
-            $transactionListPrettyfied[$key]['nodes'][] = [
-                'text' =>'Montant :' . $transac['amount']
+        foreach ($response->toArray()['resources'] as $transac) {
+            if ($transac['amount'] < 0) {
+
+                $transactionListPrettyfied[$key]['text'] = $transac['description'];
+                $transactionListPrettyfied[$key]['nodes'][] = [
+                    'text' => 'Montant :' . $transac['amount']
                 ];
-            $transactionListPrettyfied[$key]['nodes'][] = [
-                'text' =>'Date : ' . $transac['date']
-            ];
+                $key++;
+            }
         }
-
-
 
         return json_encode($transactionListPrettyfied);
     }

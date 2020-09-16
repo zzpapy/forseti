@@ -7,7 +7,6 @@
 
 <div class="example-wrapper">
     <h1>Tableau de bord</h1>
-    {{ dump(listTransactions)}}
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-primary card-view">
@@ -25,9 +24,6 @@
             </div>
         </div>
     </div>
-    {% for transaction in listTransactions %}
-        
-    {% endfor %}
 </div>
 {% endblock %}
 {% block javascripts_specifique %}
