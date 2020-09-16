@@ -110,9 +110,9 @@ class BankinApiManager
         return $response->toArray();
     }
 
-    public function listTransactions($authToken)
+    public function listTransactions($authToken, $bankAccountId)
     {
-        $response = $this->bankin->request('GET', "/v2/transactions", [
+        $response = $this->bankin->request('GET', "/v2/accounts/$bankAccountId/transactions", [
             'headers' => [
                 'Authorization' => "Bearer $authToken"
             ]
@@ -121,9 +121,9 @@ class BankinApiManager
         return $response->toArray();
     }
 
-    public function listTransactionsJson($authToken)
+    public function listTransactionsJson($authToken, $bankAccountId)
     {
-        $response = $this->bankin->request('GET', "/v2/transactions", [
+        $response = $this->bankin->request('GET', "/v2/accounts/$bankAccountId/transactions", [
             'headers' => [
                 'Authorization' => "Bearer $authToken"
             ]
