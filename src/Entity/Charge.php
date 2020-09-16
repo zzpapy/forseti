@@ -40,16 +40,6 @@ class Charge
     private $payedAt;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $paymentAt;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isMonthly;
-
-    /**
      * @ORM\OneToMany(targetEntity=CoefficientSpecifique::class, mappedBy="charge", orphanRemoval=true)
      */
     private $coefficientSpecifiques;
@@ -122,30 +112,6 @@ class Charge
     public function setPayedAt(?\DateTimeInterface $payedAt): self
     {
         $this->payedAt = $payedAt;
-
-        return $this;
-    }
-
-    public function getPaymentAt(): ?\DateTimeInterface
-    {
-        return $this->paymentAt;
-    }
-
-    public function setPaymentAt(?\DateTimeInterface $paymentAt): self
-    {
-        $this->paymentAt = $paymentAt;
-
-        return $this;
-    }
-
-    public function getIsMonthly(): ?bool
-    {
-        return $this->isMonthly;
-    }
-
-    public function setIsMonthly(bool $isMonthly): self
-    {
-        $this->isMonthly = $isMonthly;
 
         return $this;
     }
