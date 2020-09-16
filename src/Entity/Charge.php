@@ -56,6 +56,16 @@ class Charge
      */
     private $scm;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=BankAccount::class, inversedBy="charges")
+     */
+    private $bank_account;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $bankin_transaction_id;
+
   
 
     public function __construct()
@@ -167,6 +177,30 @@ class Charge
     public function setScm(?Scm $scm): self
     {
         $this->scm = $scm;
+
+        return $this;
+    }
+
+    public function getBankAccount(): ?BankAccount
+    {
+        return $this->bank_account;
+    }
+
+    public function setBankAccount(?BankAccount $bank_account): self
+    {
+        $this->bank_account = $bank_account;
+
+        return $this;
+    }
+
+    public function getBankinTransactionId(): ?int
+    {
+        return $this->bankin_transaction_id;
+    }
+
+    public function setBankinTransactionId(?int $bankin_transaction_id): self
+    {
+        $this->bankin_transaction_id = $bankin_transaction_id;
 
         return $this;
     }
