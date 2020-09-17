@@ -9,6 +9,13 @@ $(document).ready(function () {
         }
     });
 
+    $('#edit_datable_charge').on('draw.dt', function (){
+        $('.selectpicker').selectpicker();
+    });
+
+
+
+
     $('.validate-chargetype').on('click', function (e) {
         e.preventDefault();
         let url = $(this).data('ajax--url');

@@ -35,19 +35,22 @@ class ChargeController extends AbstractController
 
         $transactionList = $this->chargeManager->getTransactionToSynchronise('onlyCharge');
 
+        if ($transactionList) {
+            $transactionListKeys = array_keys($transactionList[0]);
 
-        $transactionListKeys = array_keys($transactionList[0]);
+            $typeList = $this->getDoctrine()->getRepository(ChargeType::class)->findAll();
 
-        $typeList = $this->getDoctrine()->getRepository(ChargeType::class)->findAll();
+            $typeList = $this->orderParentChildChargeType($typeList);
 
-        $typeList = $this->orderParentChildChargeType($typeList);
+            return $this->render('charge/charge.html.twig', [
+                'controller_name' => 'ChargeController',
+                'transaction_list' => $transactionList,
+                'transaction_list_keys' => $transactionListKeys,
+                'type_list' => $typeList
+            ]);
+        }
+        return $this->redirectToRoute('home');
 
-        return $this->render('charge/charge.html.twig', [
-            'controller_name' => 'ChargeController',
-            'transaction_list' => $transactionList,
-            'transaction_list_keys' => $transactionListKeys,
-            'type_list' => $typeList
-        ]);
     }
 
     /**
