@@ -110,40 +110,15 @@ class BankinApiManager
         return $response->toArray();
     }
 
-    public function listTransactions($authToken, $bankAccountId)
+    public function listTransactionsByAccountByDate($authToken, $bankAccountId, $date, $limit = 50)
     {
-        $response = $this->bankin->request('GET', "/v2/accounts/$bankAccountId/transactions", [
+        $response = $this->bankin->request('GET', "/v2/accounts/$bankAccountId/transactions?after=$date&limit=$limit", [
             'headers' => [
                 'Authorization' => "Bearer $authToken"
             ]
         ]);
 
-        return $response->toArray();
-    }
-
-    public function listTransactionsJson($authToken, $bankAccountId)
-    {
-        $response = $this->bankin->request('GET', "/v2/accounts/$bankAccountId/transactions", [
-            'headers' => [
-                'Authorization' => "Bearer $authToken"
-            ]
-        ]);
-
-        $transactionListPrettyfied = [];
-        $key = 0;
-
-        foreach ($response->toArray()['resources'] as $transac) {
-            if ($transac['amount'] < 0) {
-
-                $transactionListPrettyfied[$key]['text'] = $transac['description'];
-                $transactionListPrettyfied[$key]['nodes'][] = [
-                    'text' => 'Montant :' . $transac['amount']
-                ];
-                $key++;
-            }
-        }
-
-        return json_encode($transactionListPrettyfied);
+        return $response->toArray()['resources'];
     }
 
 }

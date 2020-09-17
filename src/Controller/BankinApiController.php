@@ -101,6 +101,9 @@ class BankinApiController extends AbstractController
         $em->persist($scmBankAccount);
         $em->flush();
 
-        return $this->redirectToRoute('dashboard');
+        $this->session->set('bank_account_id', $this->getUser()->getScm()->getBankAccount()->getId());
+        $this->session->set('bankin_account_id', $this->getUser()->getScm()->getBankAccount()->getBankinAccountId());
+
+        return $this->redirectToRoute('app_charge');
     }
 }

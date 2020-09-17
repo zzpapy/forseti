@@ -68,6 +68,12 @@ Encore
     .addEntry('grandin_bootstrap_treeview', './assets/grandin_theme/vendors/bower_components/bootstrap-treeview/dist/bootstrap-treeview.min.js')
     .addEntry('grandin_bootstrap_treeview_data', './assets/grandin_theme/js/treeview-data.js')
 
+    // Editable Table
+    .addEntry('grandin_editable_table_data', './assets/grandin_theme/js/editable-table-data.js')
+
+    // Select picker
+    .addEntry('grandin_select_picker', './assets/grandin_theme/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js')
+
     // Init
     .addEntry('grandin_init', './assets/grandin_theme/js/init.js')
 

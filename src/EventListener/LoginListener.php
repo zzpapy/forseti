@@ -30,7 +30,8 @@ class LoginListener
             $this->session->set('bankin_api_auth_token', $apiResponse['access_token']);
 
             if(!is_null($user->getScm()->getBankAccount())){
-                $this->session->set('bank_account_id', $user->getScm()->getBankAccount()->getBankinAccountId());
+                $this->session->set('bank_account_id', $user->getScm()->getBankAccount()->getId());
+                $this->session->set('bankin_account_id', $user->getScm()->getBankAccount()->getBankinAccountId());
             }
         }
 

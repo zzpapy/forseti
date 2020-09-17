@@ -18,7 +18,7 @@ class DashboardController extends BankinApiController
 
         $listTransactions = $this->bankinApiManager->listTransactionsJson($authToken, $accountId);
 
-        return $this->render('dashboard/index.html.twig', [
+        return $this->render('dashboard/dashboard.html.twig', [
             'controller_name' => 'DashboardController',
             'listTransactions' => $listTransactions
         ]);

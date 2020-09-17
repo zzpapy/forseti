@@ -1,3 +1,4 @@
+{% trans_default_domain 'app' %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -71,6 +72,11 @@
                 <li>
                     <a class="active" href="{{ path('app_login') }}">Accueil</a>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                <li>
+                    <a href="{{ path('app_charge') }}">Charges</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
         <div class="page-wrapper">
