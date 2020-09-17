@@ -110,15 +110,28 @@ class BankinApiManager
         return $response->toArray();
     }
 
-    public function listTransactionsByAccountByDate($authToken, $bankAccountId, $date, $limit = 50)
+    public function listTransactionsByAccountByDate($authToken, $bankAccountId, $dateSince, $dateUntil, $limit = 500)
     {
-        $response = $this->bankin->request('GET', "/v2/accounts/$bankAccountId/transactions?after=$date&limit=$limit", [
+        $response = $this->bankin->request('GET', "/v2/accounts/$bankAccountId/transactions?limit=$limit&since=$dateSince&until=$dateUntil", [
+//        $response = $this->bankin->request('GET', "/v2/accounts/20904719/transactions?after=MjAyMC0wNy0wMzozODAwMDE1NzI1NTI3OA%3D%3D&limit=500&since=2020-01-01&until=2020-12-31", [
             'headers' => [
                 'Authorization' => "Bearer $authToken"
             ]
         ]);
 
+//        dd($response->toArray()['resources']);
         return $response->toArray()['resources'];
+    }
+
+    public function getTransaction($authToken, $transactionId){
+
+        $response = $this->bankin->request('GET', "/v2/transactions/$transactionId", [
+            'headers' => [
+                'Authorization' => "Bearer $authToken"
+            ]
+        ]);
+
+        return $response->toArray();
     }
 
 }

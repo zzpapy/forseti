@@ -21,8 +21,14 @@ $(document).ready(function () {
                 url: url,
                 data: { transactionid: transacId, chargetypeid: chargeTypeId }
             })
-                .done(function( msg ) {
+                .done(function( json ) {
                     $('#edit_datable_charge').DataTable().row( $("#row-"+transacId) ).remove().draw();
+                    swal({
+                        title: "Charge sauvegardée",
+                        type: "success",
+                        text: json.msg,
+                        confirmButtonColor: "#76c880",
+                    });
                 });
         }
     });

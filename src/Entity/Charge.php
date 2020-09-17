@@ -62,7 +62,7 @@ class Charge
     private $bank_account;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="bigint", nullable=true)
      */
     private $bankin_transaction_id;
 

@@ -36,18 +36,13 @@ class ChargeManager
 
     public function getTransactionToSynchronise($filter = null)
     {
+        $bankAccount = $this->accountRepository->find($this->bankAccountId);
+        $scm = $bankAccount->getScm();
+        $dateSince = $scm->getAccountingExerciceStartAt();
+        $dateUntil = $scm->getAccountingExerciceEndAt();
 
-        $charges = $this->chargeRepository->findBy(['bank_account' => $this->bankAccountId], ['payedAt' => 'DESC']);
 
-        if (count($charges)) {
-            $dateSince = $charges[0]->getPayedAt();
-        } else {
-            $bankAccount = $this->accountRepository->find($this->bankAccountId);
-            $scm = $bankAccount->getScm();
-            $dateSince = $scm->getAccountingExerciceStartAt();
-        }
-
-        $transactionList = $this->bankinApiManager->listTransactionsByAccountByDate($this->session->get('bankin_api_auth_token'), $this->bankinAccountId, $dateSince->format('Y-m-d'));
+        $transactionList = $this->bankinApiManager->listTransactionsByAccountByDate($this->session->get('bankin_api_auth_token'), $this->bankinAccountId, $dateSince->format('Y-m-d'), $dateUntil->format('Y-m-d'));
 
         switch ($filter) {
             case 'onlyCharge':
@@ -62,12 +57,15 @@ class ChargeManager
     private function filterOnlyCharge($transactionList)
     {
 
+        $query = $this->chargeRepository->createQueryBuilder('c')->getQuery();
+        $charges = $query->getArrayResult();
+        $chargeIds = array_column($charges, 'bankin_transaction_id');
+
         $chargeList = [];
 
         if (count($transactionList)) {
-
             foreach ($transactionList as $transac) {
-                if ($transac['amount'] < 0) {
+                if ($transac['amount'] < 0 && !in_array($transac['id'],$chargeIds)) {
                     $chargeList[] = [
                         'id' => $transac['id'],
                         'amount' => $transac['amount'],
