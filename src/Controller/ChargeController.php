@@ -53,43 +53,85 @@ class ChargeController extends AbstractController
     /**
      * @Route("/ajax/chargetype/{transactionid}", name="app_ajax_chargetype_default")
      * @Route("/ajax/chargetype/{transactionid}/{chargetypeid}", name="app_ajax_chargetype")
+     * @Route("/ajax/chargetype/{transactionid}/{chargetypeid}/{all}", name="app_ajax_chargetype")
      */
     public function ajaxChargeType(Request $request)
     {
         $transacId = $request->get('transactionid');
         $chargeTypeId = $request->get('chargetypeid');
+        $all = $request->get('all');
 
         $authToken = $this->session->get('bankin_api_auth_token');
-        $transaction = $this->bankinApiManager->getTransaction($authToken, $transacId);
-
-        $scm = $this->getUser()->getScm();
-        $chargeType = $this->getDoctrine()->getRepository(ChargeType::class)->find($chargeTypeId);
-
-        $charge = new Charge();
-
-        $charge->setScm($scm);
-        $charge->setBankAccount($scm->getBankAccount());
-        $charge->setBankinTransactionId($transacId);
-        $charge->setLabel($transaction['description']);
-        $charge->setPayedAt(new \DateTime($transaction['date']));
-        $charge->setTotal($transaction['amount']);
-        $charge->setType($chargeType);
-        $charge->setCreatedAt(new \DateTime());
-
-        $em = $this->getDoctrine()->getManager();
-
-        $em->persist($charge);
-        $em->flush();
-
 
         $response = new Response();
         $response->headers->set('Content-Type', 'application/json');
-        $response->setContent(json_encode([
-            'transactionid' => $transacId,
-            'chargetypeid' => $chargeTypeId,
-            'msg' => "La transaction n°$transacId a bien été catégorisée dans " . $chargeType->getLabel()
 
-        ]));
+        $transaction = $this->bankinApiManager->getTransaction($authToken, $transacId);
+
+        if ($all) {
+            $transactions = $this->chargeManager->getTransactionToSynchronise('onlyCharge');
+
+            $rowToDelete = [];
+
+            foreach ($transactions as $transac) {
+                if ($transac['description'] == $transaction['description']) {
+                    $scm = $this->getUser()->getScm();
+                    $chargeType = $this->getDoctrine()->getRepository(ChargeType::class)->find($chargeTypeId);
+
+                    $charge = new Charge();
+
+                    $charge->setScm($scm);
+                    $charge->setBankAccount($scm->getBankAccount());
+                    $charge->setBankinTransactionId($transac['id']);
+                    $charge->setLabel($transac['description']);
+                    $charge->setPayedAt(new \DateTime($transac['date']));
+                    $charge->setTotal($transac['amount']);
+                    $charge->setType($chargeType);
+                    $charge->setCreatedAt(new \DateTime());
+
+                    $em = $this->getDoctrine()->getManager();
+
+                    $em->persist($charge);
+                    $em->flush();
+
+                    $rowToDelete[] = $transac['id'];
+                }
+            }
+            $response->setContent(json_encode([
+                'count' => count($transactions) - count($rowToDelete),
+                'transactionids' => $rowToDelete,
+                'chargetypeid' => $chargeTypeId,
+                'msg' => "La transaction n°$transacId et ses occurences ont bien été catégorisées dans '" . $chargeType->getLabel() . "'"
+
+            ]));
+        } else {
+            $scm = $this->getUser()->getScm();
+            $chargeType = $this->getDoctrine()->getRepository(ChargeType::class)->find($chargeTypeId);
+
+            $charge = new Charge();
+
+            $charge->setScm($scm);
+            $charge->setBankAccount($scm->getBankAccount());
+            $charge->setBankinTransactionId($transacId);
+            $charge->setLabel($transaction['description']);
+            $charge->setPayedAt(new \DateTime($transaction['date']));
+            $charge->setTotal($transaction['amount']);
+            $charge->setType($chargeType);
+            $charge->setCreatedAt(new \DateTime());
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($charge);
+            $em->flush();
+
+            $response->setContent(json_encode([
+                'transactionid' => $transacId,
+                'chargetypeid' => $chargeTypeId,
+                'msg' => "La transaction n°$transacId a bien été catégorisée dans " . $chargeType->getLabel()
+
+            ]));
+        }
+
 
         return $response;
     }

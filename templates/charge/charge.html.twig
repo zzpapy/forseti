@@ -14,7 +14,7 @@
                 </div>
                 <div class="panel-wrapper collapse in">
                     <div class="panel-body">
-                        <p class="text-muted">Vous avez {{ transaction_list|length }} charges à typer</p>
+                        <p class="text-muted">Vous avez <span id="count-transactions">{{ transaction_list|length }}</span> charges à catégoriser</p>
                         <div class="table-wrap mt-40">
                             <div class="table-responsive">
                                 <table id="edit_datable_charge" class="table table-hover display mb-30">
@@ -23,7 +23,7 @@
                                         {% for transac_key in transaction_list_keys %}
                                             <th>{{ transac_key|trans }}</th>
                                         {% endfor %}
-                                        <th>Typage</th>
+                                        <th>Catégorie</th>
                                         <th>&nbsp;</th>
                                     </tr>
                                     </thead>
