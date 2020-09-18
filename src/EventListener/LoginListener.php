@@ -21,10 +21,19 @@ class LoginListener
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
     {
         $user = $event->getAuthenticationToken()->getUser();
+
+        $bankAccountId = false;
+
         if (in_array('ROLE_ADMIN', $user->getRoles())) {
             $apiUser = $user->getApiUser();
             $apiResponse = $this->bankin->authenticateApiUser($apiUser->getEmail(), $apiUser->getPassword());
             $this->session->set('bankin_api_auth_token', $apiResponse['access_token']);
+
+            if(!is_null($user->getScm()->getBankAccount())){
+                $this->session->set('bank_account_id', $user->getScm()->getBankAccount()->getId());
+                $this->session->set('bankin_account_id', $user->getScm()->getBankAccount()->getBankinAccountId());
+            }
         }
+
     }
 }

@@ -57,10 +57,10 @@ class BankinApiManager
 
             foreach ($bank_list['resources'] as $banksByCountry) {
                 if ($banksByCountry['country_code'] == $country_code) {
-                    foreach ($banksByCountry['parent_banks'] as $key => $parentBank){
+                    foreach ($banksByCountry['parent_banks'] as $key => $parentBank) {
                         $bankListPrettyfied[$key]['text'] = $parentBank['name'];
                         $bankListPrettyfied[$key]['selectable'] = false;
-                        foreach ($parentBank['banks'] as $childkey => $childBank){
+                        foreach ($parentBank['banks'] as $childkey => $childBank) {
                             $bankListPrettyfied[$key]['nodes'][$childkey]['href'] = $this->urlGenerator->generate('setbank_bankin_app', array('bankid' => $childBank['id']));
                             $bankListPrettyfied[$key]['nodes'][$childkey]['text'] = $childBank['name'];
                         }
@@ -92,9 +92,9 @@ class BankinApiManager
             ]
         ]);
 
-        if(isset($response->toArray()['resources'])){
+        if (isset($response->toArray()['resources'])) {
             $accountListPrettyfied = [];
-            foreach ($response->toArray()['resources'] as $key => $account){
+            foreach ($response->toArray()['resources'] as $key => $account) {
                 $accountListPrettyfied[$key]['text'] = $account['name'];
                 $accountListPrettyfied[$key]['href'] = $this->urlGenerator->generate('saveaccount_bankin_app', ['accountid' => $account['id']]);
             }
@@ -106,6 +106,30 @@ class BankinApiManager
     public function getSingleBank($bankId)
     {
         $response = $this->bankin->request('GET', "/v2/banks/$bankId");
+
+        return $response->toArray();
+    }
+
+    public function listTransactionsByAccountByDate($authToken, $bankAccountId, $dateSince, $dateUntil, $limit = 500)
+    {
+        $response = $this->bankin->request('GET', "/v2/accounts/$bankAccountId/transactions?limit=$limit&since=$dateSince&until=$dateUntil", [
+//        $response = $this->bankin->request('GET', "/v2/accounts/20904719/transactions?after=MjAyMC0wNy0wMzozODAwMDE1NzI1NTI3OA%3D%3D&limit=500&since=2020-01-01&until=2020-12-31", [
+            'headers' => [
+                'Authorization' => "Bearer $authToken"
+            ]
+        ]);
+
+//        dd($response->toArray()['resources']);
+        return $response->toArray()['resources'];
+    }
+
+    public function getTransaction($authToken, $transactionId){
+
+        $response = $this->bankin->request('GET', "/v2/transactions/$transactionId", [
+            'headers' => [
+                'Authorization' => "Bearer $authToken"
+            ]
+        ]);
 
         return $response->toArray();
     }

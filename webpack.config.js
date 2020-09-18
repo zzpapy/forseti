@@ -68,6 +68,23 @@ Encore
     .addEntry('grandin_bootstrap_treeview', './assets/grandin_theme/vendors/bower_components/bootstrap-treeview/dist/bootstrap-treeview.min.js')
     .addEntry('grandin_bootstrap_treeview_data', './assets/grandin_theme/js/treeview-data.js')
 
+    // Editable Table
+    .addEntry('grandin_editable_table_data', './assets/grandin_theme/js/editable-table-data.js')
+
+    // Select picker
+    .addEntry('grandin_select_picker', './assets/grandin_theme/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js')
+
+    // Flot Chart
+    .addEntry('grandin_flotchart_excanvas', './assets/grandin_theme/vendors/bower_components/Flot/excanvas.min.js')
+    .addEntry('grandin_flotchart_jquery_flot', './assets/grandin_theme/vendors/bower_components/Flot/jquery.flot.js')
+    .addEntry('grandin_flotchart_jquery_flot_pie', './assets/grandin_theme/vendors/bower_components/Flot/jquery.flot.pie.js')
+    .addEntry('grandin_flotchart_jquery_flot_resize', './assets/grandin_theme/vendors/bower_components/Flot/jquery.flot.resize.js')
+    .addEntry('grandin_flotchart_jquery_flot_time', './assets/grandin_theme/vendors/bower_components/Flot/jquery.flot.time.js')
+    .addEntry('grandin_flotchart_jquery_flot_stack', './assets/grandin_theme/vendors/bower_components/Flot/jquery.flot.stack.js')
+    .addEntry('grandin_flotchart_jquery_flot_crosshair', './assets/grandin_theme/vendors/bower_components/Flot/jquery.flot.crosshair.js')
+    .addEntry('grandin_flotchart_jquery_flot_tooltip', './assets/grandin_theme/vendors/bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js')
+    // .addEntry('grandin_flotchart_data', './assets/grandin_theme/js/flot-data.js')
+
     // Init
     .addEntry('grandin_init', './assets/grandin_theme/js/init.js')
 

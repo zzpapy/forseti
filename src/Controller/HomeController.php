@@ -22,7 +22,7 @@ class HomeController extends AbstractController
     {
         $renderBankinConf = false;
 
-        if(in_array('ROLE_ADMIN', $this->getUser()->getRoles()) && is_null($this->getUser()->getScm()->getBankAccount())){
+        if(in_array('ROLE_ADMIN', $this->getUser()->getRoles()) && is_null($this->session->get('bank_account_id'))){
             $renderBankinConf = true;
         }
 

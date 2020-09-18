@@ -29,6 +29,9 @@ import '../grandin_theme/vendors/bower_components/sweetalert/dist/sweetalert.css
 // Boostrap Treeview
 import '../grandin_theme/vendors/bower_components/bootstrap-treeview/dist/bootstrap-treeview.min.css'
 
+// Select
+import '../grandin_theme/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css'
+
 // custom style
 import '../grandin_theme/css/style.css';
 

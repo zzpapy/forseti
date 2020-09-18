@@ -12,8 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 class BankinApiController extends AbstractController
 {
-    private $session;
-    private $bankinApiManager;
+    protected $session;
+    protected $bankinApiManager;
 
     public function __construct(SessionInterface $session, BankinApiManager $bankinApiManager)
     {
@@ -25,7 +25,7 @@ class BankinApiController extends AbstractController
     /**
      * @Route("/bankin", name="bankin_app")
      */
-    public function index(HttpClientInterface $bankin)
+    public function bankin()
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         
@@ -59,6 +59,8 @@ class BankinApiController extends AbstractController
      */
     public function accountlist(Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         if($request->get('success')){
             $authToken = $this->session->get('bankin_api_auth_token');
             $accountList = $this->bankinApiManager->listAccounts($authToken);
@@ -101,6 +103,14 @@ class BankinApiController extends AbstractController
         $em->persist($scmBankAccount);
         $em->flush();
 
-        return $this->redirectToRoute('home');
+        $this->session->set('bank_account_id', $this->getUser()->getScm()->getBankAccount()->getId());
+        $this->session->set('bankin_account_id', $this->getUser()->getScm()->getBankAccount()->getBankinAccountId());
+
+        return $this->redirectToRoute('app_charge');
+    }
+
+    protected function reconnectApiUser(){
+        $apiResponse = $this->bankinApiManager->authenticateApiUser($this->getUser()->getApiUser()->getEmail(), $this->getUser()->getApiUser()->getPassword());
+        $this->session->set('bankin_api_auth_token', $apiResponse['access_token']);
     }
 }

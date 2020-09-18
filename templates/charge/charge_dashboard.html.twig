@@ -1,0 +1,227 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ChargeController!{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-default card-view">
+                <div class="panel-heading">
+                    <div class="pull-left">
+                        <h6 class="panel-title txt-dark">Répartition des charges </h6>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-wrapper collapse in">
+                    <div class="panel-body">
+                        <div class="flot-container">
+                            <div id="flot_pie_chart" class="demo-placeholder"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="panel panel-default card-view">
+                <div class="panel-heading">
+                    <div class="pull-left">
+                        <h6 class="panel-title txt-dark">Répartition mensuelle des charges</h6>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-wrapper collapse in">
+                    <div class="panel-body">
+                        <div class="flot-container">
+                            <div id="flot_bars_chart" class="demo-placeholder"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div id="legend_flot_bars_chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts_specifique %}
+
+    {{ encore_entry_script_tags('grandin_flotchart_excanvas') }}
+    {{ encore_entry_script_tags('grandin_flotchart_jquery_flot') }}
+    {{ encore_entry_script_tags('grandin_flotchart_jquery_flot_pie') }}
+    {{ encore_entry_script_tags('grandin_flotchart_jquery_flot_resize') }}
+    {{ encore_entry_script_tags('grandin_flotchart_jquery_flot_time') }}
+    {{ encore_entry_script_tags('grandin_flotchart_jquery_flot_stack') }}
+    {{ encore_entry_script_tags('grandin_flotchart_jquery_flot_crosshair') }}
+    {{ encore_entry_script_tags('grandin_flotchart_jquery_flot_tooltip') }}
+    {# {{ encore_entry_script_tags('grandin_flotchart_data') }} #}
+
+    <script type="application/javascript">
+
+        function getRandomColor() {
+            var color = Math.floor(Math.random() * 255);
+            return color;
+        }
+
+        var colorType = [];
+        {% for type in total_detail_per_type_per_month|keys %}
+            colorType["{{ type }}"] = "rgba(" + getRandomColor() + "," + getRandomColor() + "," + getRandomColor() + ",1)";
+        {% endfor %}
+
+        /***Pie Chart***/
+        if ($('#flot_pie_chart').length > 0) {
+            var pie_data = [
+                {% for detail in total_detail_per_type %}
+                {
+                    label: '{{ detail.label }} ( {{ detail.total }} € )',
+                    data: {{ detail.total }},
+                    color: colorType["{{ detail.label }}"],
+
+                },
+                {% endfor %}
+            ];
+
+            var pie_op = {
+                series: {
+                    pie: {
+                        innerRadius: 0.5,
+                        show: true,
+                        stroke: {
+                            width: 0,
+                        }
+                    }
+                },
+                legend: {
+                    backgroundColor: 'transparent',
+                },
+                grid: {
+                    hoverable: true
+                },
+                color: null,
+                tooltip: true,
+                tooltipOpts: {
+                    content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+                    shifts: {
+                        x: 20,
+                        y: 0
+                    },
+                    defaultTheme: false
+                },
+            };
+            $.plot($("#flot_pie_chart"), pie_data, pie_op);
+        }
+
+        if ($('#flot_bars_chart').length > 0) {
+            /*Defining Data*/
+            {% for type, detail in total_detail_per_type_per_month %}
+            {% set datanumer = loop.index %}
+            var d{{ loop.index }} = [];
+            {% for month, total in detail %}
+            d{{ datanumer }}.push([{{ month }}, {{ total }}]);
+            {% endfor %}
+            {% endfor %}
+
+            var ds = [
+                {% for type in total_detail_per_type_per_month|keys %}
+                {
+                    label: "{{ type }}",
+                    data: d{{ loop.index }},
+                    bars: {
+                        order: {{ loop.index }}
+                    }
+                },
+                {% endfor %}];
+
+            var stack = 0,
+                bars = true,
+                lines = true,
+                steps = true;
+
+            /*Defining Option*/
+            var sales_op = {
+                bars: {
+                    show: true,
+                    barWidth: 0.4,
+                    fill: 1,
+                    align: 'center'
+                },
+                grid: {
+                    color:  '#878787',
+                    hoverable: true,
+                    borderWidth: 0,
+                    backgroundColor: 'transparent'
+                },
+                series: {
+                    stack: stack
+                },
+                legend: {
+                    position: "se",
+                    margin: [10, 0],
+                    backgroundColor: 'transparent',
+                    noColumns: 3,
+                    container: $('#legend_flot_bars_chart'),
+                    labelBoxBorderColor: null,
+                    labelFormatter: function (label, series) {
+                        // just add some space to labes
+                        return '' + label + '&nbsp;&nbsp;';
+                    },
+                    width: 30,
+                    height: 5
+                },
+                yaxis: {
+                    font: {
+                        color: '#878787'
+                    },
+                    ticks: [
+                        [0],
+                        [10000, "10k €"],
+                        [20000, "20k €"],
+                        [40000, "40k €"],
+                        [50000, "50k €"],
+                        [60000, "60k €"],
+                        [70000, "70k €"],
+                        [80000, "80k €"],
+                        [90000, "90k €"],
+                        [100000, "100k €"],
+                    ],
+                },
+                xaxis: {
+                    ticks: [
+                        [1, "Janvier"],
+                        [2, "Février"],
+                        [3, "Mars"],
+                        [4, "Avril"],
+                        [5, "Mai"],
+                        [6, "Juin"],
+                        [7, "Juillet"],
+                        [8, "Août"],
+                        [9, "Septembre"],
+                        [10, "Octobre"],
+                        [11, "Novenbre"],
+                        [12, "Décembre"]
+                    ],
+                    min:0,
+                    max:12,
+                    font: {
+                        color: '#878787'
+                    }
+                },
+                colors: [
+                        {% for type in total_detail_per_type_per_month|keys %}
+                        colorType["{{ type }}"],
+                        {% endfor %}
+
+                    ],
+                tooltip: true, //activate tooltip
+                tooltipOpts: {
+                    content: "%s : %y.0",
+                    shifts: {
+                        x: -30,
+                        y: -50
+                    }
+                }
+            };
+
+            $.plot($("#flot_bars_chart"), ds, sales_op);
+        }
+    </script>
+{% endblock %}

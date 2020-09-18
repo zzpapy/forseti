@@ -40,16 +40,6 @@ class Charge
     private $payedAt;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $paymentAt;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isMonthly;
-
-    /**
      * @ORM\OneToMany(targetEntity=CoefficientSpecifique::class, mappedBy="charge", orphanRemoval=true)
      */
     private $coefficientSpecifiques;
@@ -65,6 +55,16 @@ class Charge
      * @ORM\JoinColumn(nullable=false)
      */
     private $scm;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=BankAccount::class, inversedBy="charges")
+     */
+    private $bank_account;
+
+    /**
+     * @ORM\Column(type="bigint", nullable=true)
+     */
+    private $bankin_transaction_id;
 
   
 
@@ -126,30 +126,6 @@ class Charge
         return $this;
     }
 
-    public function getPaymentAt(): ?\DateTimeInterface
-    {
-        return $this->paymentAt;
-    }
-
-    public function setPaymentAt(?\DateTimeInterface $paymentAt): self
-    {
-        $this->paymentAt = $paymentAt;
-
-        return $this;
-    }
-
-    public function getIsMonthly(): ?bool
-    {
-        return $this->isMonthly;
-    }
-
-    public function setIsMonthly(bool $isMonthly): self
-    {
-        $this->isMonthly = $isMonthly;
-
-        return $this;
-    }
-
     /**
      * @return Collection|CoefficientSpecifique[]
      */
@@ -201,6 +177,30 @@ class Charge
     public function setScm(?Scm $scm): self
     {
         $this->scm = $scm;
+
+        return $this;
+    }
+
+    public function getBankAccount(): ?BankAccount
+    {
+        return $this->bank_account;
+    }
+
+    public function setBankAccount(?BankAccount $bank_account): self
+    {
+        $this->bank_account = $bank_account;
+
+        return $this;
+    }
+
+    public function getBankinTransactionId(): ?int
+    {
+        return $this->bankin_transaction_id;
+    }
+
+    public function setBankinTransactionId(?int $bankin_transaction_id): self
+    {
+        $this->bankin_transaction_id = $bankin_transaction_id;
 
         return $this;
     }

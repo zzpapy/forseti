@@ -1,3 +1,4 @@
+{% trans_default_domain 'app' %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,8 +42,15 @@
                                 <ul class="dropdown-menu user-auth-dropdown" data-dropdown-in="flipInX"
                                     data-dropdown-out="flipOutX">
                                     <li>
-                                        <a href="{{ path('profile',{ id : app.user.id }) }}"><i class="zmdi zmdi-account"></i><span>Mon compte</span></a>
+                                        <a href="{{ path('app_profile',{ id : app.user.id }) }}"><i class="zmdi zmdi-account"></i><span>Mon compte</span></a>
                                     </li>
+                                    <li class="divider"></li>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <li>
+                                            <a href="{{ path('app_scm',{ id : app.user.scm.id }) }}"><i class="zmdi zmdi-balance mr-10"></i><span>Ma Scm</span></a>
+                                        </li>
+                                       {{ app.user.scm.id}}
+                                    {% endif %}
                                     <li class="divider"></li>
                                     <li>
                                         <a href="{{ path('app_logout') }}"><i class="zmdi zmdi-power"></i><span>Se déconnecter</span></a>
@@ -64,6 +72,11 @@
                 <li>
                     <a class="active" href="{{ path('app_login') }}">Accueil</a>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                <li>
+                    <a href="{{ path('app_charge') }}">Charges</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
         <div class="page-wrapper">

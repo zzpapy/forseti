@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="zzjZXJx" resname="amount">
+        <source>amount</source>
+        <target>montant</target>
+      </trans-unit>
+      <trans-unit id="DodjLNR" resname="date">
+        <source>date</source>
+        <target>date</target>
+      </trans-unit>
+      <trans-unit id="yQRveje" resname="description">
+        <source>description</source>
+        <target>description</target>
+      </trans-unit>
+      <trans-unit id="pWFFJwz" resname="id">
+        <source>id</source>
+        <target>identifiant</target>
+      </trans-unit>
+      <trans-unit id="o6SkEbl" resname="Editable table with fixed constraint.">
+        <source>Editable table with fixed constraint.</source>
+        <target>mescouilles</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class ProfileController extends RegistrationController
 {
     /**
-     * @Route("/profile/{id<\d+>}", name="profile")
+     * @Route("/profile/{id<\d+>}", name="app_profile")
      */
     public function index(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -47,7 +47,7 @@ class ProfileController extends RegistrationController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-            return $this->redirectToRoute('profile', ['id' => $user->getId()]);
+            return $this->redirectToRoute('app_profile', ['id' => $user->getId()]);
         }
         if ($passForm->isSubmitted() && $passForm->isValid()) {
             $encodedPassword = $passwordEncoder->encodePassword(
@@ -57,13 +57,16 @@ class ProfileController extends RegistrationController
 
             $user->setPassword($encodedPassword);
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('profile', ['id' => $user->getId()]);
+            return $this->redirectToRoute('app_profile', ['id' => $user->getId()]);
         }
+
+        $scmEntity = $user->getScm();
 
         return $this->render('profile/profile.html.twig', [
             'controller_name' => 'ProfileController',
             'edit_profile' => $form->createView(),
-            'edit_password' => $passForm->createView()
+            'edit_password' => $passForm->createView(),
+            'scm' => $scmEntity
         ]);
     }
 
