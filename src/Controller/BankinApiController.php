@@ -25,7 +25,7 @@ class BankinApiController extends AbstractController
     /**
      * @Route("/bankin", name="bankin_app")
      */
-    public function index()
+    public function bankin()
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         
@@ -59,6 +59,8 @@ class BankinApiController extends AbstractController
      */
     public function accountlist(Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         if($request->get('success')){
             $authToken = $this->session->get('bankin_api_auth_token');
             $accountList = $this->bankinApiManager->listAccounts($authToken);
@@ -105,5 +107,10 @@ class BankinApiController extends AbstractController
         $this->session->set('bankin_account_id', $this->getUser()->getScm()->getBankAccount()->getBankinAccountId());
 
         return $this->redirectToRoute('app_charge');
+    }
+
+    protected function reconnectApiUser(){
+        $apiResponse = $this->bankinApiManager->authenticateApiUser($this->getUser()->getApiUser()->getEmail(), $this->getUser()->getApiUser()->getPassword());
+        $this->session->set('bankin_api_auth_token', $apiResponse['access_token']);
     }
 }

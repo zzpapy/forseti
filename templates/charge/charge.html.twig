@@ -34,7 +34,6 @@
                                                 <td>{{ detail }}</td>
                                             {% endfor %}
                                             <td>
-{#                                                class="selectpicker" data-style="form-control btn-default btn-outline"#}
                                                 <select name="{{ transac.id }}" id="select-charge-type-{{ transac.id }}" class="selectpicker" data-style="form-control btn-default btn-outline" >
                                                     <option value="" selected="selected">Choisir ...</option>
                                                     {% for option in type_list %}

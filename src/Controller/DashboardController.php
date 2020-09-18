@@ -11,7 +11,7 @@ class DashboardController extends BankinApiController
     /**
      * @Route("/dashboard", name="app_dashboard")
      */
-    public function index()
+    public function dashboard()
     {
         $authToken = $this->session->get('bankin_api_auth_token');
         $accountId = $this->session->get('bank_account_id');

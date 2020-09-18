@@ -9,12 +9,9 @@ $(document).ready(function () {
         }
     });
 
-    $('#edit_datable_charge').on('draw.dt', function (){
+    $('#edit_datable_charge').on('draw.dt', function () {
         $('.selectpicker').selectpicker();
     });
-
-
-
 
     $('.validate-chargetype').on('click', function (e) {
         e.preventDefault();
@@ -23,9 +20,7 @@ $(document).ready(function () {
 
         let chargeTypeId = $("#select-charge-type-" + transacId).val();
 
-        if(chargeTypeId >= 1){
-
-
+        if (chargeTypeId >= 1) {
             swal({
                 title: "Catégoriser toutes les occurences",
                 text: "Voulez-vous catégoriser toutes les occurences de cette transaction ?",
@@ -35,20 +30,20 @@ $(document).ready(function () {
                 confirmButtonText: "Oui",
                 cancelButtonText: "Non",
                 closeOnConfirm: false
-            },function(isConfirm) {
+            }, function (isConfirm) {
                 if (isConfirm) {
                     $.ajax({
                         method: "GET",
                         url: url,
-                        data: { transactionid: transacId, chargetypeid: chargeTypeId, all:true }
+                        data: {transactionid: transacId, chargetypeid: chargeTypeId, all: true}
                     })
-                        .done(function( json ) {
+                        .done(function (json) {
                             var dataTable = $('#edit_datable_charge').DataTable();
-                            $.each(json.transactionids,function (){
-                                dataTable.row( $("#row-"+ this) ).remove();
+                            $.each(json.transactionids, function () {
+                                dataTable.row($("#row-" + this)).remove();
                             });
-                                dataTable.draw();
-                                $("#count-transactions").html(json.count);
+                            dataTable.draw();
+                            $("#count-transactions").html(json.count);
                             swal({
                                 title: "Charges sauvegardées",
                                 type: "success",
@@ -60,10 +55,10 @@ $(document).ready(function () {
                     $.ajax({
                         method: "GET",
                         url: url,
-                        data: { transactionid: transacId, chargetypeid: chargeTypeId }
+                        data: {transactionid: transacId, chargetypeid: chargeTypeId}
                     })
-                        .done(function( json ) {
-                            $('#edit_datable_charge').DataTable().row( $("#row-"+transacId) ).remove().draw();
+                        .done(function (json) {
+                            $('#edit_datable_charge').DataTable().row($("#row-" + transacId)).remove().draw();
                             swal({
                                 title: "Charge sauvegardée",
                                 type: "success",

@@ -3,37 +3,25 @@
 namespace App\Controller;
 
 use App\Service\ChargeManager;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Controller\BankinApiController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\ChargeType;
-use App\Service\BankinApiManager;
 use App\Entity\Charge;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 
-class ChargeController extends AbstractController
+class ChargeController extends BankinApiController
 {
-
-    private $chargeManager;
-    private $bankinApiManager;
-    private $session;
-
-    public function __construct(ChargeManager $chargeManager, BankinApiManager $bankinApiManager, SessionInterface $session)
-    {
-        $this->chargeManager = $chargeManager;
-        $this->bankinApiManager = $bankinApiManager;
-        $this->session = $session;
-    }
 
     /**
      * @Route("/charge", name="app_charge")
      */
-    public function index()
+    public function charge(ChargeManager $chargeManager)
     {
-
-        $transactionList = $this->chargeManager->getTransactionToSynchronise('onlyCharge');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->reconnectApiUser();
+        $transactionList = $chargeManager->getTransactionToSynchronise('onlyCharge');
 
         if ($transactionList) {
             $transactionListKeys = array_keys($transactionList[0]);
@@ -48,9 +36,28 @@ class ChargeController extends AbstractController
                 'transaction_list_keys' => $transactionListKeys,
                 'type_list' => $typeList
             ]);
+        }else{
+            return $this->redirectToRoute('app_charge_dashboard');
         }
-        return $this->redirectToRoute('home');
 
+    }
+
+    /**
+     * @Route("/charge/dashboard", name="app_charge_dashboard")
+     *
+     */
+    public function dashboard(ChargeManager $chargeManager){
+
+        $totalDetail = $chargeManager->calculatePercentCharge();
+
+        $totalDetail2 = $chargeManager->getChargePerMonthPerType();
+
+
+        return $this->render('charge/charge_dashboard.html.twig', [
+            'controller_name' => 'ChargeController',
+            'total_detail_per_type' => $totalDetail,
+            'total_detail_per_type_per_month' => $totalDetail2
+        ]);
     }
 
     /**
@@ -58,7 +65,7 @@ class ChargeController extends AbstractController
      * @Route("/ajax/chargetype/{transactionid}/{chargetypeid}", name="app_ajax_chargetype")
      * @Route("/ajax/chargetype/{transactionid}/{chargetypeid}/{all}", name="app_ajax_chargetype")
      */
-    public function ajaxChargeType(Request $request)
+    public function ajaxChargeType(Request $request, ChargeManager $chargeManager)
     {
         $transacId = $request->get('transactionid');
         $chargeTypeId = $request->get('chargetypeid');
@@ -72,7 +79,7 @@ class ChargeController extends AbstractController
         $transaction = $this->bankinApiManager->getTransaction($authToken, $transacId);
 
         if ($all) {
-            $transactions = $this->chargeManager->getTransactionToSynchronise('onlyCharge');
+            $transactions = $chargeManager->getTransactionToSynchronise('onlyCharge');
 
             $rowToDelete = [];
 

@@ -8,6 +8,7 @@ use App\Repository\BankAccountRepository;
 use App\Repository\ChargeRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Service\BankinApiManager;
+use Symfony\Component\Validator\Constraints\Date;
 
 class ChargeManager
 {
@@ -92,5 +93,37 @@ class ChargeManager
             }
         }
         return $chargeList;
+    }
+
+    public function calculatePercentCharge(){
+        $bankAccount = $this->accountRepository->find($this->bankAccountId);
+        $scm = $bankAccount->getScm();
+        $dateStart = date('Y-m-d', strtotime($scm->getAccountingExerciceStartAt()->format('Y-m-d'). '-1 days'));
+        $dateEnd = date('Y-m-d', strtotime($scm->getAccountingExerciceEndAt()->format('Y-m-d') . '+1 days'));
+
+        $detailCharge = $this->chargeRepository->getTotalPerChargeType($scm->getId(),$dateStart,$dateEnd);
+        $total = $this->chargeRepository->getTotalCharge($scm->getId(),$dateStart,$dateEnd);
+        if(count($detailCharge) && !is_null($total)){
+            foreach ($detailCharge as $key => $detail){
+                $detailCharge[$key]['total'] = abs($detail['total']);
+                $detailCharge[$key]['percent'] = round(abs($detail['total'])*100/abs($total));
+            }
+            return $detailCharge;
+        }
+        return false;
+    }
+
+    public function getChargePerMonthPerType(){
+        $bankAccount = $this->accountRepository->find($this->bankAccountId);
+        $scm = $bankAccount->getScm();
+        $dateStart = date('Y-m-d', strtotime($scm->getAccountingExerciceStartAt()->format('Y-m-d'). '-1 days'));
+        $dateEnd = date('Y-m-d', strtotime($scm->getAccountingExerciceEndAt()->format('Y-m-d') . '+1 days'));
+        $results = $this->chargeRepository->getTotalChargePerMonthPerType($scm->getId(),$dateStart,$dateEnd);
+
+        $formattedResults = [];
+        foreach ($results as $key => $result){
+            $formattedResults[$result['label']][$result['mois']] = abs($result['total']);
+        }
+        return $formattedResults;
     }
 }

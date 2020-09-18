@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Charge;
+use App\Entity\ChargeType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * @method Charge|null find($id, $lockMode = null, $lockVersion = null)
@@ -36,15 +38,63 @@ class ChargeRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Charge
+
+    /**
+     * SELECT SUM(c.total) as 'total', ct.label FROM charge as c
+     *    INNER JOIN charge_type as ct ON c.type_id = ct.id
+     *    WHERE c.scm_id = 1 AND c.payed_at > '2019-12-31 00:00:00' AND c.payed_at < NOW() GROUP BY c.type_id ORDER BY c.type_id ASC;
+     */
+    public function getTotalPerChargeType($scm_id, $startDate, $endDate)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+            ->select('SUM(c.total) as total', 'ct.label')
+            ->innerjoin(ChargeType::class, 'ct', Join::WITH, 'c.type = ct.id')
+            ->andWhere('c.scm = :scm_id')
+            ->andWhere('c.payedAt > :start')
+            ->andWhere('c.payedAt < :end')
+            ->groupBy('c.type')
+            ->orderBy('c.type')
+            ->setParameter('scm_id', $scm_id)
+            ->setParameter('start', $startDate)
+            ->setParameter('end', $endDate)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getArrayResult();
     }
-    */
+
+    public function getTotalCharge($scm_id, $startDate, $endDate)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('SUM(c.total) as total')
+            ->andWhere('c.scm = :scm_id')
+            ->andWhere('c.payedAt > :start')
+            ->andWhere('c.payedAt < :end')
+            ->setParameter('scm_id', $scm_id)
+            ->setParameter('start', $startDate)
+            ->setParameter('end', $endDate)
+            ->getQuery()->getSingleResult()['total'];
+    }
+
+    /**
+     * SELECT SUM(c.id) total, ct.label, MONTH(payed_at) mois FROM charge c
+     * INNER JOIN charge_type ct on c.type_id = ct.id
+     * WHERE c.scm_id = 1 GROUP BY MONTH(payed_at), c.type_id;
+     */
+    public function getTotalChargePerMonthPerType($scm_id, $startDate, $endDate)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('SUM(c.total) as total', 'ct.label', 'MONTH(c.payedAt) as mois')
+            ->innerjoin(ChargeType::class, 'ct', Join::WITH, 'c.type = ct.id')
+            ->andWhere('c.scm = :scm_id')
+            ->andWhere('c.payedAt > :start')
+            ->andWhere('c.payedAt < :end')
+            ->groupBy('mois, c.type')
+            ->orderBy('mois')
+            ->setParameter('scm_id', $scm_id)
+            ->setParameter('start', $startDate)
+            ->setParameter('end', $endDate)
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+
 }
