@@ -62,6 +62,11 @@
             return color;
         }
 
+        var colorType = [];
+        {% for type in total_detail_per_type_per_month|keys %}
+            colorType["{{ type }}"] = "rgba(" + getRandomColor() + "," + getRandomColor() + "," + getRandomColor() + ",1)";
+        {% endfor %}
+
         /***Pie Chart***/
         if ($('#flot_pie_chart').length > 0) {
             var pie_data = [
@@ -69,7 +74,7 @@
                 {
                     label: '{{ detail.label }} ( {{ detail.total }} € )',
                     data: {{ detail.total }},
-                    color: "rgba(" + getRandomColor() + "," + getRandomColor() + "," + getRandomColor() + ",1)",
+                    color: colorType["{{ detail.label }}"],
 
                 },
                 {% endfor %}
@@ -200,7 +205,12 @@
                         color: '#878787'
                     }
                 },
-                colors: ["#76c880", "#e3c94b", "#2196F3"],
+                colors: [
+                        {% for type in total_detail_per_type_per_month|keys %}
+                        colorType["{{ type }}"],
+                        {% endfor %}
+
+                    ],
                 tooltip: true, //activate tooltip
                 tooltipOpts: {
                     content: "%s : %y.0",
