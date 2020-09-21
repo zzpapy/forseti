@@ -110,17 +110,23 @@ class BankinApiManager
         return $response->toArray();
     }
 
-    public function listTransactionsByAccountByDate($authToken, $bankAccountId, $dateSince, $dateUntil, $limit = 500)
+    public function listTransactionsByAccountByDate($authToken, $bankAccountId, $dateSince, $dateUntil, $limit = 500, $paginateUrl = false)
     {
-        $response = $this->bankin->request('GET', "/v2/accounts/$bankAccountId/transactions?limit=$limit&since=$dateSince&until=$dateUntil", [
-//        $response = $this->bankin->request('GET', "/v2/accounts/20904719/transactions?after=MjAyMC0wNy0wMzozODAwMDE1NzI1NTI3OA%3D%3D&limit=500&since=2020-01-01&until=2020-12-31", [
+        $url = ($paginateUrl !== false)?  $paginateUrl : "/v2/accounts/$bankAccountId/transactions?limit=$limit&since=$dateSince&until=$dateUntil";
+
+        $response = $this->bankin->request('GET', $url, [
             'headers' => [
                 'Authorization' => "Bearer $authToken"
             ]
         ]);
 
-//        dd($response->toArray()['resources']);
-        return $response->toArray()['resources'];
+        $result = $response->toArray()['resources'];
+
+        if(isset($response->toArray()['pagination']) && isset($response->toArray()['pagination']['next_uri']) && !is_null($response->toArray()['pagination']['next_uri'])){
+            $result = array_merge($result, $this->listTransactionsByAccountByDate($authToken, $bankAccountId, $dateSince, $dateUntil, $limit, $response->toArray()['pagination']['next_uri']));
+        }
+
+        return $result;
     }
 
     public function getTransaction($authToken, $transactionId){

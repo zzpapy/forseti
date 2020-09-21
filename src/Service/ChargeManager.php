@@ -39,11 +39,10 @@ class ChargeManager
     {
         $bankAccount = $this->accountRepository->find($this->bankAccountId);
         $scm = $bankAccount->getScm();
-        $dateSince = $scm->getAccountingExerciceStartAt();
-        $dateUntil = $scm->getAccountingExerciceEndAt();
+        $dateSince = $scm->getAccountingExerciceStartAt()->format('Y-m-d');
+        $dateUntil = $scm->getAccountingExerciceEndAt()->format('Y-m-d');
 
-
-        $transactionList = $this->bankinApiManager->listTransactionsByAccountByDate($this->session->get('bankin_api_auth_token'), $this->bankinAccountId, $dateSince->format('Y-m-d'), $dateUntil->format('Y-m-d'));
+        $transactionList = $this->bankinApiManager->listTransactionsByAccountByDate($this->session->get('bankin_api_auth_token'), $this->bankinAccountId, $dateSince, $dateUntil);
 
         switch ($filter) {
             case 'onlyCharge':
