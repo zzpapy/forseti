@@ -83,7 +83,6 @@ Encore
     .addEntry('grandin_flotchart_jquery_flot_stack', './assets/grandin_theme/vendors/bower_components/Flot/jquery.flot.stack.js')
     .addEntry('grandin_flotchart_jquery_flot_crosshair', './assets/grandin_theme/vendors/bower_components/Flot/jquery.flot.crosshair.js')
     .addEntry('grandin_flotchart_jquery_flot_tooltip', './assets/grandin_theme/vendors/bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js')
-    // .addEntry('grandin_flotchart_data', './assets/grandin_theme/js/flot-data.js')
 
     // Init
     .addEntry('grandin_init', './assets/grandin_theme/js/init.js')

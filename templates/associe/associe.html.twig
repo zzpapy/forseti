@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des associés{% endblock %}
+
+{% block page_title %}Gestion des associés{% endblock %}
+{% block page_breadcrumbs %}
+    <li><a href="{{ path('home') }}">Accueil</a></li>
+    <li class="active">Associés</li>{% endblock %}
+{% block body %}
+    <div class="col-sm-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark">Modification des clés de répartition</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <p class="text-muted">Veuillez ajouter les clés de répartition pour chaque associé.</p>
+                    <div class="pills-struct vertical-pills mt-40">
+                        <ul role="tablist" class="nav nav-pills ver-nav-pills" id="myTabs_10">
+                            {% for user in assoc_form_list|keys %}
+                                <li{% if loop.first %} class="active" {% endif %}><a aria-expanded="true" data-toggle="tab" role="tab"
+                                       id="tab_{{ user }}" href="#content_{{ user }}">{{ user }}</a></li>
+                            {% endfor %}
+                        </ul>
+                        <div class="tab-content" id="myTabContent_10">
+                            {% for user, assoc_form in assoc_form_list %}
+                                <div id="content_{{ user }}" class="tab-pane {% if loop.first %} active in {% endif %} fade" role="tabpanel">
+                                    {{ form(assoc_form) }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

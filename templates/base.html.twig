@@ -36,20 +36,25 @@
                     {# User Profile #}
                     <li>
                         <div class="user-profile text-center">
-                            <img src="{{ asset("uploads/" ~ app.user.picture()) }}" alt="user_auth" class="user-auth-img img-circle"/>
+                            <img src="{{ asset("uploads/" ~ app.user.picture()) }}" alt="user_auth"
+                                 class="user-auth-img img-circle"/>
                             <div class="dropdown mt-5">
-                                <a href="#" class="dropdown-toggle pr-0 bg-transparent" data-toggle="dropdown">{{ app.user.firstname ~ " " ~ app.user.lastname }}<span class="caret"></span></a>
+                                <a href="#" class="dropdown-toggle pr-0 bg-transparent"
+                                   data-toggle="dropdown">{{ app.user.firstname ~ " " ~ app.user.lastname }}<span
+                                            class="caret"></span></a>
                                 <ul class="dropdown-menu user-auth-dropdown" data-dropdown-in="flipInX"
                                     data-dropdown-out="flipOutX">
                                     <li>
-                                        <a href="{{ path('app_profile',{ id : app.user.id }) }}"><i class="zmdi zmdi-account"></i><span>Mon compte</span></a>
+                                        <a href="{{ path('app_profile',{ id : app.user.id }) }}"><i
+                                                    class="zmdi zmdi-account"></i><span>Mon compte</span></a>
                                     </li>
                                     <li class="divider"></li>
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <li>
-                                            <a href="{{ path('app_scm',{ id : app.user.scm.id }) }}"><i class="zmdi zmdi-balance mr-10"></i><span>Ma Scm</span></a>
+                                            <a href="{{ path('app_scm',{ id : app.user.scm.id }) }}"><i
+                                                        class="zmdi zmdi-balance mr-10"></i><span>Ma Scm</span></a>
                                         </li>
-                                       {{ app.user.scm.id}}
+                                        {{ app.user.scm.id }}
                                     {% endif %}
                                     <li class="divider"></li>
                                     <li>
@@ -73,9 +78,12 @@
                     <a class="active" href="{{ path('app_login') }}">Accueil</a>
                 </li>
                 {% if is_granted('ROLE_ADMIN') %}
-                <li>
-                    <a href="{{ path('app_charge') }}">Charges</a>
-                </li>
+                    <li>
+                        <a href="{{ path('app_charge') }}">Charges</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('app_associe') }}">Associés</a>
+                    </li>
                 {% endif %}
             </ul>
         </div>

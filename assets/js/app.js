@@ -27,10 +27,10 @@ import '../grandin_theme/vendors/bower_components/jasny-bootstrap/dist/css/jasny
 import '../grandin_theme/vendors/bower_components/sweetalert/dist/sweetalert.css';
 
 // Boostrap Treeview
-import '../grandin_theme/vendors/bower_components/bootstrap-treeview/dist/bootstrap-treeview.min.css'
+import '../grandin_theme/vendors/bower_components/bootstrap-treeview/dist/bootstrap-treeview.min.css';
 
 // Select
-import '../grandin_theme/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css'
+import '../grandin_theme/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css';
 
 // custom style
 import '../grandin_theme/css/style.css';
@@ -41,6 +41,5 @@ import '../css/app.css';
 const $ = require('jquery');
 // create global $ and jQuery variables
 global.$ = global.jQuery = $;
-
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';

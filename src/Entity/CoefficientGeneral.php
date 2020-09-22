@@ -23,15 +23,15 @@ class CoefficientGeneral
     private $coefficient;
 
     /**
-     * @ORM\Column(type="smallint")
-     */
-    private $month;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="coefficient_general")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $month;
 
     public function getId(): ?int
     {
@@ -50,18 +50,6 @@ class CoefficientGeneral
         return $this;
     }
 
-    public function getMonth(): ?int
-    {
-        return $this->month;
-    }
-
-    public function setMonth(int $month): self
-    {
-        $this->month = $month;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -70,6 +58,18 @@ class CoefficientGeneral
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getMonth(): ?\DateTimeInterface
+    {
+        return $this->month;
+    }
+
+    public function setMonth(\DateTimeInterface $month): self
+    {
+        $this->month = $month;
 
         return $this;
     }

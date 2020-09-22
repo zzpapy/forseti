@@ -369,6 +369,19 @@ class Scm
         return $this->users;
     }
 
+    public function getAssocies()
+    {
+        $col = [];
+        $users = $this->getUsers();
+        foreach ($users as $user) {
+            if (!in_array('ROLE_ADMIN', $user->getRoles())) {
+                $col[] = $user;
+            }
+        }
+        return $col;
+    }
+
+
     public function addUser(User $user): self
     {
         if (!$this->users->contains($user)) {
