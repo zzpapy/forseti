@@ -28,8 +28,6 @@
                         <div class="tab-content" id="myTabContent_10">
                                 {% set tab = [] %}
                             {% for user, assoc_form in assoc_form_list %}
-                            
-                                {# {{dump(tabAssoc[loop.index-1].coefficientgeneral.getValues)}} #}
                                 {% if tabAssoc[loop.index0].coefficientgeneral.getValues is not empty and tabAssoc[loop.index0] is defined%}
                                 {% for i in 0..tabAssoc[loop.index0].coefficientgeneral.getValues|length-1 %}
                                     {% set tab = tab|merge({(i):tabAssoc[0].coefficientgeneral.getValues[i].coefficient}) %}
@@ -39,7 +37,7 @@
                                 {% endfor %}
                                 {% endif %}
                                 <div id="content_{{ user }}" class="tab-pane {% if loop.first %} active in {% endif %} fade" role="tabpanel">
-                                {{dump(tab)}}
+                                
                                 {{form_start(assoc_form)}}
                                     {{ form_row(assoc_form.coefficient_january,{
                                         'label':'Janvier',
