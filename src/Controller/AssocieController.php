@@ -22,6 +22,7 @@ class AssocieController extends AbstractController
         // Récup les associés de cette scm
         $assoc = $this->scm->getAssocies();
         $allUsers = $this->scm->getUsers()->getValues();
+        
 
         if (count($assoc)) { // si on en a : on crée un formulaire pour les coef
 
