@@ -98,44 +98,70 @@
                                
                             {% for user, assoc_form in assoc_form_list %}
                                 <div id="content_{{ user }}" class="tab-pane {% if loop.first %} active in {% endif %} fade" role="tabpanel">
+                                <table>
                                 {{form_start(assoc_form)}}
-                                    {{ form_row(assoc_form.coefficient_january,{
-                                        'label':'Janvier',
-                                        'value':tab[user~"_0"]
+                                    <td>
+                                        {{ form_row(assoc_form.coefficient_january,{
+                                            'label':'Janvier',
+                                            'value':tab[user~"_0"]
                                         }) }}
-                                    {{ form_row(assoc_form.coefficient_february,{'label':'Février',
-                                        'value':tab[user~"_1"]
-                                    }) }}
-                                    {{ form_row(assoc_form.coefficient_march,{'label':'Mars',
-                                        'value':tab[user~"_2"]
-                                    }) }}
-                                    {{ form_row(assoc_form.coefficient_april,{'label':'Avril',
-                                        'value':tab[user~"_3"]
-                                    }) }}
-                                    {{ form_row(assoc_form.coefficient_may,{'label':'Mai',
-                                        'value':tab[user~"_4"]
-                                    }) }}
-                                    {{ form_row(assoc_form.coefficient_june,{'label':'Juin',
-                                        'value':tab[user~"_5"]
-                                    }) }}
-                                    {{ form_row(assoc_form.coefficient_july,{'label':'Juillet',
-                                        'value':tab[user~"_6"]
-                                    }) }}
-                                    {{ form_row(assoc_form.coefficient_august,{'label':'Août',
-                                        'value':tab[user~"_7"]
-                                    }) }}
-                                    {{ form_row(assoc_form.coefficient_september,{'label':'Septembre',
-                                        'value':tab[user~"_8"]
-                                    }) }}
-                                    {{ form_row(assoc_form.coefficient_october,{'label':'Octobre',
-                                        'value':tab[user~"_9"]
-                                    }) }}
-                                    {{ form_row(assoc_form.coefficient_november,{'label':'Novembre',
-                                        'value':tab[user~"_10"]
-                                    }) }}
-                                    {{ form_row(assoc_form.coefficient_december,{'label':'Décembre',
-                                        'value':tab[user~"_11"]
-                                    }) }}
+                                    </td>
+                                    <td>
+                                        {{ form_row(assoc_form.coefficient_february,{'label':'Février',
+                                            'value':tab[user~"_1"]
+                                        }) }}
+                                    </td>
+                                    <td>
+                                        {{ form_row(assoc_form.coefficient_march,{'label':'Mars',
+                                            'value':tab[user~"_2"]
+                                        }) }}
+                                    </td>
+                                    <td>
+                                        {{ form_row(assoc_form.coefficient_april,{'label':'Avril',
+                                            'value':tab[user~"_3"]
+                                        }) }}
+                                    </td>
+                                    <td>
+                                        {{ form_row(assoc_form.coefficient_may,{'label':'Mai',
+                                            'value':tab[user~"_4"]
+                                        }) }}
+                                    </td>
+                                    <td>
+                                        {{ form_row(assoc_form.coefficient_june,{'label':'Juin',
+                                            'value':tab[user~"_5"]
+                                        }) }}
+                                    </td>
+                                    <td>
+                                        {{ form_row(assoc_form.coefficient_july,{'label':'Juillet',
+                                            'value':tab[user~"_6"]
+                                        }) }}
+                                    </td>
+                                    <td>
+                                        {{ form_row(assoc_form.coefficient_august,{'label':'Août',
+                                            'value':tab[user~"_7"]
+                                        }) }}
+                                    </td>
+                                    <td>
+                                        {{ form_row(assoc_form.coefficient_september,{'label':'Septembre',
+                                            'value':tab[user~"_8"]
+                                        }) }}
+                                    </td>
+                                    <td>
+                                        {{ form_row(assoc_form.coefficient_october,{'label':'Octobre',
+                                            'value':tab[user~"_9"]
+                                        }) }}
+                                    </td>
+                                    <td>
+                                        {{ form_row(assoc_form.coefficient_november,{'label':'Novembre',
+                                            'value':tab[user~"_10"]
+                                        }) }}
+                                    </td>
+                                    <td>
+                                        {{ form_row(assoc_form.coefficient_december,{'label':'Décembre',
+                                            'value':tab[user~"_11"]
+                                        }) }}
+                                    </table>
+                                    </td>
                                     <input type="hidden" name="user_id" value="{{ user }}" />
                                     <button type="submit">Enregistrer</button>
                                 {{form_end(assoc_form)}}
