@@ -20,40 +20,67 @@
                     <p class="text-muted">Veuillez ajouter les clés de répartition pour chaque associé.</p>
                     <div class="pills-struct vertical-pills mt-40">
                         <ul role="tablist" class="nav nav-pills ver-nav-pills" id="myTabs_10">
+                         {% set tab = [] %}
                             {% for user in assoc_form_list|keys %}
+                            {{user}}
                                 <li{% if loop.first %} class="active" {% endif %}><a aria-expanded="true" data-toggle="tab" role="tab"
-                                       id="tab_{{ user }}" href="#content_{{ user }}">{{ user }}</a></li>
+                                    id="tab_{{ user }}" href="#content_{{ user }}">{{ user }}</a></li>
+                                    {% set index = loop.index0 %}
+                                    {% if tabAssoc[index] is not empty and tabAssoc[index] is defined%}
+                                        {% for i in 0..tabAssoc[index]|length-1 %}
+                                            {% set tab = tab|merge({(user~"_"~i):tabAssoc[index][i].coefficient}) %}
+                                        {% endfor %}
+                                    {% else %}  
+                                    {% for i in 0..11 %}                              
+                                        {% set tab = tab|merge({(user~"_"~i):""}) %}
+                                    {% endfor %}
+                                    
+                                    {% endif %}
                             {% endfor %}
                         </ul>
                         <div class="tab-content" id="myTabContent_10">
-                                {% set tab = [] %}
+                               
                             {% for user, assoc_form in assoc_form_list %}
-                                {% if tabAssoc[loop.index0].coefficientgeneral.getValues is not empty and tabAssoc[loop.index0] is defined%}
-                                {% for i in 0..tabAssoc[loop.index0].coefficientgeneral.getValues|length-1 %}
-                                    {% set tab = tab|merge({(i):tabAssoc[0].coefficientgeneral.getValues[i].coefficient}) %}
-                                {% else %}
-                                {{toto}}
-                                    {% set tab = tab|merge({(i):["","","","","","","","","","","",""]}) %}
-                                {% endfor %}
-                                {% endif %}
                                 <div id="content_{{ user }}" class="tab-pane {% if loop.first %} active in {% endif %} fade" role="tabpanel">
-                                
                                 {{form_start(assoc_form)}}
+                                {{user}}
                                     {{ form_row(assoc_form.coefficient_january,{
                                         'label':'Janvier',
-                                        'value':''
+                                        'value':tab[user~"_0"]
                                         }) }}
-                                    {{ form_row(assoc_form.coefficient_february,{'label':'Février'}) }}
-                                    {{ form_row(assoc_form.coefficient_march,{'label':'Mars'}) }}
-                                    {{ form_row(assoc_form.coefficient_april,{'label':'Avril'}) }}
-                                    {{ form_row(assoc_form.coefficient_may,{'label':'Mai'}) }}
-                                    {{ form_row(assoc_form.coefficient_june,{'label':'Juin'}) }}
-                                    {{ form_row(assoc_form.coefficient_july,{'label':'Juillet'}) }}
-                                    {{ form_row(assoc_form.coefficient_august,{'label':'Août'}) }}
-                                    {{ form_row(assoc_form.coefficient_september,{'label':'Septembre'}) }}
-                                    {{ form_row(assoc_form.coefficient_october,{'label':'Octobre'}) }}
-                                    {{ form_row(assoc_form.coefficient_november,{'label':'Novembre'}) }}
-                                    {{ form_row(assoc_form.coefficient_december,{'label':'Décembre'}) }}
+                                    {{ form_row(assoc_form.coefficient_february,{'label':'Février',
+                                        'value':tab[user~"_1"]
+                                    }) }}
+                                    {{ form_row(assoc_form.coefficient_march,{'label':'Mars',
+                                        'value':tab[user~"_2"]
+                                    }) }}
+                                    {{ form_row(assoc_form.coefficient_april,{'label':'Avril',
+                                        'value':tab[user~"_3"]
+                                    }) }}
+                                    {{ form_row(assoc_form.coefficient_may,{'label':'Mai',
+                                        'value':tab[user~"_4"]
+                                    }) }}
+                                    {{ form_row(assoc_form.coefficient_june,{'label':'Juin',
+                                        'value':tab[user~"_5"]
+                                    }) }}
+                                    {{ form_row(assoc_form.coefficient_july,{'label':'Juillet',
+                                        'value':tab[user~"_6"]
+                                    }) }}
+                                    {{ form_row(assoc_form.coefficient_august,{'label':'Août',
+                                        'value':tab[user~"_7"]
+                                    }) }}
+                                    {{ form_row(assoc_form.coefficient_september,{'label':'Septembre',
+                                        'value':tab[user~"_8"]
+                                    }) }}
+                                    {{ form_row(assoc_form.coefficient_october,{'label':'Octobre',
+                                        'value':tab[user~"_9"]
+                                    }) }}
+                                    {{ form_row(assoc_form.coefficient_november,{'label':'Novembre',
+                                        'value':tab[user~"_10"]
+                                    }) }}
+                                    {{ form_row(assoc_form.coefficient_december,{'label':'Décembre',
+                                        'value':tab[user~"_11"]
+                                    }) }}
                                     <input type="hidden" name="user_id" value="{{ user }}" />
                                     <button type="submit">Enregistrer</button>
                                 {{form_end(assoc_form)}}

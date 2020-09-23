@@ -110,11 +110,22 @@ class AssocieController extends AbstractController
                     
                 }
             }
+            $tabCoefsUsers = [];
+            foreach ($assoc as $key => $ceoffsuser) {
+                $listCeoffsuser = $ceoffsuser->getCoefficientGeneral();
+                $listCeoffsuser = $listCeoffsuser->filter(function($element) {
+                    return $element;
+                });
+                $listCeoffsuser = $listCeoffsuser->getValues();
+                $tabCoefsUsers[$key] = $listCeoffsuser;
+                // dump($listCeoffsuser);
+            }
+            // dd($assoc);
 
             return $this->render('associe/associe.html.twig', [
                 'controller_name' => 'AssocieController',
                 'assoc_form_list' => $formArrayView,
-                'tabAssoc' =>$assoc
+                'tabAssoc' =>$tabCoefsUsers
             ]);
         } else { // sinon on redirige vers un formulaire de créa des associés
             // TODO
