@@ -62,7 +62,6 @@ class CoefficientGeneralRepository extends ServiceEntityRepository
 
     public function getTotalUserCoefPerMonth($scm,$admin)
     { 
-        // dd($admin);
         return $this->createQueryBuilder('c')
             ->select('MONTH(c.month) AS mois, SUM(c.coefficient) as total ')
             ->innerJoin(User::class, 'u', Join::WITH, ' c.user = u.id ')

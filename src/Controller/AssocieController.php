@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\CoefficientGeneral;
 use App\Entity\User;
+use App\Repository\CoefficientGeneralRepository;
 use App\Form\CoefficientGeneralType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,15 +16,17 @@ class AssocieController extends AbstractController
     /**
      * @Route("/associe", name="app_associe")
      */
-    public function index(Request $request)
+    public function index(Request $request, CoefficientGeneralRepository $coeffRepo)
     {
         // Récup la scm
         $this->scm = $this->getUser()->getScm();
         // Récup les associés de cette scm
         $assoc = $this->scm->getAssocies();
         $allUsers = $this->scm->getUsers()->getValues();
-        
 
+        //on récup le total des coefs des users
+        $totalCoeffUsersPerMonth = $coeffRepo->getTotalUserCoefPerMonth($this->scm,$this->getUser());
+       
         if (count($assoc)) { // si on en a : on crée un formulaire pour les coef
 
             //on init tab pour forms traitement
@@ -73,16 +76,24 @@ class AssocieController extends AbstractController
                             //on récupérela valeure du mois pour récupérer la nouvelle valeure du post
                             $index = date_format($coefficientGeneral->getMonth(), "n");
                             
-                            
+                            $totalCoeff = $totalCoeffUsersPerMonth[$index-1]["total"];
                             //on vérifie que la nouvelle valeure est différente de l'actuelle
                             if($formArray[$user_id]->getData()[$keys[$index-1]] != $coefficientGeneral->getCoefficient()){
+                                //vérif si le total des coef est sup à 100                                
+                                if(($totalCoeff - $coefficientGeneral->getCoefficient()) + $formArray[$user_id]->getData()[$keys[$index-1]] <= 100){
+                                    $coefficientGeneral->setCoefficient($formArray[$user_id]->getData()[$keys[$index-1]]);
+                                }
+                                else{
+                                    $this->addFlash('error', 'le coefficient choisi est trop élévé');
+                                    return $this->redirectToRoute('app_associe');
+                                }
                                 //si nouvelle valeure on update le coefficient en récupérant la nouvelle valeure par son index
-                                $coefficientGeneral->setCoefficient($formArray[$user_id]->getData()[$keys[$index-1]]);
                                 //on stock en bdd
                                 $em = $this->getDoctrine()->getManager();
                                 $em->persist($coefficientGeneral);
                                 $em->flush();
                             }
+                            
                         }
                     }
                     else{
@@ -96,9 +107,15 @@ class AssocieController extends AbstractController
     
                             //on format le mois en DateTime
                             $dateObj   = \DateTime::createFromFormat('m', $index);
-    
+                            $totalCoeff = $totalCoeffUsersPerMonth[$index-1]["total"];
                             //on set l'objet CoefficientGeneral
-                            $coefficientGeneral->setCoefficient($coefficientGeneralRow);
+                            if($totalCoeff + $coefficientGeneralRow <= 100){
+                                $coefficientGeneral->setCoefficient($coefficientGeneralRow);
+                            }
+                            else{
+                                $this->addFlash('error', 'le coefficient choisi est trop élévé');
+                                return $this->redirectToRoute('app_associe');
+                            }
                             $coefficientGeneral->setMonth($dateObj);
                             $coefficientGeneral->setUser($user);
     
@@ -109,6 +126,7 @@ class AssocieController extends AbstractController
                             $index++;
                         }
                     }
+                    $this->addFlash('success', 'mise à jour réussie !!!');
                     return $this->redirectToRoute('app_associe');
                     
                 }
@@ -121,9 +139,7 @@ class AssocieController extends AbstractController
                 });
                 $listCeoffsuser = $listCeoffsuser->getValues();
                 $tabCoefsUsers[$key] = $listCeoffsuser;
-                // dump($listCeoffsuser);
             }
-            // dd($assoc);
 
             return $this->render('associe/associe.html.twig', [
                 'controller_name' => 'AssocieController',

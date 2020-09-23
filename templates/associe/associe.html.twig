@@ -8,6 +8,16 @@
     <li class="active">Associés</li>{% endblock %}
 {% block body %}
     <div class="col-sm-12">
+        {% for message in app.flashes('error') %}
+            <div id="alert"class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('success') %}
+            <div id="success"class="success alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
         <div class="panel panel-default card-view">
         <div class="panel panel-default card-view">
                 <div class="panel-heading">
@@ -69,7 +79,6 @@
                         <ul role="tablist" class="nav nav-pills ver-nav-pills" id="myTabs_10">
                          {% set tab = [] %}
                             {% for user in assoc_form_list|keys %}
-                            {{user}}
                                 <li{% if loop.first %} class="active" {% endif %}><a aria-expanded="true" data-toggle="tab" role="tab"
                                     id="tab_{{ user }}" href="#content_{{ user }}">{{ user }}</a></li>
                                     {% set index = loop.index0 %}
@@ -90,7 +99,6 @@
                             {% for user, assoc_form in assoc_form_list %}
                                 <div id="content_{{ user }}" class="tab-pane {% if loop.first %} active in {% endif %} fade" role="tabpanel">
                                 {{form_start(assoc_form)}}
-                                {{user}}
                                     {{ form_row(assoc_form.coefficient_january,{
                                         'label':'Janvier',
                                         'value':tab[user~"_0"]
@@ -139,4 +147,20 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block javascripts_specifique %}
+<script>
+$("#alert").slideDown(500, function(){
+    setTimeout(function(){
+        $("#alert").slideUp(500);  
+        },5000);
+});
+
+$("#success").slideDown(500, function(){
+    setTimeout(function(){
+        $("#success").slideUp(500);  
+        },5000);
+});
+
+</script>    
 {% endblock %}
