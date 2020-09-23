@@ -21,6 +21,8 @@ class AssocieController extends AbstractController
         $this->scm = $this->getUser()->getScm();
         // Récup les associés de cette scm
         $assoc = $this->scm->getAssocies();
+        $allUsers = $this->scm->getUsers()->getValues();
+
         if (count($assoc)) { // si on en a : on crée un formulaire pour les coef
 
             //on init tab pour forms traitement
@@ -125,7 +127,8 @@ class AssocieController extends AbstractController
             return $this->render('associe/associe.html.twig', [
                 'controller_name' => 'AssocieController',
                 'assoc_form_list' => $formArrayView,
-                'tabAssoc' =>$tabCoefsUsers
+                'tabAssoc' =>$tabCoefsUsers,
+                'allUsers' =>$allUsers
             ]);
         } else { // sinon on redirige vers un formulaire de créa des associés
             // TODO
