@@ -26,9 +26,39 @@
                             {% endfor %}
                         </ul>
                         <div class="tab-content" id="myTabContent_10">
+                                {% set tab = [] %}
                             {% for user, assoc_form in assoc_form_list %}
+                            
+                                {# {{dump(tabAssoc[loop.index-1].coefficientgeneral.getValues)}} #}
+                                {% if tabAssoc[loop.index0].coefficientgeneral.getValues is not empty and tabAssoc[loop.index0] is defined%}
+                                {% for i in 0..tabAssoc[loop.index0].coefficientgeneral.getValues|length-1 %}
+                                    {% set tab = tab|merge({(i):tabAssoc[0].coefficientgeneral.getValues[i].coefficient}) %}
+                                {% else %}
+                                {{toto}}
+                                    {% set tab = tab|merge({(i):["","","","","","","","","","","",""]}) %}
+                                {% endfor %}
+                                {% endif %}
                                 <div id="content_{{ user }}" class="tab-pane {% if loop.first %} active in {% endif %} fade" role="tabpanel">
-                                    {{ form(assoc_form) }}
+                                {{dump(tab)}}
+                                {{form_start(assoc_form)}}
+                                    {{ form_row(assoc_form.coefficient_january,{
+                                        'label':'Janvier',
+                                        'value':''
+                                        }) }}
+                                    {{ form_row(assoc_form.coefficient_february,{'label':'Février'}) }}
+                                    {{ form_row(assoc_form.coefficient_march,{'label':'Mars'}) }}
+                                    {{ form_row(assoc_form.coefficient_april,{'label':'Avril'}) }}
+                                    {{ form_row(assoc_form.coefficient_may,{'label':'Mai'}) }}
+                                    {{ form_row(assoc_form.coefficient_june,{'label':'Juin'}) }}
+                                    {{ form_row(assoc_form.coefficient_july,{'label':'Juillet'}) }}
+                                    {{ form_row(assoc_form.coefficient_august,{'label':'Août'}) }}
+                                    {{ form_row(assoc_form.coefficient_september,{'label':'Septembre'}) }}
+                                    {{ form_row(assoc_form.coefficient_october,{'label':'Octobre'}) }}
+                                    {{ form_row(assoc_form.coefficient_november,{'label':'Novembre'}) }}
+                                    {{ form_row(assoc_form.coefficient_december,{'label':'Décembre'}) }}
+                                    <input type="hidden" name="user_id" value="{{ user }}" />
+                                    <button type="submit">Enregistrer</button>
+                                {{form_end(assoc_form)}}
                                 </div>
                             {% endfor %}
                         </div>

@@ -14,7 +14,6 @@ class CoefficientGeneralType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('user_id', HiddenType::class)
             ->add('coefficient_january', NumberType::class)
             ->add('coefficient_february', NumberType::class)
             ->add('coefficient_march', NumberType::class)
