@@ -245,26 +245,41 @@
                 <div class="clearfix"></div>
             </div>
             <div class="panel-wrapper collapse in">
-                <div class="panel-body pb-0"></div>
-                <div class="tab-struct custom-tab-1">
-                    <ul role="tablist" class="nav nav-tabs nav-tabs-responsive" id="scm_tab_profile_head">
-                        <li class="active" role="presentation"><a data-toggle="tab" id="#identity_tab" role="tab"
-                                                                  href="#profile_8" aria-expanded="false"><span>Identité</span></a>
-                        </li>
-                        <li role="presentation" class="next"><a aria-expanded="true" data-toggle="tab" role="tab"
-                                                                id="follo_tab_8" href="#follo_8"><span>Local</span></a></li>
-                        <li role="presentation" class=""><a data-toggle="tab" id="photos_tab_8" role="tab"
-                                                            href="#photos_8"
-                                                            aria-expanded="false"><span>Montant des charges</span></a></li>
-                        <li role="presentation" class=""><a data-toggle="tab" id="earning_tab_8" role="tab"
-                                                            href="#earnings_8"
-                                                            aria-expanded="false"><span>Configuration</span></a></li>
-                    </ul>
-                    <div class="tab-content" id="scm_tab_profile_content">
-                        <div  id="identity_tab" class="tab-pane fade active in" role="tabpanel">
-                            <div class="md-12">
-                                <div class="pt-20">
-                                    Test
+                <div class="panel-body pb-0">
+                    <div class="tab-struct custom-tab-1">
+                        <ul role="tablist" class="nav nav-tabs nav-tabs-responsive" id="scm_tab_profile_head">
+                            <li class="active" role="presentation"><a data-toggle="tab" id="#identity_tab" role="tab"
+                                                                    href="#profile_8" aria-expanded="false"><span>Identité</span></a>
+                            </li>
+                            <li role="presentation" class="next"><a aria-expanded="true" data-toggle="tab" role="tab"
+                                                                    id="follo_tab_8" href="#follo_8"><span>Local</span></a></li>
+                            <li role="presentation" class=""><a data-toggle="tab" id="photos_tab_8" role="tab"
+                                                                href="#photos_8"
+                                                                aria-expanded="false"><span>Montant des charges</span></a></li>
+                            <li role="presentation" class=""><a data-toggle="tab" id="earning_tab_8" role="tab"
+                                                                href="#earnings_8"
+                                                                aria-expanded="false"><span>Configuration</span></a></li>
+                        </ul>
+                        <div class="tab-content" id="scm_tab_profile_content">
+                            <div  id="identity_tab" class="tab-pane fade active in" role="tabpanel">
+                                <div class="md-12">
+                                    <div class="pt-20">                                     
+                                        <div class="panel panel-inverse card-view">
+                                            <div class="panel-heading">
+                                                <div class="pull-left">
+                                                    <h6 class="panel-title">{{scm.companyname}}</h6>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div  class="panel-wrapper collapse in">
+                                                <div  class="panel-body">
+                                                    <p>Adresse : {{scm.address}}</p>
+                                                    <p>cp : {{scm.zipcode}}</p>
+                                                    <p>ville : {{scm.city}}</p>
+                                                </div>
+                                            </div>
+                                        </div>                                   
+                                    </div>
                                 </div>
                             </div>
                         </div>
