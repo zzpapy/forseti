@@ -107,13 +107,24 @@ class AssocieController extends AbstractController
     
                             //on format le mois en DateTime
                             $dateObj   = \DateTime::createFromFormat('m', $index);
-                            $totalCoeff = $totalCoeffUsersPerMonth[$index-1]["total"];
-                            //on set l'objet CoefficientGeneral
-                            if($totalCoeff + $coefficientGeneralRow <= 100){
+                            $totalCoeff = $totalCoeffUsersPerMonth;
+
+                            //on vérif si il ya déjà des coefs entregistrés
+                            if(count($totalCoeff)){
+                                $totalCoeff = $totalCoeff[$index-1]["total"];
+                                //on set l'objet CoefficientGeneral
+                                if($totalCoeff + $coefficientGeneralRow <= 100){
+                                    $coefficientGeneral->setCoefficient($coefficientGeneralRow);
+                                }
+                                else{
+                                    $this->addFlash('error', 'le coefficient choisi est trop élévé');
+                                    return $this->redirectToRoute('app_associe');
+                                }
+                            }
+                            elseif($coefficientGeneralRow <= 100){
                                 $coefficientGeneral->setCoefficient($coefficientGeneralRow);
                             }
                             else{
-                                $this->addFlash('error', 'le coefficient choisi est trop élévé');
                                 return $this->redirectToRoute('app_associe');
                             }
                             $coefficientGeneral->setMonth($dateObj);
