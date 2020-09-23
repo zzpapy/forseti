@@ -28,7 +28,7 @@
                 </div>
                 <div class="panel-wrapper collapse in">
                     <div class="panel-body">
-                        <div class="table-wrap mt-40">
+                        <div class="table-wrap ">
                             <div class="table-responsive">
                                 <table class="table table-striped mb-0">
                                 <thead>
@@ -52,8 +52,8 @@
                                 <tbody>
                                 {% for user in allUsers %}
                                     <tr>
-                                    <td>{{user.lastname}}</td>
-                                    <td>{{user.firstname}}</td>
+                                    <td>{{user.lastname|capitalize}}</td>
+                                    <td>{{user.firstname|capitalize}} {% if 'ROLE_ADMIN' in user.roles %}(administrateur)     {% endif %}</td>
                                     {% for coeff in user.coefficientgeneral.values %}
                                         <td>{{coeff.coefficient}}</td>                                                  
                                     {% endfor %}
@@ -75,7 +75,7 @@
             <div class="panel-wrapper collapse in">
                 <div class="panel-body">
                     <p class="text-muted">Veuillez ajouter les clés de répartition pour chaque associé.</p>
-                    <div class="pills-struct vertical-pills mt-40">
+                    <div class="pills-struct horizontal-pills mt-40">
                         <ul role="tablist" class="nav nav-pills ver-nav-pills" id="myTabs_10">
                          {% set tab = [] %}
                             {% for user in assoc_form_list|keys %}
