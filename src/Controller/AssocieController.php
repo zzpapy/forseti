@@ -81,13 +81,18 @@ class AssocieController extends AbstractController
                             //on vérifie que la nouvelle valeure est différente de l'actuelle
                             if($formArray[$user_id]->getData()[$keys[$index-1]] != $coefficientGeneral->getCoefficient()){
                                 //vérif si le total des coef est sup à 100                                
-                                if(($totalCoeff - $coefficientGeneral->getCoefficient()) + $formArray[$user_id]->getData()[$keys[$index-1]] <= 100){
+                                if(($totalCoeff - $coefficientGeneral->getCoefficient()) + $formArray[$user_id]->getData()[$keys[$index-1]] <= 100 && $formArray[$user_id]->getData()[$keys[$index-1]] > 0){
                                     $coefficientGeneral->setCoefficient($formArray[$user_id]->getData()[$keys[$index-1]]);
                                 }
                                 else{
                                     $reste = 100 - $totalCoeff;
                                     $pluriel = $totalCoeff > 1 ? "s" : "";
-                                    $this->addFlash('error', 'le coefficient pour le mois de '.date_format($coefficientGeneral->getMonth(), "F").' est trop élévé il ne reste que '.$reste.'part '.$pluriel);
+                                    if($formArray[$user_id]->getData()[$keys[$index-1]] < 0){
+                                        $this->addFlash('error','Coefficient négatif impossible');
+                                    }
+                                    else{
+                                        $this->addFlash('error', 'le coefficient pour le mois de '.date_format($coefficientGeneral->getMonth(), "F").' est trop élévé il ne reste que '.$reste.'part '.$pluriel);
+                                    }
                                     return $this->redirectToRoute('app_associe');
                                 }
                                 //si nouvelle valeure on update le coefficient en récupérant la nouvelle valeure par son index
@@ -116,7 +121,7 @@ class AssocieController extends AbstractController
                             if(count($totalCoeff)){
                                 $totalCoeff = $totalCoeff[$index-1]["total"];
                                 //on set l'objet CoefficientGeneral
-                                if($totalCoeff + $coefficientGeneralRow <= 100){
+                                if($totalCoeff + $coefficientGeneralRow <= 100 && $totalCoeff + $coefficientGeneralRow){
                                     $coefficientGeneral->setCoefficient($coefficientGeneralRow);
                                 }
                                 else{
