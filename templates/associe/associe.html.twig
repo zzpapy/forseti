@@ -49,17 +49,27 @@
                                     <th>Décembre</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                {% for user in allUsers %}
-                                    <tr>
-                                    <td>{{user.lastname|capitalize}}</td>
-                                    <td>{{user.firstname|capitalize}} {% if 'ROLE_ADMIN' in user.roles %}<p class="alert-success p-3">admin</p>{% endif %}</td>
-                                    {% for coeff in user.coefficientgeneral.values %}
-                                        <td>{{coeff.coefficient}}</td>                                                  
-                                    {% endfor %}
-                                </tr>                                           
-                                {% endfor %}
-                                </tbody>
+                                    <tbody>
+                                    {% for user in allUsers %}
+                                        <tr>
+                                            <td>{{user.lastname|capitalize}}</td>
+                                            <td>{{user.firstname|capitalize}} {% if 'ROLE_ADMIN' in user.roles %}<p class="alert-success p-3 text-center">admin</p>{% endif %}</td>
+                                            {% for coeff in user.coefficientgeneral.values %}
+                                                <td>{{coeff.coefficient}}</td>                                                  
+                                            {% endfor %}
+                                        </tr>                                           
+                                        {% endfor %}
+                                        <tr>
+                                            <td colspan="2"><strong>Parts Restantes</strong></td>
+                                            {% for user in allUsers %}
+                                                {% if 'ROLE_ADMIN' in user.roles %}
+                                                    {% for coeff in user.coefficientgeneral.values %}
+                                                        <td><strong>{{100 - coeff.coefficient}}</strong></td>                                                  
+                                                    {% endfor %}
+                                                {% endif %}                                
+                                            {% endfor %}                                
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

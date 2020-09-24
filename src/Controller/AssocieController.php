@@ -72,6 +72,7 @@ class AssocieController extends AbstractController
 
                         //on génére un tableau de clés du tableau assoc de données du form
                         $keys = array_keys($formArray[$user_id]->getData());
+                        $bool = false;
                         foreach ($collectionCoefs as $key => $coefficientGeneral) {
 
                             //on récupére la valeure du mois pour récupérer la nouvelle valeure du post
@@ -79,6 +80,7 @@ class AssocieController extends AbstractController
                             
                             $totalCoeff = $totalCoeffUsersPerMonth[$index-1]["total"];
                             //on vérifie que la nouvelle valeure est différente de l'actuelle
+                            
                             if($formArray[$user_id]->getData()[$keys[$index-1]] != $coefficientGeneral->getCoefficient()){
                                 //vérif si le total des coef est sup à 100                                
                                 if(($totalCoeff - $coefficientGeneral->getCoefficient()) + $formArray[$user_id]->getData()[$keys[$index-1]] <= 100 && $formArray[$user_id]->getData()[$keys[$index-1]] > 0){
@@ -95,13 +97,18 @@ class AssocieController extends AbstractController
                                     }
                                     return $this->redirectToRoute('app_associe');
                                 }
+                                $bool = true;
                                 //si nouvelle valeure on update le coefficient en récupérant la nouvelle valeure par son index
                                 //on stock en bdd
                                 $em = $this->getDoctrine()->getManager();
                                 $em->persist($coefficientGeneral);
                                 $em->flush();
                             }
-                            
+                        }
+                        if($bool == false){
+                            // dd($bool);
+                            $this->addFlash('error','Aucune modification');
+                            return $this->redirectToRoute('app_associe');
                         }
                     }
                     else{
