@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserAdminType;
 use App\Form\ChangePasswordFormType;
+use App\Repository\ChargeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -18,7 +19,7 @@ class ProfileController extends RegistrationController
     /**
      * @Route("/profile/{id<\d+>}", name="app_profile")
      */
-    public function index(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder)
+    public function index(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder, ChargeRepository $chargeRepo)
     {
         if ($this->getUser()->getId() != $request->get("id")) {
             return $this->redirectToRoute('app_logout');
@@ -61,12 +62,15 @@ class ProfileController extends RegistrationController
         }
 
         $scmEntity = $user->getScm();
+        $totalCharge = $chargeRepo->getTotalChargePerType($scmEntity);
+        // dd($totalCharge);
 
         return $this->render('profile/profile.html.twig', [
             'controller_name' => 'ProfileController',
             'edit_profile' => $form->createView(),
             'edit_password' => $passForm->createView(),
-            'scm' => $scmEntity
+            'scm' => $scmEntity,
+            'totalCharge' => $totalCharge
         ]);
     }
 

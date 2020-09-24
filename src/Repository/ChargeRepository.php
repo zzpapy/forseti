@@ -96,5 +96,25 @@ class ChargeRepository extends ServiceEntityRepository
             ->getArrayResult();
     }
 
+    /**
+     * SELECT SUM(ABS (c.total)), ct.label
+     *FROM charge c
+     *INNER JOIN	charge_type ct
+     *ON c.type_id = ct.id
+     *WHERE c.scm_id = 58
+     *GROUP BY label
+     */
+
+    public function getTotalChargePerType($scm_id)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('SUM(ABS(c.total)) as total', 'ct.label')
+            ->innerjoin(ChargeType::class, 'ct', Join::WITH, 'c.type = ct.id')
+            ->andWhere('c.scm = :scm_id')
+            ->setParameter('scm_id', $scm_id)
+            ->groupBy('ct.label')->getQuery()
+            ->getArrayResult();
+    }
+
 
 }

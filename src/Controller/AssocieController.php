@@ -20,6 +20,7 @@ class AssocieController extends AbstractController
     {
         // Récup la scm
         $this->scm = $this->getUser()->getScm();
+        
         // Récup les associés de cette scm
         $assoc = $this->scm->getAssocies();
         $allUsers = $this->scm->getUsers()->getValues();
