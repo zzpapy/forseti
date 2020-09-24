@@ -274,8 +274,11 @@
                                             <div  class="panel-wrapper collapse in">
                                                 <div  class="panel-body">
                                                     <p>Adresse : {{scm.address}}</p>
-                                                    <p>cp : {{scm.zipcode}}</p>
-                                                    <p>ville : {{scm.city}}</p>
+                                                    <p>Cp : {{scm.zipcode}}</p>
+                                                    <p>Ville : {{scm.city}}</p>
+                                                    <p>SIRET: {{scm.siret}}</p>
+                                                    <p>SIREN: {{scm.siren}}</p>
+                                                    <p>Téléphone: {{scm.phone}}</p>
                                                 </div>
                                             </div>
                                         </div>                                   
@@ -301,14 +304,22 @@
                                                             <th>Montant</th>
                                                             <th>Ma part({{avg}} %)</th>
                                                         </thead>
+                                                        {% set totalgene = 0 %}
+                                                        {% set totaluser = 0 %}
                                                         {% for charge in totalCharge %}
                                                         <tr>
-                                                            <td>{{charge.label}}</td>
+                                                            <td><strong>{{charge.label}}</strong></td>
                                                             <td>{{charge.total}} €</td>
+                                                            {% set totalgene = totalgene + charge.total %}
                                                             <td>{{(charge.total * avg / 100)}} €</td>
+                                                            {% set totaluser = totaluser + (charge.total * avg / 100) %}
                                                         </tr>
                                                         {% endfor %}
-                                                            <td>
+                                                            <tr>
+                                                                <td><strong>Totaux</strong></td>
+                                                                <td><strong> {{totalgene}}</strong>  </td>
+                                                                <td><strong> {{totaluser}}</strong> </td>
+                                                            </tr>
                                                         </table>
                                                     </div>
                                                 </div>
