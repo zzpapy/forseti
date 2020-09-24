@@ -74,4 +74,26 @@ class CoefficientGeneralRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    /**
+     * SELECT AVG(c.coefficient),u.id
+     *FROM coefficient_general c
+     *INNER JOIN user u
+     *ON u.id = c.user_id
+     *WHERE c.user_id != 69
+     *GROUP BY u.id
+     */
+
+    public function getAvgCoeffPerUser($scm,$admin)
+    { 
+        return $this->createQueryBuilder('c')
+            ->select('AVG(c.coefficient) , u.id')
+            ->innerJoin(User::class, 'u', Join::WITH, ' c.user = u.id ')
+            ->groupBy('u.id')
+            ->andWhere('u.scm = :scm')
+            ->setParameter('scm', $scm)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

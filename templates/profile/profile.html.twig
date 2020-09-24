@@ -255,6 +255,11 @@
                                                                 href="#charge"
                                                                 aria-expanded="false"><span>Montant des charges</span></a></li>
                         </ul>
+                        {% set avg = 0 %}
+                        {% for coeff in app.user.coefficientgeneral.values %}
+                            {% set avg = avg + coeff.coefficient %}
+                        {% endfor %}
+                        {% set avg = avg / app.user.coefficientgeneral.values|length %}
                         <div class="tab-content" id="scm_tab_profile_content">
                             <div  id="identite" class="tab-pane fade active in" role="tabpanel">
                                 <div class="md-12">
@@ -294,13 +299,13 @@
                                                         <thead>
                                                             <th>Libelé</th>
                                                             <th>Montant</th>
-                                                            <th>Ma part</th>
+                                                            <th>Ma part({{avg}} %)</th>
                                                         </thead>
                                                         {% for charge in totalCharge %}
                                                         <tr>
                                                             <td>{{charge.label}}</td>
-                                                            <td>{{charge.total}}</td>
-                                                            <td></td>
+                                                            <td>{{charge.total}} €</td>
+                                                            <td>{{(charge.total * avg / 100)}} €</td>
                                                         </tr>
                                                         {% endfor %}
                                                             <td>

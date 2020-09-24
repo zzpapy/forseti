@@ -63,7 +63,6 @@ class ProfileController extends RegistrationController
 
         $scmEntity = $user->getScm();
         $totalCharge = $chargeRepo->getTotalChargePerType($scmEntity);
-        // dd($totalCharge);
 
         return $this->render('profile/profile.html.twig', [
             'controller_name' => 'ProfileController',
