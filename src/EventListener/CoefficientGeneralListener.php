@@ -61,7 +61,6 @@ class CoefficientGeneralListener
         else{
             // dd($coefficientGeneral);
             $index = date_format($coefficientGeneral->getMonth(), "n");
-            // foreach ($totalCoeffUsersPerMonth as $key => $total) {//si collection
 
                 //on récup chaque objet de la collection
                 $coefficientGeneralAdmin = $coeffCollection[$index-1];
@@ -77,7 +76,6 @@ class CoefficientGeneralListener
                     $this->entityManager->persist($coefficientGeneralAdmin);
                     $this->entityManager->flush();
                 }
-            // }
         }
     
     }
