@@ -302,23 +302,23 @@
                                                         <thead>
                                                             <th>Libelé</th>
                                                             <th>Montant</th>
-                                                            <th>Ma part( {{avg}} % )</th>
+                                                            <th>Ma part<p>( {{avg|number_format(2, ',', '.')}} %  )</p></th>
                                                         </thead>
                                                         {% set totalgene = 0 %}
                                                         {% set totaluser = 0 %}
                                                         {% for charge in totalCharge %}
                                                         <tr>
                                                             <td><strong>{{charge.label}}</strong></td>
-                                                            <td>{{charge.total}} €</td>
+                                                            <td>{{charge.total|number_format(2, ',', '.')}} €</td>
                                                             {% set totalgene = totalgene + charge.total %}
-                                                            <td>{{(charge.total * avg / 100)}} €</td>
+                                                            <td>{{(charge.total * avg / 100)|number_format(2, ',', '.')}} €</td>
                                                             {% set totaluser = totaluser + (charge.total * avg / 100) %}
                                                         </tr>
                                                         {% endfor %}
                                                             <tr>
                                                                 <td><strong>Totaux</strong></td>
-                                                                <td><strong> {{totalgene}}</strong>  </td>
-                                                                <td><strong> {{totaluser}}</strong> </td>
+                                                                <td><strong> {{totalgene|number_format(2, ',', '.')}} €</strong>  </td>
+                                                                <td><strong> {{totaluser|number_format(2, ',', '.')}} €</strong> </td>
                                                             </tr>
                                                         </table>
                                                     </div>

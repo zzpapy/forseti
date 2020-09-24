@@ -180,8 +180,7 @@ class AssocieController extends AbstractController
                 'controller_name' => 'AssocieController',
                 'assoc_form_list' => $formArrayView,
                 'tabAssoc' =>$tabCoefsUsers,
-                'allUsers' =>$allUsers,
-                'totCoeff' => $totalCoeffUsersPerMonth
+                'allUsers' =>$allUsers
             ]);
         } else { // sinon on redirige vers un formulaire de créa des associés
             // TODO

@@ -53,19 +53,12 @@
                                 {% for user in allUsers %}
                                     <tr>
                                     <td>{{user.lastname|capitalize}}</td>
-                                    <td>{{user.firstname|capitalize}} {% if 'ROLE_ADMIN' in user.roles %}(administrateur)     {% endif %}</td>
+                                    <td>{{user.firstname|capitalize}} {% if 'ROLE_ADMIN' in user.roles %}<p class="alert-success p-3">admin</p>{% endif %}</td>
                                     {% for coeff in user.coefficientgeneral.values %}
                                         <td>{{coeff.coefficient}}</td>                                                  
                                     {% endfor %}
                                 </tr>                                           
                                 {% endfor %}
-                                 <tr>
-                                    <td><strong>Reste</strong></td>
-                                    <td></td>
-                                    {% for total in totCoeff %}
-                                        <td><strong>{{100 - total["total"]}}</strong></td>
-                                    {% endfor %}
-                                <tr>
                                 </tbody>
                                 </table>
                             </div>
