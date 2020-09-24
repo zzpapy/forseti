@@ -109,7 +109,12 @@ class AssocieController extends AbstractController
                         //on init un index pour générer le mois en int
                         $index = 1;
                         foreach ($formArray[$user_id]->getData() as $coefficientGeneralRow) {
-    
+
+                            //on vérif qu'il n'ya pas de valeure neg ds le post
+                            if(min($formArray[$user_id]->getData()) <= 0){
+                                $this->addFlash('error','Coefficient négatif impossible');
+                                return $this->redirectToRoute('app_associe');
+                            }
                             //on crée un nouvel objet CoefficientGeneral
                             $coefficientGeneral = new CoefficientGeneral();
     
@@ -120,19 +125,30 @@ class AssocieController extends AbstractController
                             //on vérif si il ya déjà des coefs entregistrés
                             if(count($totalCoeff)){
                                 $totalCoeff = $totalCoeff[$index-1]["total"];
-                                //on set l'objet CoefficientGeneral
-                                if($totalCoeff + $coefficientGeneralRow <= 100 && $totalCoeff + $coefficientGeneralRow){
+                                //on set l'objet CoefficientGeneral si positif et total inf à 100
+                                if($totalCoeff + $coefficientGeneralRow <= 100 && $coefficientGeneralRow > 0){
                                     $coefficientGeneral->setCoefficient($coefficientGeneralRow);
                                 }
                                 else{
-                                    $this->addFlash('error', 'le coefficient choisi est trop élévé');
+                                    if($coefficientGeneralRow < 0){
+                                        $this->addFlash('error', 'le coefficientne peut pas être négatif');
+                                    }
+                                    else{
+                                        $this->addFlash('error', 'le coefficient choisi est trop élévé');
+                                    }
                                     return $this->redirectToRoute('app_associe');
                                 }
                             }
-                            elseif($coefficientGeneralRow <= 100){
+                            elseif($coefficientGeneralRow <= 100 && $coefficientGeneralRow > 0){
                                 $coefficientGeneral->setCoefficient($coefficientGeneralRow);
                             }
                             else{
+                                if($coefficientGeneralRow < 0){
+                                    $this->addFlash('error', 'le coefficientne peut pas être négatif');
+                                }
+                                else{
+                                    $this->addFlash('error', 'le coefficient choisi est trop élévé');
+                                }
                                 return $this->redirectToRoute('app_associe');
                             }
                             $coefficientGeneral->setMonth($dateObj);

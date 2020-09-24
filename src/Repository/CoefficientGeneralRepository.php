@@ -70,6 +70,7 @@ class CoefficientGeneralRepository extends ServiceEntityRepository
             ->setParameter('admin', $admin)
             ->andWhere('u.scm = :scm')
             ->setParameter('scm', $scm)
+            ->orderBy('mois','ASC')
             ->getQuery()
             ->getResult()
         ;
