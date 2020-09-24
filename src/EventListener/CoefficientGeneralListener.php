@@ -22,6 +22,7 @@ class CoefficientGeneralListener
     public function postUpdate(CoefficientGeneral $coefficientGeneral, LifecycleEventArgs $event){
 
         //Récup des utilisateurs de la scm
+
         $users = $coefficientGeneral->getUser()->getScm()->getUsers();
         foreach ($users as $key => $user) {
             //Récup de l'admin
@@ -36,30 +37,36 @@ class CoefficientGeneralListener
         //récup éventuelle collection de coef de l'admin
         $coeffCollection = $userAdmin->getCoefficientGeneral()->getValues();
         if(empty($coeffCollection)){//si pas de collection
-            foreach ($totalCoeffUsersPerMonth as $key => $total) {
-
-                //on prende tout les totaux mensuels et on crée les objets
-                //CoefficientGeneral correspondant
+            
+                //on crée un nouvel objet CoefficientGeneral
                 $coefficientGeneralAdmin = new CoefficientGeneral();
-                $coefAdmin = $total["total"];
-                $coefficientGeneralAdmin->setUser($userAdmin);
-                $dateObj   = \DateTime::createFromFormat('m',$total["mois"]);
-                $coefficientGeneralAdmin->setMonth($dateObj);
-                //on set le coef en faisant la différence avec 100
-                $coefficientGeneralAdmin->setCoefficient(100 - $coefAdmin);
 
-                //on stock les coeffs pour l'admin
+                //on récup le num du mois
+                $month = $coefficientGeneral->getMonth();
+
+                //on récupère l'entrée du totla des coefs en fct du mois
+                $index = date_format($coefficientGeneral->getMonth(), "n");
+                $coefAdmin = $totalCoeffUsersPerMonth[$index-1]["total"];
+
+                //on set l'objet CoefficientGeneralAdmin
+                $coefficientGeneralAdmin->setUser($userAdmin);
+                $coefficientGeneralAdmin->setMonth($month);
+                $coefficientGeneralAdmin->setCoefficient(100 - $coefAdmin);
+                
+                
+                //on stock le coeff pour l'admin
                 $this->entityManager->persist($coefficientGeneralAdmin);
                 $this->entityManager->flush();
-            }
         }
         else{
-            foreach ($totalCoeffUsersPerMonth as $key => $total) {//si collection
+            // dd($coefficientGeneral);
+            $index = date_format($coefficientGeneral->getMonth(), "n");
+            // foreach ($totalCoeffUsersPerMonth as $key => $total) {//si collection
 
                 //on récup chaque objet de la collection
-                $coefficientGeneralAdmin = $coeffCollection[$key];
+                $coefficientGeneralAdmin = $coeffCollection[$index-1];
                 
-                $coefAdmin = $total["total"];
+                $coefAdmin = $totalCoeffUsersPerMonth[$index-1]["total"];
 
                 //on vérif si la valeur actuelle est différente de la valeur total en cours
                 if($coefficientGeneralAdmin->getCoefficient() != $coefAdmin){// si oui
@@ -70,9 +77,7 @@ class CoefficientGeneralListener
                     $this->entityManager->persist($coefficientGeneralAdmin);
                     $this->entityManager->flush();
                 }
-               
-                dump($coefficientGeneralAdmin->getCoefficient() != $coefAdmin);
-            }
+            // }
         }
     
     }
