@@ -80,7 +80,7 @@
                          {% set tab = [] %}
                             {% for user in assoc_form_list|keys %}
                                 <li{% if loop.first %} class="active" {% endif %}><a aria-expanded="true" data-toggle="tab" role="tab"
-                                    id="tab_{{ user }}" href="#content_{{ user }}">{{ allUsers[loop.index0].firstname }} {{ allUsers[loop.index0].lastname }}</a></li>
+                                    id="tab_{{ user }}" href="#content_{{ user }}">{{ allUsers[loop.index].firstname }} {{ allUsers[loop.index].lastname }}</a></li>
                                     {% set index = loop.index0 %}
                                     {% if tabAssoc[index] is not empty and tabAssoc[index] is defined%}
                                         {% for i in 0..tabAssoc[index]|length-1 %}
