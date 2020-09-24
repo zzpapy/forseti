@@ -74,7 +74,7 @@ class AssocieController extends AbstractController
                         $keys = array_keys($formArray[$user_id]->getData());
                         foreach ($collectionCoefs as $key => $coefficientGeneral) {
 
-                            //on récupérela valeure du mois pour récupérer la nouvelle valeure du post
+                            //on récupére la valeure du mois pour récupérer la nouvelle valeure du post
                             $index = date_format($coefficientGeneral->getMonth(), "n");
                             
                             $totalCoeff = $totalCoeffUsersPerMonth[$index-1]["total"];
@@ -85,7 +85,9 @@ class AssocieController extends AbstractController
                                     $coefficientGeneral->setCoefficient($formArray[$user_id]->getData()[$keys[$index-1]]);
                                 }
                                 else{
-                                    $this->addFlash('error', 'le coefficient choisi est trop élévé');
+                                    $reste = 100 - $totalCoeff;
+                                    $pluriel = $totalCoeff > 1 ? "s" : "";
+                                    $this->addFlash('error', 'le coefficient pour le mois de '.date_format($coefficientGeneral->getMonth(), "F").' est trop élévé il ne reste que '.$reste.'part '.$pluriel);
                                     return $this->redirectToRoute('app_associe');
                                 }
                                 //si nouvelle valeure on update le coefficient en récupérant la nouvelle valeure par son index
@@ -157,7 +159,8 @@ class AssocieController extends AbstractController
                 'controller_name' => 'AssocieController',
                 'assoc_form_list' => $formArrayView,
                 'tabAssoc' =>$tabCoefsUsers,
-                'allUsers' =>$allUsers
+                'allUsers' =>$allUsers,
+                'totCoeff' => $totalCoeffUsersPerMonth
             ]);
         } else { // sinon on redirige vers un formulaire de créa des associés
             // TODO

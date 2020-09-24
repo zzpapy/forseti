@@ -57,8 +57,15 @@
                                     {% for coeff in user.coefficientgeneral.values %}
                                         <td>{{coeff.coefficient}}</td>                                                  
                                     {% endfor %}
-                                </tr>                                                
+                                </tr>                                           
                                 {% endfor %}
+                                 <tr>
+                                    <td><strong>Reste</strong></td>
+                                    <td></td>
+                                    {% for total in totCoeff %}
+                                        <td><strong>{{100 - total["total"]}}</strong></td>
+                                    {% endfor %}
+                                <tr>
                                 </tbody>
                                 </table>
                             </div>
