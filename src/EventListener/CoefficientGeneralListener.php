@@ -14,82 +14,86 @@ class CoefficientGeneralListener
     private $entityManager;
     private $repo;
 
-    public function __construct( EntityManagerInterface $entityManager, CoefficientGeneralRepository $repo){
+    public function __construct(EntityManagerInterface $entityManager, CoefficientGeneralRepository $repo)
+    {
         $this->entityManager = $entityManager;
         $this->repo = $repo;
     }
 
-    public function postUpdate(CoefficientGeneral $coefficientGeneral, LifecycleEventArgs $event){
+    public function postPersist(CoefficientGeneral $coefficientGeneral, LifecycleEventArgs $event)
+    {
+        // Si coef de l'admin on fait rien
+        if(in_array('ROLE_ADMIN',$coefficientGeneral->getUser()->getRoles())){
+            return true;
+        }
 
         //Récup des utilisateurs de la scm
 
         $users = $coefficientGeneral->getUser()->getScm()->getUsers();
         foreach ($users as $key => $user) {
             //Récup de l'admin
-            if(in_array('ROLE_ADMIN',$user->getRoles())){
-                $userAdmin = $user;                
+            if (in_array('ROLE_ADMIN', $user->getRoles())) {
+                $userAdmin = $user;
             }
         }
 
-        //requête pour récup le total des coefs par mois pour tous le users
-        $totalCoeffUsersPerMonth = $this->repo->getTotalUserCoefPerMonth($coefficientGeneral->getUser()->getScm(),$userAdmin);
-        
+        //requête pour récup le total des coefs par mois pour tous les users
+        $totalCoeffUsersPerMonth = $this->repo->getTotalUserCoefPerMonth($coefficientGeneral->getUser()->getScm(), $userAdmin);
+
         //récup éventuelle collection de coef de l'admin
         $coeffCollection = $userAdmin->getCoefficientGeneral()->getValues();
-        if(empty($coeffCollection)){//si pas de collection
-            
-                //on crée un nouvel objet CoefficientGeneral
-                $coefficientGeneralAdmin = new CoefficientGeneral();
 
-                //on récup le num du mois
-                $month = $coefficientGeneral->getMonth();
+        if (empty($coeffCollection)) {//si pas de collection
 
-                //on récupère l'entrée du totla des coefs en fct du mois
-                $index = date_format($coefficientGeneral->getMonth(), "n");
-                $coefAdmin = $totalCoeffUsersPerMonth[$index-1]["total"];
+            //on crée un nouvel objet CoefficientGeneral
+            $coefficientGeneralAdmin = new CoefficientGeneral();
 
-                //on set l'objet CoefficientGeneralAdmin
-                $coefficientGeneralAdmin->setUser($userAdmin);
-                $coefficientGeneralAdmin->setMonth($month);
-                $coefficientGeneralAdmin->setCoefficient(100 - $coefAdmin);
-                
-                
-                //on stock le coeff pour l'admin
-                $this->entityManager->persist($coefficientGeneralAdmin);
-                $this->entityManager->flush();
-        }
-        else{
-            
+            //on récup le num du mois
+            $month = $coefficientGeneral->getMonth();
+
+            //on récupère l'entrée du total des coefs en fct du mois
+            $index = date_format($coefficientGeneral->getMonth(), "n");
+            $coefAdmin = 100 - $totalCoeffUsersPerMonth[$index - 1]["total"];
+
+            //on set l'objet CoefficientGeneralAdmin
+            $coefficientGeneralAdmin->setUser($userAdmin);
+            $coefficientGeneralAdmin->setMonth($month);
+            $coefficientGeneralAdmin->setCoefficient($coefAdmin);
+
+
+            //on stock le coeff pour l'admin
+            $this->entityManager->persist($coefficientGeneralAdmin);
+            $this->entityManager->flush();
+        } else {
+
             $index = date_format($coefficientGeneral->getMonth(), "n");
             //on vérif que l'objet existe ds la collection
-            if(isset( $coeffCollection[$index-1])){
+            if (isset($coeffCollection[$index - 1])) {
                 //on récup chaque objet de la collection
-                    $coefficientGeneralAdmin = $coeffCollection[$index-1];
-                    $coefAdmin = $totalCoeffUsersPerMonth[$index-1]["total"];
-    
-                    //on vérif si la valeur actuelle est différente de la valeur total en cours
-                    if($coefficientGeneralAdmin->getCoefficient() != $coefAdmin){// si oui
-                        //on modifie la valeur de l'objet
-                        $coefficientGeneralAdmin->setCoefficient(100 - $coefAdmin);
-    
-                        //on stock en bdd
-                        $this->entityManager->persist($coefficientGeneralAdmin);
-                        $this->entityManager->flush();
-                    }
-                }
-                else{
-                    $month = $coefficientGeneral->getMonth();
-                    $coefAdmin = $coefficientGeneral->getCoefficient();
-                    $coefficientGeneralAdmin = new CoefficientGeneral();
-                    $coefficientGeneralAdmin->setUser($userAdmin);
-                    $coefficientGeneralAdmin->setMonth($month);
+                $coefficientGeneralAdmin = $coeffCollection[$index - 1];
+                $coefAdmin = $totalCoeffUsersPerMonth[$index - 1]["total"];
+
+                //on vérif si la valeur actuelle est différente de la valeur total en cours
+                if ($coefficientGeneralAdmin->getCoefficient() != $coefAdmin) {// si oui
+                    //on modifie la valeur de l'objet
                     $coefficientGeneralAdmin->setCoefficient(100 - $coefAdmin);
-    
-                        //on stock en bdd
+
+                    //on stock en bdd
                     $this->entityManager->persist($coefficientGeneralAdmin);
                     $this->entityManager->flush();
                 }
+            } else {
+                $month = $coefficientGeneral->getMonth();
+                $coefAdmin = $coefficientGeneral->getCoefficient();
+                $coefficientGeneralAdmin = new CoefficientGeneral();
+                $coefficientGeneralAdmin->setUser($userAdmin);
+                $coefficientGeneralAdmin->setMonth($month);
+                $coefficientGeneralAdmin->setCoefficient(100 - $coefAdmin);
+
+                //on stock en bdd
+                $this->entityManager->persist($coefficientGeneralAdmin);
+                $this->entityManager->flush();
+            }
         }
-    
     }
 }

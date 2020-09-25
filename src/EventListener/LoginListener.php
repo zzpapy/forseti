@@ -22,8 +22,6 @@ class LoginListener
     {
         $user = $event->getAuthenticationToken()->getUser();
 
-        $bankAccountId = false;
-
         if (in_array('ROLE_ADMIN', $user->getRoles())) {
             $apiUser = $user->getApiUser();
             $apiResponse = $this->bankin->authenticateApiUser($apiUser->getEmail(), $apiUser->getPassword());

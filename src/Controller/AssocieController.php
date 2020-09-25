@@ -79,7 +79,7 @@ class AssocieController extends AbstractController
                             $index = date_format($coefficientGeneral->getMonth(), "n");
                             
                             $totalCoeff = $totalCoeffUsersPerMonth[$index-1]["total"];
-                            //on vérifie que la nouvelle valeure est différente de l'actuelle
+                            //on vérifie que la nouvelle valeur est différente de l'actuelle
                             
                             if($formArray[$user_id]->getData()[$keys[$index-1]] != $coefficientGeneral->getCoefficient()){
                                 //vérif si le total des coef est sup à 100                                
@@ -138,7 +138,7 @@ class AssocieController extends AbstractController
                                 }
                                 else{
                                     if($coefficientGeneralRow < 0){
-                                        $this->addFlash('error', 'le coefficientne peut pas être négatif');
+                                        $this->addFlash('error', 'le coefficient ne peut pas être négatif');
                                     }
                                     else{
                                         $this->addFlash('error', 'le coefficient choisi est trop élévé');

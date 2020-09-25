@@ -9,17 +9,17 @@
 {% block body %}
     <div class="col-sm-12">
         {% for message in app.flashes('error') %}
-            <div id="alert"class="alert alert-danger">
+            <div id="alert" class="alert alert-danger">
                 {{ message }}
             </div>
         {% endfor %}
         {% for message in app.flashes('success') %}
-            <div id="success"class="success alert-success">
+            <div id="success" class="success alert-success">
                 {{ message }}
             </div>
         {% endfor %}
         <div class="panel panel-default card-view">
-        <div class="panel panel-default card-view">
+            <div class="panel panel-default card-view">
                 <div class="panel-heading">
                     <div class="pull-left">
                         <h6 class="panel-title txt-dark">Récapitulatif</h6>
@@ -31,44 +31,45 @@
                         <div class="table-wrap ">
                             <div class="table-responsive">
                                 <table class="table table-striped mb-0">
-                                <thead>
+                                    <thead>
                                     <tr>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
-                                    <th>janvier</th>
-                                    <th>Février</th>
-                                    <th>Mars</th>
-                                    <th>Avril</th>
-                                    <th>Mai</th>
-                                    <th>Juin</th>
-                                    <th>Juillet</th>
-                                    <th>Août</th>
-                                    <th>Septembre</th>
-                                    <th>Octobre</th>
-                                    <th>Novembre</th>
-                                    <th>Décembre</th>
+                                        <th>Nom</th>
+                                        <th>Prénom</th>
+                                        <th>janvier</th>
+                                        <th>Février</th>
+                                        <th>Mars</th>
+                                        <th>Avril</th>
+                                        <th>Mai</th>
+                                        <th>Juin</th>
+                                        <th>Juillet</th>
+                                        <th>Août</th>
+                                        <th>Septembre</th>
+                                        <th>Octobre</th>
+                                        <th>Novembre</th>
+                                        <th>Décembre</th>
                                     </tr>
-                                </thead>
+                                    </thead>
                                     <tbody>
                                     {% for user in allUsers %}
                                         <tr>
-                                            <td>{{user.lastname|capitalize}}</td>
-                                            <td>{{user.firstname|capitalize}} {% if 'ROLE_ADMIN' in user.roles %}<p class="alert-success p-3 text-center">admin</p>{% endif %}</td>
+                                            <td>{{ user.lastname|capitalize }}</td>
+                                            <td>{{ user.firstname|capitalize }} {% if 'ROLE_ADMIN' in user.roles %}<p
+                                                        class="alert-success p-3 text-center">admin</p>{% endif %}</td>
                                             {% for coeff in user.coefficientgeneral.values %}
-                                                <td>{{coeff.coefficient}}</td>                                                  
+                                                <td>{{ coeff.coefficient }}</td>
                                             {% endfor %}
-                                        </tr>                                           
-                                        {% endfor %}
-                                        <tr>
-                                            <td colspan="2"><strong>Parts Restantes</strong></td>
-                                            {% for user in allUsers %}
-                                                {% if 'ROLE_ADMIN' in user.roles %}
-                                                    {% for coeff in user.coefficientgeneral.values %}
-                                                        <td><strong>{{100 - coeff.coefficient}}</strong></td>                                                  
-                                                    {% endfor %}
-                                                {% endif %}                                
-                                            {% endfor %}                                
                                         </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <td colspan="2"><strong>Parts Restantes</strong></td>
+                                        {% for user in allUsers %}
+                                            {% if 'ROLE_ADMIN' in user.roles %}
+                                                {% for coeff in user.coefficientgeneral.values %}
+                                                    <td><strong>{{ 100 - coeff.coefficient }}</strong></td>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -81,105 +82,114 @@
                     <h6 class="panel-title txt-dark">Modification des clés de répartition</h6>
                 </div>
                 <div class="clearfix"></div>
-            </div>            
+            </div>
             <div class="panel-wrapper collapse in">
                 <div class="panel-body">
                     <p class="text-muted">Veuillez ajouter les clés de répartition pour chaque associé.</p>
                     <div class="pills-struct horizontal-pills mt-40">
-                        <ul role="tablist" class="nav nav-pills ver-nav-pills" id="myTabs_10">
-                         {% set tab = [] %}
+                        <ul role="tablist" class="nav nav-pills" id="myTabs_10">
+                            {% set tab = [] %}
                             {% for user in assoc_form_list|keys %}
-                                <li{% if loop.first %} class="active" {% endif %}><a aria-expanded="true" data-toggle="tab" role="tab"
-                                    id="tab_{{ user }}" href="#content_{{ user }}">{{ allUsers[loop.index].firstname }} {{ allUsers[loop.index].lastname }}</a></li>
-                                    {% set index = loop.index0 %}
-                                    {% if tabAssoc[index] is not empty and tabAssoc[index] is defined%}
-                                        {% for i in 0..tabAssoc[index]|length-1 %}
-                                            {% set tab = tab|merge({(user~"_"~i):tabAssoc[index][i].coefficient}) %}
-                                        {% endfor %}
-                                    {% else %}  
-                                    {% for i in 0..11 %}                              
+                                <li{% if loop.first %} class="active" {% endif %}><a aria-expanded="true"
+                                                                                     data-toggle="tab" role="tab"
+                                                                                     id="tab_{{ user }}"
+                                                                                     href="#content_{{ user }}">{{ allUsers[loop.index].firstname }} {{ allUsers[loop.index].lastname }}</a>
+                                </li>
+                                {% set index = loop.index0 %}
+                                {% if tabAssoc[index] is not empty and tabAssoc[index] is defined %}
+                                    {% for i in 0..tabAssoc[index]|length-1 %}
+                                        {% set tab = tab|merge({(user~"_"~i):tabAssoc[index][i].coefficient}) %}
+                                    {% endfor %}
+                                {% else %}
+                                    {% for i in 0..11 %}
                                         {% set tab = tab|merge({(user~"_"~i):""}) %}
                                     {% endfor %}
-                                    
-                                    {% endif %}
+
+                                {% endif %}
                             {% endfor %}
                         </ul>
                         <div class="tab-content" id="myTabContent_10">
-                            <div class="panel panel-default card-view">
                             {% for user, assoc_form in assoc_form_list %}
-                                <div id="content_{{ user }}" class="tab-pane {% if loop.first %} active in {% endif %} fade" role="tabpanel">
-                                <div class="table-responsive">
-                                    <table>
-                                    {{form_start(assoc_form)}}
-                                        <td>
-                                            {{ form_row(assoc_form.coefficient_january,{
-                                                'label':'Janvier',
-                                                'value':tab[user~"_0"]
-                                            }) }}
-                                        </td>
-                                        <td>
-                                            {{ form_row(assoc_form.coefficient_february,{'label':'Février',
-                                                'value':tab[user~"_1"]
-                                            }) }}
-                                        </td>
-                                        <td>
-                                            {{ form_row(assoc_form.coefficient_march,{'label':'Mars',
-                                                'value':tab[user~"_2"]
-                                            }) }}
-                                        </td>
-                                        <td>
-                                            {{ form_row(assoc_form.coefficient_april,{'label':'Avril',
-                                                'value':tab[user~"_3"]
-                                            }) }}
-                                        </td>
-                                        <td>
-                                            {{ form_row(assoc_form.coefficient_may,{'label':'Mai',
-                                                'value':tab[user~"_4"]
-                                            }) }}
-                                        </td>
-                                        <td>
-                                            {{ form_row(assoc_form.coefficient_june,{'label':'Juin',
-                                                'value':tab[user~"_5"]
-                                            }) }}
-                                        </td>
-                                        <td>
-                                            {{ form_row(assoc_form.coefficient_july,{'label':'Juillet',
-                                                'value':tab[user~"_6"]
-                                            }) }}
-                                        </td>
-                                        <td>
-                                            {{ form_row(assoc_form.coefficient_august,{'label':'Août',
-                                                'value':tab[user~"_7"]
-                                            }) }}
-                                        </td>
-                                        <td>
-                                            {{ form_row(assoc_form.coefficient_september,{'label':'Septembre',
-                                                'value':tab[user~"_8"]
-                                            }) }}
-                                        </td>
-                                        <td>
-                                            {{ form_row(assoc_form.coefficient_october,{'label':'Octobre',
-                                                'value':tab[user~"_9"]
-                                            }) }}
-                                        </td>
-                                        <td>
-                                            {{ form_row(assoc_form.coefficient_november,{'label':'Novembre',
-                                                'value':tab[user~"_10"]
-                                            }) }}
-                                        </td>
-                                        <td>
-                                            {{ form_row(assoc_form.coefficient_december,{'label':'Décembre',
-                                                'value':tab[user~"_11"]
-                                            }) }}
-                                        </td>
+                                <div id="content_{{ user }}"
+                                     class="tab-pane {% if loop.first %} active in {% endif %} fade"
+                                     role="tabpanel">
+                                    <div class="table-responsive">
+                                        {{ form_start(assoc_form) }}
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    {{ form_row(assoc_form.coefficient_january,{
+                                                        'label':'Janvier',
+                                                        'value':tab[user~"_0"]
+                                                    }) }}
+                                                </td>
+                                                <td>
+                                                    {{ form_row(assoc_form.coefficient_february,{'label':'Février',
+                                                        'value':tab[user~"_1"]
+                                                    }) }}
+                                                </td>
+                                                <td>
+                                                    {{ form_row(assoc_form.coefficient_march,{'label':'Mars',
+                                                        'value':tab[user~"_2"]
+                                                    }) }}
+                                                </td>
+                                                <td>
+                                                    {{ form_row(assoc_form.coefficient_april,{'label':'Avril',
+                                                        'value':tab[user~"_3"]
+                                                    }) }}
+                                                </td>
+                                                <td>
+                                                    {{ form_row(assoc_form.coefficient_may,{'label':'Mai',
+                                                        'value':tab[user~"_4"]
+                                                    }) }}
+                                                </td>
+                                                <td>
+                                                    {{ form_row(assoc_form.coefficient_june,{'label':'Juin',
+                                                        'value':tab[user~"_5"]
+                                                    }) }}
+                                                </td>
+                                                <td>
+                                                    {{ form_row(assoc_form.coefficient_july,{'label':'Juillet',
+                                                        'value':tab[user~"_6"]
+                                                    }) }}
+                                                </td>
+                                                <td>
+                                                    {{ form_row(assoc_form.coefficient_august,{'label':'Août',
+                                                        'value':tab[user~"_7"]
+                                                    }) }}
+                                                </td>
+                                                <td>
+                                                    {{ form_row(assoc_form.coefficient_september,{'label':'Septembre',
+                                                        'value':tab[user~"_8"]
+                                                    }) }}
+                                                </td>
+                                                <td>
+                                                    {{ form_row(assoc_form.coefficient_october,{'label':'Octobre',
+                                                        'value':tab[user~"_9"]
+                                                    }) }}
+                                                </td>
+                                                <td>
+                                                    {{ form_row(assoc_form.coefficient_november,{'label':'Novembre',
+                                                        'value':tab[user~"_10"]
+                                                    }) }}
+                                                </td>
+                                                <td>
+                                                    {{ form_row(assoc_form.coefficient_december,{'label':'Décembre',
+                                                        'value':tab[user~"_11"]
+                                                    }) }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="hidden" name="user_id" value="{{ user }}"/>
+                                                    <button type="submit">Enregistrer</button>
+                                                </td>
+                                            </tr>
                                         </table>
+                                        {{ form_end(assoc_form) }}
                                     </div>
-                                    <input type="hidden" name="user_id" value="{{ user }}" />
-                                    <button type="submit">Enregistrer</button>
-                                {{form_end(assoc_form)}}
                                 </div>
                             {% endfor %}
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -188,18 +198,18 @@
     </div>
 {% endblock %}
 {% block javascripts_specifique %}
-<script>
-$("#alert").slideDown(500, function(){
-    setTimeout(function(){
-        $("#alert").slideUp(500);  
-        },5000);
-});
+    <script>
+        $("#alert").slideDown(500, function () {
+            setTimeout(function () {
+                $("#alert").slideUp(500);
+            }, 5000);
+        });
 
-$("#success").slideDown(500, function(){
-    setTimeout(function(){
-        $("#success").slideUp(500);  
-        },5000);
-});
+        $("#success").slideDown(500, function () {
+            setTimeout(function () {
+                $("#success").slideUp(500);
+            }, 5000);
+        });
 
-</script>    
+    </script>
 {% endblock %}
