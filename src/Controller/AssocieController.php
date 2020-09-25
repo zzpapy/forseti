@@ -9,6 +9,7 @@ use App\Form\CoefficientGeneralType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 
 class AssocieController extends AbstractController
 {
@@ -19,6 +20,7 @@ class AssocieController extends AbstractController
     public function index(Request $request, CoefficientGeneralRepository $coeffRepo)
     {
         // Récup la scm
+       $response = new Response;
         $this->scm = $this->getUser()->getScm();
         
         // Récup les associés de cette scm
@@ -77,6 +79,7 @@ class AssocieController extends AbstractController
                         //on génére un tableau de clés du tableau assoc de données du form
                         $keys = array_keys($formArray[$user_id]->getData());
                         $bool = false;
+                        $coeff = [];
                         foreach ($collectionCoefs as $key => $coefficientGeneral) {
 
                             //on récupére la valeure du mois pour récupérer la nouvelle valeure du post
@@ -109,12 +112,22 @@ class AssocieController extends AbstractController
                                 $em->persist($coefficientGeneral);
                                 $em->flush();
                             }
+                            $coeff[$index] =[
+                                "month" => $coefficientGeneral->getMonth(),
+                                "coeff" => $coefficientGeneral->getCoefficient(),
+                                "user_id" => $user_id
+                            ];
+                           
                         }
                         if($bool == false){
                             // dd($bool);
                             $this->addFlash('error','Aucune modification');
                             return $this->redirectToRoute('app_associe');
                         }
+                        $response->setContent(json_encode([
+                            "coeff" => $coeff
+                        ]));
+                        return $response;
                     }
                     else{
 
@@ -171,10 +184,11 @@ class AssocieController extends AbstractController
                             $em->persist($coefficientGeneral);
                             $em->flush();
                             $index++;
+                            
                         }
                     }
-                    $this->addFlash('success', 'mise à jour réussie !!!');
-                    return $this->redirectToRoute('app_associe');
+                    // $this->addFlash('success', 'mise à jour réussie !!!');
+                    // return $this->redirectToRoute('app_associe');
                     
                 }
             }

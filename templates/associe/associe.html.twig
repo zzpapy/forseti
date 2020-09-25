@@ -55,8 +55,14 @@
                                             <td>{{ user.lastname|capitalize }}</td>
                                             <td>{{ user.firstname|capitalize }} {% if 'ROLE_ADMIN' in user.roles %}<p
                                                         class="alert-success p-3 text-center">admin</p>{% endif %}</td>
+                                            {% set admin = false %}
                                             {% for coeff in user.coefficientgeneral.values %}
-                                                <td>{{ coeff.coefficient }}</td>
+                                            {% if 'ROLE_ADMIN' in user.roles %}
+                                                {% set admin = true  %}
+                                            {% else %}
+                                                {% set admin = false  %}
+                                            {% endif %}                                            
+                                                <td class="coeff_user" data-admin="{{admin}}" id="user_{{user.id}}_coeff_{{loop.index}}">{{ coeff.coefficient }}</td>
                                             {% endfor %}
                                         </tr>
                                     {% endfor %}
@@ -114,7 +120,7 @@
                                      class="tab-pane {% if loop.first %} active in {% endif %} fade"
                                      role="tabpanel">
                                     <div class="table-responsive">
-                                        {{ form_start(assoc_form) }}
+                                        {{ form_start(assoc_form, {'attr': {'id': 'coeff_form'}})}}
                                         <table>
                                             <tr>
                                                 <td>
@@ -193,7 +199,7 @@
                                             <tr>
                                                 <td>
                                                     <input type="hidden" name="user_id" value="{{ user }}"/>
-                                                    <button type="submit">Enregistrer</button>
+                                                    <button type="submit" id="valid_coeff" class="btn" data-ajax-url="{{ path('app_associe')}}">Enregistrer</button>
                                                 </td>
                                             </tr>
                                         </table>
@@ -221,6 +227,28 @@
                 $("#success").slideUp(500);
             }, 5000);
         });
+        $(document).ready(() => {
+            $("#valid_coeff").on('click', (e) => {
+                e.preventDefault()
+                $(this).data('ajax-url')
+                let url = $("#valid_coeff").data('ajax-url')
+
+                $.post(url, $( "#coeff_form" ).serialize(),function( json ) {                    
+                    user_id = json.coeff[1].user_id
+                    for( i=1; i<=12; i++){
+                        $("#"+user_id+"_coeff_"+i).html(json.coeff[i].coeff)
+                    }
+                    let total = 0
+                    $('.coeff_user ').each(function(){
+                        if($(this).data("admin") == false){
+                        console.log($(this).html())
+
+                        }
+                    })
+                },"json" )
+
+            })
+        })
 
     </script>
 {% endblock %}

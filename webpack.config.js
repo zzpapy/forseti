@@ -92,6 +92,9 @@ Encore
     // Custom js
     .addEntry('forseti_collection', './assets/js/collection.js')
 
+    // Custom js
+    .addEntry('forseti_ajax_coeff', './assets/js/ajax_coeff.js')
+
     // readUrl js
     .addEntry('forseti_readUrl', './assets/js/readUrl.js')
 
