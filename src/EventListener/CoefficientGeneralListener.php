@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 
+
 class CoefficientGeneralListener
 {
     private $entityManager;
@@ -22,8 +23,17 @@ class CoefficientGeneralListener
 
     public function postPersist(CoefficientGeneral $coefficientGeneral, LifecycleEventArgs $event)
     {
-        // Si coef de l'admin on fait rien
-        if(in_array('ROLE_ADMIN',$coefficientGeneral->getUser()->getRoles())){
+        $this->upadteCoeffAdmin($coefficientGeneral);
+    }
+
+    public function postUpdate(CoefficientGeneral $coefficientGeneral, LifecycleEventArgs $event)
+    {
+        $this->upadteCoeffAdmin($coefficientGeneral);
+    }
+    protected function upadteCoeffAdmin($coefficientGeneral){
+        // dd($coefficientGeneral);
+         // Si coef de l'admin on fait rien
+         if(in_array('ROLE_ADMIN',$coefficientGeneral->getUser()->getRoles())){
             return true;
         }
 
@@ -95,5 +105,5 @@ class CoefficientGeneralListener
                 $this->entityManager->flush();
             }
         }
-    }
+    } 
 }

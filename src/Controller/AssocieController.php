@@ -83,7 +83,8 @@ class AssocieController extends AbstractController
                             
                             if($formArray[$user_id]->getData()[$keys[$index-1]] != $coefficientGeneral->getCoefficient()){
                                 //vérif si le total des coef est sup à 100                                
-                                if(($totalCoeff - $coefficientGeneral->getCoefficient()) + $formArray[$user_id]->getData()[$keys[$index-1]] <= 100 && $formArray[$user_id]->getData()[$keys[$index-1]] > 0){
+                                // dd(($totalCoeff - $coefficientGeneral->getCoefficient()) + $formArray[$user_id]->getData()[$keys[$index-1]]);
+                                if(($totalCoeff - $coefficientGeneral->getCoefficient()) + $formArray[$user_id]->getData()[$keys[$index-1]] <= 100 && $formArray[$user_id]->getData()[$keys[$index-1]] >= 0){
                                     $coefficientGeneral->setCoefficient($formArray[$user_id]->getData()[$keys[$index-1]]);
                                 }
                                 else{
@@ -151,10 +152,10 @@ class AssocieController extends AbstractController
                             }
                             else{
                                 if($coefficientGeneralRow < 0){
-                                    $this->addFlash('error', 'le coefficientne peut pas être négatif');
+                                    $this->addFlash('error', 'le coefficient ne peut pas être négatif');
                                 }
                                 else{
-                                    $this->addFlash('error', 'le coefficient choisi est trop élévé');
+                                    $this->addFlash('error', 'le coefficient choisit est trop élévé');
                                 }
                                 return $this->redirectToRoute('app_associe');
                             }
