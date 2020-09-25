@@ -14,18 +14,42 @@ class CoefficientGeneralType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('coefficient_january', NumberType::class)
-            ->add('coefficient_february', NumberType::class)
-            ->add('coefficient_march', NumberType::class)
-            ->add('coefficient_april', NumberType::class)
-            ->add('coefficient_may', NumberType::class)
-            ->add('coefficient_june', NumberType::class)
-            ->add('coefficient_july', NumberType::class)
-            ->add('coefficient_august', NumberType::class)
-            ->add('coefficient_september', NumberType::class)
-            ->add('coefficient_october', NumberType::class)
-            ->add('coefficient_november', NumberType::class)
-            ->add('coefficient_december', NumberType::class);
+            ->add('coefficient_january', NumberType::class,[                
+                    'html5' => true
+            ])
+            ->add('coefficient_february', NumberType::class,[                
+                    'html5' => true
+                ])
+            ->add('coefficient_march', NumberType::class,[                
+                    'html5' => true
+                ])
+            ->add('coefficient_april', NumberType::class,[                
+                    'html5' => true
+                ])
+            ->add('coefficient_may', NumberType::class,[                
+                    'html5' => true
+                ])
+            ->add('coefficient_june', NumberType::class,[                
+                    'html5' => true
+                ])
+            ->add('coefficient_july', NumberType::class,[                
+                    'html5' => true
+                ])
+            ->add('coefficient_august', NumberType::class,[                
+                    'html5' => true
+                ])
+            ->add('coefficient_september', NumberType::class,[                
+                    'html5' => true
+                ])
+            ->add('coefficient_october', NumberType::class,[                
+                    'html5' => true
+                ])
+            ->add('coefficient_november', NumberType::class,[                
+                    'html5' => true
+                ])
+            ->add('coefficient_december', NumberType::class,[                
+                    'html5' => true
+                ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
