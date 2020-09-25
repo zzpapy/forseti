@@ -29,7 +29,6 @@ class AssocieController extends AbstractController
 
         //on récup le total des coefs des users
         $totalCoeffUsersPerMonth = $coeffRepo->getTotalUserCoefPerMonth($this->scm,$this->getUser());
-    //    dd($request->request);
         if (count($assoc)) { // si on en a : on crée un formulaire pour les coef
 
             //on init tab pour forms traitement
@@ -183,9 +182,20 @@ class AssocieController extends AbstractController
                             $em = $this->getDoctrine()->getManager();
                             $em->persist($coefficientGeneral);
                             $em->flush();
+                            // dd($user_id);
+                            
+                            $coeff[$index] =[
+                                "month" => $coefficientGeneral->getMonth(),
+                                "coeff" => $coefficientGeneral->getCoefficient(),
+                                "user_id" => $user_id
+                            ];
                             $index++;
                             
                         }
+                        $response->setContent(json_encode([
+                            "coeff" => $coeff
+                        ]));
+                        return $response;
                     }
                     // $this->addFlash('success', 'mise à jour réussie !!!');
                     // return $this->redirectToRoute('app_associe');

@@ -57,6 +57,7 @@
                                                         class="alert-success p-3 text-center">admin</p>{% endif %}</td>
                                             {% set admin = false %}
                                             {% set updateAdmin = "" %}
+                                            {% if user.coefficientgeneral.values %}
                                             {% for coeff in user.coefficientgeneral.values %}
                                             {% if 'ROLE_ADMIN' in user.roles %}
                                                 {% set admin = true  %}
@@ -67,6 +68,11 @@
                                             {% endif %}                                            
                                                 <td class="month_{{loop.index}} {{updateAdmin}}" data-admin="{{admin}}" id="user_{{user.id}}_coeff_{{loop.index}}">{{ coeff.coefficient }}</td>
                                             {% endfor %}
+                                            {% else %}
+                                                {% for i in 0..11 %}
+                                                <td class="month_{{loop.index}} id="user_{{user.id}}_coeff_{{loop.index}}" ></td>
+                                                {% endfor %}
+                                            {% endif %}
                                         </tr>
                                     {% endfor %}
                                     <tr>
@@ -237,9 +243,11 @@
                 let user = $(e.target).data("user-id")
                 let url = $(e.target).data('ajax-url')
                 $.post(url, $( "#form_coeff_" + user ).serialize(),function( json ) {                    
+                console.log(json.coeff)
                     user_id = json.coeff[1].user_id
                     for( i=1; i<=12; i++){
                         $("#"+user_id+"_coeff_"+i).html(json.coeff[i].coeff)
+                        console.log($(this))
                     }
                     let total = []
                     let somme = 0
