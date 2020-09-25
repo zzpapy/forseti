@@ -29,7 +29,7 @@ class AssocieController extends AbstractController
 
         //on récup le total des coefs des users
         $totalCoeffUsersPerMonth = $coeffRepo->getTotalUserCoefPerMonth($this->scm,$this->getUser());
-       
+    //    dd($request->request);
         if (count($assoc)) { // si on en a : on crée un formulaire pour les coef
 
             //on init tab pour forms traitement

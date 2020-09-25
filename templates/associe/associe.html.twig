@@ -56,13 +56,16 @@
                                             <td>{{ user.firstname|capitalize }} {% if 'ROLE_ADMIN' in user.roles %}<p
                                                         class="alert-success p-3 text-center">admin</p>{% endif %}</td>
                                             {% set admin = false %}
+                                            {% set updateAdmin = "" %}
                                             {% for coeff in user.coefficientgeneral.values %}
                                             {% if 'ROLE_ADMIN' in user.roles %}
                                                 {% set admin = true  %}
+                                                {% set updateAdmin = "updateAdmin" %}
                                             {% else %}
                                                 {% set admin = false  %}
+                                                {% set updateAdmin = "" %}
                                             {% endif %}                                            
-                                                <td class="coeff_user" data-admin="{{admin}}" id="user_{{user.id}}_coeff_{{loop.index}}">{{ coeff.coefficient }}</td>
+                                                <td class="month_{{loop.index}} {{updateAdmin}}" data-admin="{{admin}}" id="user_{{user.id}}_coeff_{{loop.index}}">{{ coeff.coefficient }}</td>
                                             {% endfor %}
                                         </tr>
                                     {% endfor %}
@@ -71,7 +74,7 @@
                                         {% for user in allUsers %}
                                             {% if 'ROLE_ADMIN' in user.roles %}
                                                 {% for coeff in user.coefficientgeneral.values %}
-                                                    <td><strong>{{ 100 - coeff.coefficient }}</strong></td>
+                                                    <td class="updateTotal"><strong >{{coeff.coefficient }}</strong></td>
                                                 {% endfor %}
                                             {% endif %}
                                         {% endfor %}
@@ -120,7 +123,7 @@
                                      class="tab-pane {% if loop.first %} active in {% endif %} fade"
                                      role="tabpanel">
                                     <div class="table-responsive">
-                                        {{ form_start(assoc_form, {'attr': {'id': 'coeff_form'}})}}
+                                        {{ form_start(assoc_form, {'attr': {'id':"form_coeff_" ~ user}})}}
                                         <table>
                                             <tr>
                                                 <td>
@@ -199,7 +202,8 @@
                                             <tr>
                                                 <td>
                                                     <input type="hidden" name="user_id" value="{{ user }}"/>
-                                                    <button type="submit" id="valid_coeff" class="btn" data-ajax-url="{{ path('app_associe')}}">Enregistrer</button>
+                                                    {{user}}
+                                                    <button type="submit" class="valid_coeff" class="btn" data-user-id="{{user}}" data-ajax-url="{{ path('app_associe')}}">Enregistrer</button>
                                                 </td>
                                             </tr>
                                         </table>
@@ -227,23 +231,34 @@
                 $("#success").slideUp(500);
             }, 5000);
         });
-        $(document).ready(() => {
-            $("#valid_coeff").on('click', (e) => {
+        $(document).ready(function() {
+            $(".valid_coeff").on('click', (e) => {
                 e.preventDefault()
-                $(this).data('ajax-url')
-                let url = $("#valid_coeff").data('ajax-url')
-
-                $.post(url, $( "#coeff_form" ).serialize(),function( json ) {                    
+                let user = $(e.target).data("user-id")
+                let url = $(e.target).data('ajax-url')
+                $.post(url, $( "#form_coeff_" + user ).serialize(),function( json ) {                    
                     user_id = json.coeff[1].user_id
                     for( i=1; i<=12; i++){
                         $("#"+user_id+"_coeff_"+i).html(json.coeff[i].coeff)
                     }
-                    let total = 0
-                    $('.coeff_user ').each(function(){
-                        if($(this).data("admin") == false){
-                        console.log($(this).html())
+                    let total = []
+                    let somme = 0
+                    for( i=1; i<=12; i++){
+                        $('.month_'+i).each(function(){
+                            if($(this).data("admin") == false){
+                                somme = (somme + parseInt($(this).html()))
+                                total[i] = somme
 
-                        }
+                            }
+                        })
+                        somme = 0
+                    }
+                    console.log(total)
+                    $(".updateAdmin").each(function(){
+                        $(this).html(100 - total[$(this).index()-1])
+                    })
+                     $(".updateTotal").each(function(){
+                        $(this).html(100 - total[$(this).index()])
                     })
                 },"json" )
 
