@@ -66,10 +66,14 @@ class AssocieController extends AbstractController
                 if ($formArray[$user_id]->isSubmitted() && $formArray[$user_id]->isValid()) {
                     
                     if(count($collectionCoefs)){//si collection
-
+                        
+                        // dd(min($formArray[$user_id]->getData()));
+                        if(min($formArray[$user_id]->getData()) <= 0){
+                            $this->addFlash('error','Coefficient négatif impossible');
+                            return $this->redirectToRoute('app_associe');
+                        }
                         //on formate en tableau la collection
                         $collectionCoefs = $collectionCoefs->getValues();
-
                         //on génére un tableau de clés du tableau assoc de données du form
                         $keys = array_keys($formArray[$user_id]->getData());
                         $bool = false;
@@ -94,7 +98,7 @@ class AssocieController extends AbstractController
                                         $this->addFlash('error','Coefficient négatif impossible');
                                     }
                                     else{
-                                        $this->addFlash('error', 'le coefficient pour le mois de '.date_format($coefficientGeneral->getMonth(), "F").' est trop élévé il ne reste que '.$reste.'part '.$pluriel);
+                                        $this->addFlash('error', 'le coefficient pour le mois de '.date_format($coefficientGeneral->getMonth(), "F").' est trop élévé il ne reste que '.$reste.' part '.$pluriel);
                                     }
                                     return $this->redirectToRoute('app_associe');
                                 }
@@ -117,12 +121,12 @@ class AssocieController extends AbstractController
                         //on init un index pour générer le mois en int
                         $index = 1;
                         foreach ($formArray[$user_id]->getData() as $coefficientGeneralRow) {
-
-                            //on vérif qu'il n'ya pas de valeure neg ds le post
+                           
                             if(min($formArray[$user_id]->getData()) <= 0){
                                 $this->addFlash('error','Coefficient négatif impossible');
                                 return $this->redirectToRoute('app_associe');
                             }
+                            //on vérif qu'il n'ya pas de valeure neg ds le post
                             //on crée un nouvel objet CoefficientGeneral
                             $coefficientGeneral = new CoefficientGeneral();
     

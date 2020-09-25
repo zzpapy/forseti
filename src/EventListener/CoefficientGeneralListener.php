@@ -81,12 +81,14 @@ class CoefficientGeneralListener
             if (isset($coeffCollection[$index - 1])) {
                 //on récup chaque objet de la collection
                 $coefficientGeneralAdmin = $coeffCollection[$index - 1];
-                $coefAdmin = $totalCoeffUsersPerMonth[$index - 1]["total"];
-
+                $coefAdmin = 100 - $totalCoeffUsersPerMonth[$index - 1]["total"];
+                if($coefAdmin < 0){
+                    return false;
+                }
                 //on vérif si la valeur actuelle est différente de la valeur total en cours
                 if ($coefficientGeneralAdmin->getCoefficient() != $coefAdmin) {// si oui
                     //on modifie la valeur de l'objet
-                    $coefficientGeneralAdmin->setCoefficient(100 - $coefAdmin);
+                    $coefficientGeneralAdmin->setCoefficient($coefAdmin);
 
                     //on stock en bdd
                     $this->entityManager->persist($coefficientGeneralAdmin);
@@ -94,11 +96,14 @@ class CoefficientGeneralListener
                 }
             } else {
                 $month = $coefficientGeneral->getMonth();
-                $coefAdmin = $coefficientGeneral->getCoefficient();
+                $coefAdmin = 100 - $coefficientGeneral->getCoefficient();
+                if($coefAdmin < 0){
+                    return false;
+                }
                 $coefficientGeneralAdmin = new CoefficientGeneral();
                 $coefficientGeneralAdmin->setUser($userAdmin);
                 $coefficientGeneralAdmin->setMonth($month);
-                $coefficientGeneralAdmin->setCoefficient(100 - $coefAdmin);
+                $coefficientGeneralAdmin->setCoefficient($coefAdmin);
 
                 //on stock en bdd
                 $this->entityManager->persist($coefficientGeneralAdmin);
