@@ -22,7 +22,9 @@ class AssocieController extends AbstractController
         // Récup la scm
        $response = new Response;
         $this->scm = $this->getUser()->getScm();
-        
+        //tableau des mois
+
+        $moisTab = ["","Janvier","Février","Mars","Avril","Mai","Juin","juillet","Août","septembre","Octobre","Novembre","Décembre"];
         // Récup les associés de cette scm
         $assoc = $this->scm->getAssocies();
         $allUsers = $this->scm->getUsers()->getValues();
@@ -64,14 +66,17 @@ class AssocieController extends AbstractController
                 $collectionCoefs = $user->getCoefficientGeneral()->filter(function($element) {
                                     return $element;
                                 });
+                $error = "";
                 if ($formArray[$user_id]->isSubmitted() && $formArray[$user_id]->isValid()) {
                     
                     if(count($collectionCoefs)){//si collection
                         
-                        // dd(min($formArray[$user_id]->getData()));
-                        if(min($formArray[$user_id]->getData()) <= 0){
-                            $this->addFlash('error','Coefficient négatif impossible');
-                            return $this->redirectToRoute('app_associe');
+                        //on vérifiei si il ya une valeur négative ds le post
+                        if(min($formArray[$user_id]->getData()) < 0){
+                            $response->setContent(json_encode([
+                                "error" => "1",
+                            ]));
+                            return $response;
                         }
                         //on formate en tableau la collection
                         $collectionCoefs = $collectionCoefs->getValues();
@@ -88,43 +93,60 @@ class AssocieController extends AbstractController
                             //on vérifie que la nouvelle valeur est différente de l'actuelle
                             
                             if($formArray[$user_id]->getData()[$keys[$index-1]] != $coefficientGeneral->getCoefficient()){
-                                //vérif si le total des coef est sup à 100                                
-                                // dd(($totalCoeff - $coefficientGeneral->getCoefficient()) + $formArray[$user_id]->getData()[$keys[$index-1]]);
+                                //vérif si le total des coef est sup à 100           
                                 if(($totalCoeff - $coefficientGeneral->getCoefficient()) + $formArray[$user_id]->getData()[$keys[$index-1]] <= 100 && $formArray[$user_id]->getData()[$keys[$index-1]] >= 0){
                                     $coefficientGeneral->setCoefficient($formArray[$user_id]->getData()[$keys[$index-1]]);
                                 }
-                                else{
+                                else{//on génere une erreur
                                     $reste = 100 - $totalCoeff;
                                     $pluriel = $totalCoeff > 1 ? "s" : "";
+                                    $coefficientGeneral->setCoefficient(0);
                                     if($formArray[$user_id]->getData()[$keys[$index-1]] < 0){
-                                        $this->addFlash('error','Coefficient négatif impossible');
-                                    }
-                                    else{
-                                        $this->addFlash('error', 'le coefficient pour le mois de '.date_format($coefficientGeneral->getMonth(), "F").' est trop élévé il ne reste que '.$reste.' part '.$pluriel);
-                                    }
-                                    return $this->redirectToRoute('app_associe');
+                                        $error = "coefficient negatif impossible";
+                                        }
+                                        else{
+                                            $mois = $moisTab[date_format($coefficientGeneral->getMonth(), "n")];
+                                            $error = "le coefficient du mois de ". $mois." est trop élevé";
+                                        }
                                 }
                                 $bool = true;
-                                //si nouvelle valeure on update le coefficient en récupérant la nouvelle valeure par son index
+                                //si nouvelle valeur on update le coefficient en récupérant la nouvelle valeure par son index
                                 //on stock en bdd
                                 $em = $this->getDoctrine()->getManager();
                                 $em->persist($coefficientGeneral);
                                 $em->flush();
                             }
+                            //on génère un tableau avec tous les coeff de l'user pout la réponse
                             $coeff[$index] =[
                                 "month" => $coefficientGeneral->getMonth(),
                                 "coeff" => $coefficientGeneral->getCoefficient(),
+                                "success" => 'mise à jour réalisée avec succés !!!',
                                 "user_id" => $user_id
                             ];
                            
                         }
+                        //on vérif si $bool false (pas de modification) on retourne les errurs
                         if($bool == false){
-                            // dd($bool);
-                            $this->addFlash('error','Aucune modification');
-                            return $this->redirectToRoute('app_associe');
+                            $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                            $response->setContent(json_encode([
+                                "error" => "Aucune modification",
+                            ]));
+                            return $response;
+                        }
+                        //si erreur on retourne erreur
+                        if($error != ""){
+                            $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                            $response->setContent(json_encode([
+                                "coeff" => $coeff,
+                                "totalCoeff" => $totalCoeffUsersPerMonth,
+                                "error" => $error
+                            ]));
+                            return $response;
                         }
                         $response->setContent(json_encode([
-                            "coeff" => $coeff
+                            "coeff" => $coeff,
+                            "success" => 'mise à jour réalisée avec succés !!!',
+                            "totalCoeff" => $totalCoeffUsersPerMonth
                         ]));
                         return $response;
                     }
@@ -134,9 +156,12 @@ class AssocieController extends AbstractController
                         $index = 1;
                         foreach ($formArray[$user_id]->getData() as $coefficientGeneralRow) {
                            
-                            if(min($formArray[$user_id]->getData()) <= 0){
-                                $this->addFlash('error','Coefficient négatif impossible');
-                                return $this->redirectToRoute('app_associe');
+                            if(min($formArray[$user_id]->getData()) < 0){
+                                $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                                $response->setContent(json_encode([
+                                    "error" => "Coefficient négatif impossible",
+                                ]));
+                                return $response;
                             }
                             //on vérif qu'il n'ya pas de valeure neg ds le post
                             //on crée un nouvel objet CoefficientGeneral
@@ -150,30 +175,32 @@ class AssocieController extends AbstractController
                             if(count($totalCoeff)){
                                 $totalCoeff = $totalCoeff[$index-1]["total"];
                                 //on set l'objet CoefficientGeneral si positif et total inf à 100
-                                if($totalCoeff + $coefficientGeneralRow <= 100 && $coefficientGeneralRow > 0){
+                                if($totalCoeff + $coefficientGeneralRow <= 100 && $coefficientGeneralRow >= 0){
                                     $coefficientGeneral->setCoefficient($coefficientGeneralRow);
                                 }
                                 else{
-                                    if($coefficientGeneralRow < 0){
-                                        $this->addFlash('error', 'le coefficient ne peut pas être négatif');
-                                    }
-                                    else{
-                                        $this->addFlash('error', 'le coefficient choisi est trop élévé');
-                                    }
-                                    return $this->redirectToRoute('app_associe');
+                                    $coefficientGeneral->setCoefficient(0);
+                                    if($totalCoeff + $coefficientGeneralRow <= 100 && $coefficientGeneralRow < 0){
+                                        $error = "coefficient negatif impossible";
+                                        }
+                                        else{
+                                            $mois = $moisTab[date_format($coefficientGeneral->getMonth(), "n")];
+                                            $error = "le coefficient du mois de ". $mois."est trop élevé";
+                                        }
                                 }
                             }
-                            elseif($coefficientGeneralRow <= 100 && $coefficientGeneralRow > 0){
+                            elseif($coefficientGeneralRow <= 100 && $coefficientGeneralRow >= 0){
                                 $coefficientGeneral->setCoefficient($coefficientGeneralRow);
                             }
-                            else{
-                                if($coefficientGeneralRow < 0){
-                                    $this->addFlash('error', 'le coefficient ne peut pas être négatif');
+                            else{                                    
+                                $coefficientGeneral->setCoefficient(0);
+                                if($totalCoeff + $coefficientGeneralRow <= 100 && $coefficientGeneralRow < 0){
+                                    $error = "coefficient negatif impossible";
                                 }
                                 else{
-                                    $this->addFlash('error', 'le coefficient choisit est trop élévé');
+                                    $mois = $moisTab[date_format($coefficientGeneral->getMonth(), "n")];
+                                    $error = "le coefficient du mois de ". $mois." est trop élevé";
                                 }
-                                return $this->redirectToRoute('app_associe');
                             }
                             $coefficientGeneral->setMonth($dateObj);
                             $coefficientGeneral->setUser($user);
@@ -182,8 +209,8 @@ class AssocieController extends AbstractController
                             $em = $this->getDoctrine()->getManager();
                             $em->persist($coefficientGeneral);
                             $em->flush();
-                            // dd($user_id);
-                            
+
+                            //on génère un tableau avec tous les coeff de l'user pout la réponse
                             $coeff[$index] =[
                                 "month" => $coefficientGeneral->getMonth(),
                                 "coeff" => $coefficientGeneral->getCoefficient(),
@@ -192,13 +219,25 @@ class AssocieController extends AbstractController
                             $index++;
                             
                         }
+                        //on récupère la liste des sommes des coeffs mise à jour
+                        $totalCoeffUsersPerMonth = $coeffRepo->getTotalUserCoefPerMonth($this->scm,$this->getUser());
+                        //gestion des erreurs
+                        if($error != ""){
+                            $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                            $response->setContent(json_encode([
+                                "coeff" => $coeff,
+                                "totalCoeff" => $totalCoeffUsersPerMonth,
+                                "error" => $error
+                            ]));
+                            return $response;
+                        }
                         $response->setContent(json_encode([
-                            "coeff" => $coeff
+                            "coeff" => $coeff,
+                            "totalCoeff" => $totalCoeffUsersPerMonth,
+                            "success" => 'success', 'mise à jour réussie !!!'
                         ]));
                         return $response;
                     }
-                    // $this->addFlash('success', 'mise à jour réussie !!!');
-                    // return $this->redirectToRoute('app_associe');
                     
                 }
             }

@@ -8,16 +8,14 @@
     <li class="active">Associés</li>{% endblock %}
 {% block body %}
     <div class="col-sm-12">
-        {% for message in app.flashes('error') %}
-            <div id="alert" class="alert alert-danger">
-                {{ message }}
+        {# {% for message in app.flashes('error') %} #}
+            <div id="alert" class="hide alert alert-danger">
             </div>
-        {% endfor %}
-        {% for message in app.flashes('success') %}
-            <div id="success" class="alert alert-success">
-                {{ message }}
+        {# {% endfor %} #}
+        {# {% for message in app.flashes('success') %} #}
+            <div id="success" class="hide alert alert-success">
             </div>
-        {% endfor %}
+        {# {% endfor %} #}
         <div class="panel panel-default card-view">
             <div class="panel panel-default card-view">
                 <div class="panel-heading">
@@ -70,7 +68,15 @@
                                             {% endfor %}
                                             {% else %}
                                                 {% for i in 0..11 %}
-                                                <td class="month_{{loop.index}} id="user_{{user.id}}_coeff_{{loop.index}}" ></td>
+                                                {% set val = 0  %}
+                                                {% if 'ROLE_ADMIN' in user.roles %}
+                                                {% set admin = true  %}
+                                                {% set updateAdmin = "updateAdmin" %}
+                                                {% set val = 100  %}
+                                                {% else %}
+                                                    {% set val = 0 %}
+                                                {% endif %}                                                
+                                                <td class="month_{{loop.index}} {{updateAdmin}}" id="user_{{user.id}}_coeff_{{loop.index}}" >{{val}}</td>
                                                 {% endfor %}
                                             {% endif %}
                                         </tr>
@@ -79,9 +85,15 @@
                                         <td colspan="2"><strong>Parts Restantes</strong></td>
                                         {% for user in allUsers %}
                                             {% if 'ROLE_ADMIN' in user.roles %}
-                                                {% for coeff in user.coefficientgeneral.values %}
-                                                    <td class="updateTotal"><strong >{{coeff.coefficient }}</strong></td>
-                                                {% endfor %}
+                                                {% if user.coefficientgeneral.values %}
+                                                    {% for coeff in user.coefficientgeneral.values %}
+                                                        <td class="updateTotal"><strong >{{coeff.coefficient }}</strong></td>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    {% for i in 0..11 %}
+                                                        <td class="updateTotal"><strong >100</strong></td>                                                    
+                                                    {% endfor %}
+                                                {% endif %}
                                             {% endif %}
                                         {% endfor %}
                                     </tr>
@@ -208,7 +220,6 @@
                                             <tr>
                                                 <td>
                                                     <input type="hidden" name="user_id" value="{{ user }}"/>
-                                                    {{user}}
                                                     <button type="submit" class="valid_coeff" class="btn" data-user-id="{{user}}" data-ajax-url="{{ path('app_associe')}}">Enregistrer</button>
                                                 </td>
                                             </tr>
@@ -237,41 +248,30 @@
                 $("#success").slideUp(500);
             }, 5000);
         });
-        $(document).ready(function() {
-            $(".valid_coeff").on('click', (e) => {
-                e.preventDefault()
-                let user = $(e.target).data("user-id")
-                let url = $(e.target).data('ajax-url')
-                $.post(url, $( "#form_coeff_" + user ).serialize(),function( json ) {                    
-                console.log(json.coeff)
-                    user_id = json.coeff[1].user_id
-                    for( i=1; i<=12; i++){
-                        $("#"+user_id+"_coeff_"+i).html(json.coeff[i].coeff)
-                        console.log($(this))
+        $('input').keyup(function(){
+                let val = $(this).val()
+            if(val > 100 || val < 0){
+                $(".valid_coeff").prop('disabled', true);
+                $("#alert").removeClass('hide')
+                $("#alert").slideDown(500, function () {
+                    console.log(val)
+                    if(val > 100){
+                        var mess ="coefficient trop élevé"
                     }
-                    let total = []
-                    let somme = 0
-                    for( i=1; i<=12; i++){
-                        $('.month_'+i).each(function(){
-                            if($(this).data("admin") == false){
-                                somme = (somme + parseInt($(this).html()))
-                                total[i] = somme
-
-                            }
-                        })
-                        somme = 0
+                    else{
+                        mess = "coefficient inférieur à 0"
                     }
-                    console.log(total)
-                    $(".updateAdmin").each(function(){
-                        $(this).html(100 - total[$(this).index()-1])
-                    })
-                     $(".updateTotal").each(function(){
-                        $(this).html(100 - total[$(this).index()])
-                    })
-                },"json" )
-
-            })
+                    $("#alert").html(mess)
+                    setTimeout(function () {
+                        $("#alert").slideUp(500)
+                        $("#alert").addClass('hide')
+                        $("#alert").html("")
+                    }, 5000);
+                });
+            }
+            else{
+                $(".valid_coeff").prop('disabled', false);
+            }
         })
-
     </script>
 {% endblock %}

@@ -9,3 +9,6 @@
 .d-flex{
     display: flex !important;
 }
+.hide{
+    display: none;
+}
