@@ -30,7 +30,7 @@ $(document).ready(function() {
                 $("#success").css('z-index','1')
                 $("#success").css('position','fixed')
                 $("#success").css('width','25%')
-                $("#success").css('top','50vw')
+                $("#success").css('top','70vh')
                 $("#success").css('left','50vw')
                 $("#success").slideDown(500, function () {
                     setTimeout(function () {
@@ -60,7 +60,7 @@ $(document).ready(function() {
                 $("#alert").css('z-index','1')
                 $("#alert").css('position','fixed')
                 $("#alert").css('width','25%')
-                $("#alert").css('top','50vw')
+                $("#alert").css('top','70vh')
                 $("#alert").css('left','50vw')
                 $("#alert").slideDown(500, function () {
                     setTimeout(function () {
