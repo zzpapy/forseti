@@ -24,8 +24,15 @@ $(document).ready(function() {
                 coeff.push($("#"+user_id+"_coeff_"+i).html())
                 $("#success").removeClass('hide')
                 console.log(json)
+                $("#success").removeClass('hide')
                 $("#success").html(json.success)
-                $("#success").slideDown(500, function (coeff) {
+                $("#success").removeClass('hide')
+                $("#success").css('z-index','1')
+                $("#success").css('position','fixed')
+                $("#success").css('width','25%')
+                $("#success").css('top','50vw')
+                $("#success").css('left','50vw')
+                $("#success").slideDown(500, function () {
                     setTimeout(function () {
                         $("#success").slideUp(500)
                         $("#success").addClass('hide')
@@ -49,11 +56,17 @@ $(document).ready(function() {
                 //en cas d'erreur on affiche
                 $("#alert").removeClass('hide')
                 $("#alert").html(error.responseJSON.error)
+                $("#alert").removeClass('hide')
+                $("#alert").css('z-index','1')
+                $("#alert").css('position','fixed')
+                $("#alert").css('width','25%')
+                $("#alert").css('top','50vw')
+                $("#alert").css('left','50vw')
                 $("#alert").slideDown(500, function () {
                     setTimeout(function () {
                         $("#alert").slideUp(500)
-                        // $("#alert").addClass('hide')
-                        // $("#alert").html("")
+                        $("#alert").addClass('hide')
+                        $("#alert").html("")
                     }, 5000);
                 });
             }

@@ -12,3 +12,6 @@
 .hide{
     display: none;
 }
+.border-red{
+    border-color:red;
+}
