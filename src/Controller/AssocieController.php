@@ -134,6 +134,7 @@ class AssocieController extends AbstractController
                             return $response;
                         }
                         //si erreur on retourne erreur
+                        $totalCoeffUsersPerMonth = $coeffRepo->getTotalUserCoefPerMonth($this->scm,$this->getUser());
                         if($error != ""){
                             $response->setStatusCode(Response::HTTP_NOT_FOUND);
                             $response->setContent(json_encode([

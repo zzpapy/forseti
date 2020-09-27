@@ -56,27 +56,27 @@
                                             {% set admin = false %}
                                             {% set updateAdmin = "" %}
                                             {% if user.coefficientgeneral.values %}
-                                            {% for coeff in user.coefficientgeneral.values %}
-                                            {% if 'ROLE_ADMIN' in user.roles %}
-                                                {% set admin = true  %}
-                                                {% set updateAdmin = "updateAdmin" %}
-                                            {% else %}
-                                                {% set admin = false  %}
-                                                {% set updateAdmin = "" %}
-                                            {% endif %}                                            
-                                                <td class="month_{{loop.index}} {{updateAdmin}}" data-admin="{{admin}}" id="user_{{user.id}}_coeff_{{loop.index}}">{{ coeff.coefficient }}</td>
-                                            {% endfor %}
+                                                {% for coeff in user.coefficientgeneral.values %}
+                                                    {% if 'ROLE_ADMIN' in user.roles %}
+                                                        {% set admin = true  %}
+                                                        {% set updateAdmin = "updateAdmin" %}
+                                                    {% else %}
+                                                        {% set admin = false  %}
+                                                        {% set updateAdmin = "" %}
+                                                    {% endif %}                                            
+                                                    <td class="month_{{loop.index}} {{updateAdmin}}" data-admin="{{admin}}" id="user_{{user.id}}_coeff_{{loop.index}}">{{ coeff.coefficient }}</td>
+                                                {% endfor %}
                                             {% else %}
                                                 {% for i in 0..11 %}
-                                                {% set val = 0  %}
-                                                {% if 'ROLE_ADMIN' in user.roles %}
-                                                {% set admin = true  %}
-                                                {% set updateAdmin = "updateAdmin" %}
-                                                {% set val = 100  %}
-                                                {% else %}
-                                                    {% set val = 0 %}
-                                                {% endif %}                                                
-                                                <td class="month_{{loop.index}} {{updateAdmin}}" id="user_{{user.id}}_coeff_{{loop.index}}" >{{val}}</td>
+                                                    {% set val = 0  %}
+                                                        {% if 'ROLE_ADMIN' in user.roles %}
+                                                            {% set admin = true  %}
+                                                            {% set updateAdmin = "updateAdmin" %}
+                                                            {% set val = 100  %}
+                                                        {% else %}
+                                                            {% set val = 0 %}
+                                                        {% endif %}                                                
+                                                        <td class="month_{{loop.index}} {{updateAdmin}}" id="user_{{user.id}}_coeff_{{loop.index}}" >{{val}}</td>
                                                 {% endfor %}
                                             {% endif %}
                                         </tr>
