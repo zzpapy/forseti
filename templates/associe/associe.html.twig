@@ -8,11 +8,8 @@
     <li class="active">Associés</li>{% endblock %}
 {% block body %}
     <div class="col-sm-12">
-        {# {% for message in app.flashes('error') %} #}
             <div id="alert" class="hide alert alert-danger">
             </div>
-        {# {% endfor %} #}
-        {# {% for message in app.flashes('success') %} #}
             <div id="success" class="hide alert alert-success">
             </div>
         {# {% endfor %} #}
@@ -255,6 +252,7 @@
                 $("input").prop('disabled', true);
                 $(this).prop('disabled', false);
                 $(this).css('border-color','red')
+                $(this).focus()
                 $("#alert").removeClass('hide')
                 $("#alert").css('z-index','1')
                 $("#alert").css('position','fixed')
