@@ -74,7 +74,7 @@ class AssocieController extends AbstractController
                         //on vérifiei si il ya une valeur négative ds le post
                         if(min($formArray[$user_id]->getData()) < 0){
                             $response->setContent(json_encode([
-                                "error" => "1",
+                                "error" => "Coefficient négatif impossible",
                             ]));
                             return $response;
                         }
