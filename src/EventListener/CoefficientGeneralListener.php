@@ -31,7 +31,6 @@ class CoefficientGeneralListener
         $this->upadteCoeffAdmin($coefficientGeneral);
     }
     protected function upadteCoeffAdmin($coefficientGeneral){
-        // dd($coefficientGeneral);
          // Si coef de l'admin on fait rien
          if(in_array('ROLE_ADMIN',$coefficientGeneral->getUser()->getRoles())){
             return true;

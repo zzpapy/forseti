@@ -31,8 +31,7 @@ Gestion des associés
                                 <table class="table table-striped mb-0">
                                     <thead>
                                     <tr>
-                                        <th>Nom</th>
-                                        <th>Prénom</th>
+                                        <th colspan="2">Mois</th>
                                         <th>janvier</th>
                                         <th>Février</th>
                                         <th>Mars</th>
@@ -46,7 +45,7 @@ Gestion des associés
                                         <th>Novembre</th>
                                         <th>Décembre</th>
                                     </tr>
-                                    <tr>
+                                    <tr>                                    
                                     <td colspan="2">Total Charges €</td>
                                     {% for i in 1..12 %}
                                         {% set bool = false %}
@@ -66,11 +65,18 @@ Gestion des associés
                                         {% endif %}                                        
                                     {% endfor %}
                                     </tr>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th>Prénom</th>
+                                        {% for i in 1..12  %}
+                                            <th style="background-color: #dedede "></th>
+                                        {% endfor %}
+                                        </tr>
                                     </thead>
                                     <tbody>
                                     {% for user in allUsers %}
                                         <tr>
-                                            <td>{{ user.lastname|capitalize }}</td>
+                                            <th>{{ user.lastname|capitalize }}</th>
                                             <td>{{ user.firstname|capitalize }} {% if 'ROLE_ADMIN' in user.roles %}<p
                                                         class="alert-success p-3 text-center">admin</p>{% endif %}</td>
                                             {% set admin = false %}
@@ -101,7 +107,7 @@ Gestion des associés
                                             {% endif %}
                                         </tr>
                                         <tr>
-                                            <td></td>                                         
+                                            <th></th>                                         
                                             <td><strong>Total €</strong></td>                                            
                                             {% if user.coefficientgeneral.values %}
                                                 {% for coeff in user.coefficientgeneral.values %}
@@ -125,8 +131,9 @@ Gestion des associés
                                         </tr>
                                         <tr></tr>
                                         <tr>
-                                        {% for i in 1..14  %}
-                                            <td style="background-color: #acb0b1"></td>
+                                        <td colspan="2"></td>
+                                        {% for i in 1..12  %}
+                                            <th style="background-color: #dedede "></th>
                                         {% endfor %}
                                         </tr>
                                     {% endfor %}
@@ -194,84 +201,84 @@ Gestion des associés
                                         {{ form_start(assoc_form, {'attr': {'id':"form_coeff_" ~ user}})}}
                                         <table>
                                             <tr>
-                                                <td>
+                                                <th>
                                                     {{ form_row(assoc_form.coefficient_january,{
                                                         'label':'Janvier',
                                                         'value':tab[user~"_0"]
                                                     }) }}
-                                                </td>
-                                                <td>
+                                                </th>
+                                                <th>
                                                     {{ form_row(assoc_form.coefficient_february,{
                                                         'label':'Février',
                                                         'value':tab[user~"_1"]
                                                     }) }}
-                                                </td>
-                                                <td>
+                                                </th>
+                                                <th>
                                                     {{ form_row(assoc_form.coefficient_march,{
                                                         'label':'Mars',
                                                         'value':tab[user~"_2"]
                                                     }) }}
-                                                </td>
-                                                <td>
+                                                </th>
+                                                <th>
                                                     {{ form_row(assoc_form.coefficient_april,{
                                                         'label':'Avril',
                                                         'value':tab[user~"_3"]
                                                     }) }}
-                                                </td>
-                                                <td>
+                                                </th>
+                                                <th>
                                                     {{ form_row(assoc_form.coefficient_may,{
                                                         'label':'Mai',
                                                         'value':tab[user~"_4"]
                                                     }) }}
-                                                </td>
-                                                <td>
+                                                </th>
+                                                <th>
                                                     {{ form_row(assoc_form.coefficient_june,{
                                                         'label':'Juin',
                                                         'value':tab[user~"_5"]
                                                     }) }}
-                                                </td>
-                                                <td>
+                                                </th>
+                                                <th>
                                                     {{ form_row(assoc_form.coefficient_july,{
                                                         'label':'Juillet',
                                                         'value':tab[user~"_6"]
                                                     }) }}
-                                                </td>
-                                                <td>
+                                                </th>
+                                                <th>
                                                     {{ form_row(assoc_form.coefficient_august,{
                                                         'label':'Août',
                                                         'value':tab[user~"_7"]
                                                     }) }}
-                                                </td>
-                                                <td>
+                                                </th>
+                                                <th>
                                                     {{ form_row(assoc_form.coefficient_september,{
                                                         'label':'Septembre',
                                                         'value':tab[user~"_8"]
                                                     }) }}
-                                                </td>
-                                                <td>
+                                                </th>
+                                                <th>
                                                     {{ form_row(assoc_form.coefficient_october,{
                                                         'label':'Octobre',
                                                         'value':tab[user~"_9"]
                                                     }) }}
-                                                </td>
-                                                <td>
+                                                </th>
+                                                <th>
                                                     {{ form_row(assoc_form.coefficient_november,{
                                                         'label':'Novembre',
                                                         'value':tab[user~"_10"]
                                                     }) }}
-                                                </td>
-                                                <td>
+                                                </th>
+                                                <th>
                                                     {{ form_row(assoc_form.coefficient_december,{
                                                         'label':'Décembre',
                                                         'value':tab[user~"_11"]
                                                     }) }}
-                                                </td>
+                                                </th>
                                             </tr>
                                             <tr>
-                                                <td>
+                                                <th>
                                                     <input type="hidden" name="user_id" value="{{ user }}"/>
                                                     <button type="submit" class="valid_coeff" class="btn" data-user-id="{{user}}" data-ajax-url="{{ path('app_associe')}}">Enregistrer</button>
-                                                </td>
+                                                </th>
                                             </tr>
                                         </table>
                                         {{ form_end(assoc_form) }}
