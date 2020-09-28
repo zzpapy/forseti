@@ -108,11 +108,29 @@ class ChargeRepository extends ServiceEntityRepository
     public function getTotalChargePerType($scm_id)
     {
         return $this->createQueryBuilder('c')
-            ->select('SUM(ABS(c.total)) as total', 'ct.label')
+            ->select('SUM(ABS(c.total)) as total, ct.label')
             ->innerjoin(ChargeType::class, 'ct', Join::WITH, 'c.type = ct.id')
             ->andWhere('c.scm = :scm_id')
             ->setParameter('scm_id', $scm_id)
-            ->groupBy('ct.label')->getQuery()
+            ->groupBy('ct.label')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    public function getTotalChargePerMonth($scm_id, $startDate, $endDate)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('SUM(ABS(c.total)) as total', 'MONTH(c.payedAt) as mois')
+            ->andWhere('c.scm = :scm_id')
+            ->andWhere('c.payedAt > :start')
+            ->andWhere('c.payedAt < :end')
+            ->groupBy('mois, c.type')
+            ->orderBy('mois')
+            ->setParameter('scm_id', $scm_id)
+            ->setParameter('start', $startDate)
+            ->setParameter('end', $endDate)
+            ->groupBy('mois')
+            ->getQuery()
             ->getArrayResult();
     }
 

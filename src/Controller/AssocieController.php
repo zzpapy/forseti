@@ -6,6 +6,7 @@ use App\Entity\CoefficientGeneral;
 use App\Entity\User;
 use App\Repository\CoefficientGeneralRepository;
 use App\Form\CoefficientGeneralType;
+use App\Repository\ChargeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,7 +18,7 @@ class AssocieController extends AbstractController
     /**
      * @Route("/associe", name="app_associe")
      */
-    public function index(Request $request, CoefficientGeneralRepository $coeffRepo)
+    public function index(Request $request, CoefficientGeneralRepository $coeffRepo, ChargeRepository $chargeRepo)
     {
         // Récup la scm
        $response = new Response;
@@ -254,11 +255,14 @@ class AssocieController extends AbstractController
                 $tabCoefsUsers[$key] = $listCeoffsuser;
             }
 
+            $totalChargePerMonth = $chargeRepo->getTotalChargePerMonth($this->scm,'2020-01601','2020-12-31');
+            
             return $this->render('associe/associe.html.twig', [
                 'controller_name' => 'AssocieController',
                 'assoc_form_list' => $formArrayView,
-                'tabAssoc' =>$tabCoefsUsers,
-                'allUsers' =>$allUsers
+                'tabAssoc' => $tabCoefsUsers,
+                'allUsers' => $allUsers,
+                'totalChargeMonth' => $totalChargePerMonth
             ]);
         } else { // sinon on redirige vers un formulaire de créa des associés
             // TODO

@@ -43,6 +43,24 @@
                                         <th>Novembre</th>
                                         <th>Décembre</th>
                                     </tr>
+                                    <tr>
+                                    <td colspan="2">Total Charges €</td>
+                                    {% for i in 1..12 %}
+                                        {% set bool = false %}
+                                        {% set totalEnCours = 0 %}
+                                        {% for total in totalChargeMonth %}
+                                            {% if i == total["mois"] %}
+                                                {% set bool = true  %}
+                                                {% set totalEnCours = total["total"]  %}
+                                            {% endif %}
+                                        {% endfor %} 
+                                        {% if bool %}
+                                            <td><p>{{totalEnCours}}</p></td>
+                                        {% else %}
+                                            <td>0</td>
+                                        {% endif %}                                        
+                                    {% endfor %}
+                                    </tr>
                                     </thead>
                                     <tbody>
                                     {% for user in allUsers %}
@@ -77,6 +95,33 @@
                                                 {% endfor %}
                                             {% endif %}
                                         </tr>
+                                        <tr>
+                                            <td></td>                                         
+                                            <td><strong>Total €</strong></td>                                            
+                                            {% if user.coefficientgeneral.values %}
+                                                {% for coeff in user.coefficientgeneral.values %}
+                                                    {% set bool = false  %}
+                                                    {% set totalEnCours = 0  %}
+                                                    {% for total in totalChargeMonth %}
+                                                        {% if coeff.month|date('n')|number_format == total["mois"] %}
+                                                            {% set bool = true  %}
+                                                            {% set totalEnCours = total["total"]  %}
+                                                        {% endif %}
+                                                    {% endfor %} 
+                                                    {% if bool %}
+                                                        <td><p>{{(totalEnCours * coeff.coefficient / 100)|number_format(2,',','.')}}</p></td>
+                                                    {% else %}
+                                                        <td>0</td>
+                                                    {% endif %}                                                      
+                                                {% endfor %}
+                                            {% endif %}                                            
+                                        </tr>
+                                        <tr></tr>
+                                        <tr>
+                                        {% for i in 1..14  %}
+                                            <td style="background-color: #acb0b1"></td>
+                                        {% endfor %}
+                                        </tr>
                                     {% endfor %}
                                     <tr>
                                         <td colspan="2"><strong>Parts Restantes</strong></td>
@@ -94,6 +139,7 @@
                                             {% endif %}
                                         {% endfor %}
                                     </tr>
+                                   
                                     </tbody>
                                 </table>
                             </div>
