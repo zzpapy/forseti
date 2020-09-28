@@ -17,14 +17,10 @@ $(document).ready(function() {
             //on init un tableau avec les nouveaux totaux des coeffs users
             let coeff = []
             id = user_id.replace('user_','');
-            console.log(id)
             //on parcours les cases coeff de l'user dans le tableau
             for(i=0; i < json.totalChargeMonth.length; i++){
-                console.log(i == json.totalChargeMonth[i].mois)
-                // if(json.totalChargeMonth[i].mois){
                     totalUser = (json.totalChargeMonth[i].total * json.coeff[json.totalChargeMonth[i].mois].coeff / 100).toFixed(2).replace(".", ",");
                     $("#total_"+json.totalChargeMonth[i].mois+"_"+id).html(totalUser)
-                // }
             }
             for( i=1; i<=12; i++){
 
@@ -66,26 +62,6 @@ $(document).ready(function() {
             }
         ).fail(
             function(error){
-
-                user_id = error.responseJSON.coeff[1].user_id
-                //on init un tableau avec les nouveaux totaux des coeffs users
-                let coeff = []
-                //on parcours les cases coeff de l'user dans le tableau
-                for( i=1; i<=12; i++){
-
-                    //on met à jour l'affichage avec la nouvelle valeure
-                    $("#"+user_id+"_coeff_"+i).html(error.responseJSON.coeff[i].coeff)
-
-                    //on init un tab pour mise à jour coeffs admin et tiotal parts restantes.
-                    coeff.push(error.responseJSON.coeff[i].coeff)
-                }
-                console.log(error.responseJSON.totalCoeff)
-                $(".updateAdmin").each(function(){
-                    $(this).html(100 - error.responseJSON.totalCoeff[$(this).index()-2].total)
-                })
-                $(".updateTotal").each(function(){      
-                    $(this).html(100 - error.responseJSON.totalCoeff[$(this).index()-1].total)
-                })
                 //en cas d'erreur on affiche
                 $("#alert").removeClass('hide')
                 $("#alert").html(error.responseJSON.error)
@@ -102,6 +78,27 @@ $(document).ready(function() {
                         $("#alert").html("")
                     }, 5000);
                 });
+                if(error.responseJSON.coeff != undefined){
+                    user_id = error.responseJSON.coeff[1].user_id
+                    //on init un tableau avec les nouveaux totaux des coeffs users
+                    let coeff = []
+                    //on parcours les cases coeff de l'user dans le tableau
+                    for( i=1; i<=12; i++){
+    
+                        //on met à jour l'affichage avec la nouvelle valeure
+                        $("#"+user_id+"_coeff_"+i).html(error.responseJSON.coeff[i].coeff)
+    
+                        //on init un tab pour mise à jour coeffs admin et tiotal parts restantes.
+                        coeff.push(error.responseJSON.coeff[i].coeff)
+                    }
+                    $(".updateAdmin").each(function(){
+                        $(this).html(100 - error.responseJSON.totalCoeff[$(this).index()-2].total)
+                    })
+                    $(".updateTotal").each(function(){      
+                        $(this).html(100 - error.responseJSON.totalCoeff[$(this).index()-1].total)
+                    })
+                }
+                
             }
         )
     })

@@ -2,7 +2,10 @@
 
 {% block title %}Gestion des associés{% endblock %}
 
-{% block page_title %}Gestion des associés{% endblock %}
+{% block page_title %}
+Gestion des associés
+ <a class="btn btn-primary mb-5" href="{{ path('app_associe_create_user',{ id : app.user.scm.id }) }}">Ajouter un associé</a>
+{% endblock %}
 {% block page_breadcrumbs %}
     <li><a href="{{ path('home') }}">Accueil</a></li>
     <li class="active">Associés</li>{% endblock %}
@@ -80,7 +83,7 @@
                                                     {% else %}
                                                         {% set admin = false  %}
                                                         {% set updateAdmin = "" %}
-                                                    {% endif %}                                            
+                                                    {% endif %}                                          
                                                     <td class="month_{{loop.index}} {{updateAdmin}}" data-admin="{{admin}}" id="user_{{user.id}}_coeff_{{loop.index}}">{{ coeff.coefficient }}</td>
                                                 {% endfor %}
                                             {% else %}
@@ -286,51 +289,92 @@
     <script>
         $("#alert").slideDown(500, function () {
             setTimeout(function () {
-                $("#alert").slideUp(500);
-            }, 5000);
-        });
+                $("#alert").slideUp(500)
+            }, 5000)
+        })
 
         $("#success").slideDown(500, function () {
             setTimeout(function () {
-                $("#success").slideUp(500);
-            }, 5000);
-        });
-        $('input').keyup(function(){
+                $("#success").slideUp(500)
+            }, 5000)
+        })
+        $('input').focus(function(){
+
+            let month = $(this).attr('id')
+            month = month.replace('coefficient_general_coefficient_','')
+
+            var months = [
+            'january', 'february', 'march', 'april', 'may',
+            'june', 'july', 'august', 'september',
+            'october', 'november', 'december'
+            ]
+            var tab = []
+            tab = {{totelCoeffsPerMonth|json_encode|raw }}
+            function monthNameToNum(monthname) {
+                var month = months.indexOf(monthname)
+                return month
+            }   
+            month = monthNameToNum(month)
+            totalCoeffMonth = tab[month].total
+            let value = $(this).val()
+            $(this).keyup(function(){
                 let val = $(this).val()
-            if(val > 100 || val < 0){
-                $(".valid_coeff").prop('disabled', true);
-                $("input").prop('disabled', true);
-                $(this).prop('disabled', false);
-                $(this).css('border-color','red')
-                $(this).focus()
-                $("#alert").removeClass('hide')
-                $("#alert").css('z-index','1')
-                $("#alert").css('position','fixed')
-                $("#alert").css('width','25%')
-                $("#alert").css('top','60vh')
-                $("#alert").css('left','50vw')
-                $("#alert").slideDown(500, function () {
-                    console.log(val)
-                    if(val > 100){
-                        var mess ="coefficient trop élevé"
-                    }
-                    else{
-                        mess = "coefficient inférieur à 0"
-                    }
-                    
-                    $("#alert").html(mess)
-                    setTimeout(function () {
-                        $("#alert").slideUp(500)
-                        $("#alert").addClass('hide')
-                        $("#alert").html("")
-                    }, 5000);
-                });
-            }
-            else{
-                $(".valid_coeff").prop('disabled', false);
-                $("input").prop('disabled', false);
-                $(this).css('border-color','')
-            }
+                if(parseInt((totalCoeffMonth) - value) + parseInt(val) > 100 ){
+                    $(".valid_coeff").prop('disabled', true)
+                    $("input").prop('disabled', true)
+                    $(this).prop('disabled', false)
+                    $("#alert").removeClass('hide')
+                    $("#alert").css('z-index','1')
+                    $("#alert").css('position','fixed')
+                    $("#alert").css('width','25%')
+                    $("#alert").css('top','60vh')
+                    $("#alert").css('left','50vw')
+                    $("#alert").slideDown(500, function () {
+                        var tot = 100 - parseInt(totalCoeffMonth)      
+                        var mess ="coefficient trop élevé il reste que "+ tot +" parts pour le mois de " + months[month]
+                        $("#alert").html(mess)
+                        setTimeout(function () {
+                            $("#alert").slideUp(500)
+                            $("#alert").addClass('hide')
+                            $("#alert").html("")
+                        }, 5000)
+                    })
+
+                }
+                else if(val > 100 || val < 0){
+                    $(".valid_coeff").prop('disabled', true)
+                    $("input").prop('disabled', true)
+                    $(this).prop('disabled', false)
+                    $(this).css('border-color','red')
+                    $(this).focus()
+                    $("#alert").removeClass('hide')
+                    $("#alert").css('z-index','1')
+                    $("#alert").css('position','fixed')
+                    $("#alert").css('width','25%')
+                    $("#alert").css('top','60vh')
+                    $("#alert").css('left','50vw')
+                    $("#alert").slideDown(500, function () {
+                        if(val > 100){
+                            var mess ="coefficient trop élevé"
+                        }
+                        else{
+                            mess = "coefficient inférieur à 0"
+                        }
+                        
+                        $("#alert").html(mess)
+                        setTimeout(function () {
+                            $("#alert").slideUp(500)
+                            $("#alert").addClass('hide')
+                            $("#alert").html("")
+                        }, 5000)
+                    })
+                }
+                else{
+                    $(".valid_coeff").prop('disabled', false)
+                    $("input").prop('disabled', false)
+                    $(this).css('border-color','')
+                }
+            })
         })
     </script>
 {% endblock %}

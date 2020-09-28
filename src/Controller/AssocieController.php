@@ -2,17 +2,22 @@
 
 namespace App\Controller;
 
-use App\Entity\CoefficientGeneral;
+use App\Entity\Scm;
 use App\Entity\User;
-use App\Repository\CoefficientGeneralRepository;
+use App\Form\UserAdminType;
+use App\Entity\CoefficientGeneral;
 use App\Form\CoefficientGeneralType;
 use App\Repository\ChargeRepository;
+use App\Controller\RegistrationController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\CoefficientGeneralRepository;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class AssocieController extends AbstractController
+class AssocieController extends RegistrationController
 {
 
     /**
@@ -262,18 +267,54 @@ class AssocieController extends AbstractController
             }
 
             $totalChargePerMonth = $chargeRepo->getTotalChargePerMonth($this->scm,'2020-01601','2020-12-31');
-
+            
             return $this->render('associe/associe.html.twig', [
                 'controller_name' => 'AssocieController',
                 'assoc_form_list' => $formArrayView,
                 'tabAssoc' => $tabCoefsUsers,
                 'allUsers' => $allUsers,
-                'totalChargeMonth' => $totalChargePerMonth
+                'totalChargeMonth' => $totalChargePerMonth,
+                'totelCoeffsPerMonth' => $totalCoeffUsersPerMonth
             ]);
         } else { // sinon on redirige vers un formulaire de créa des associés
-            // TODO
+            return $this->redirectToRoute('app_associe_create_user', ['id' => $this->scm->getId()]);
         }
 
 
+    }
+
+    /**
+     * @Route("/associe/create/{id<\d+>}", name="app_associe_create_user")
+     */
+    public function createUser(Request $request, UserPasswordEncoderInterface $passwordEncoder, Scm $scm)
+    {
+        // dd($scm);
+        $user = new User();
+        $form = $this->createForm(UserAdminType::class, $user);
+        $form->add('submit', SubmitType::class, array('label' => 'Valider'));
+        $form->handleRequest($request);
+        // dd($form->get("password"));
+        if ($form->isSubmitted() && $form->isValid()){
+            $pass = $form->get("password")->get("first")->getData();
+            $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $pass
+                    )
+                );
+                // dd($pass);
+            $userPicture = $request->files->get("picture");
+            if (!is_null($userPicture)) {
+                $user->setPicture($this->recordPhoto($userPicture, $user->getEmail()));
+            }
+            $user->setScm($scm);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_associe');
+        }
+        return $this->render('associe/create_user.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }
