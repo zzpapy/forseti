@@ -241,7 +241,7 @@ class AssocieController extends RegistrationController
                                 "coeff" => $coeff,
                                 "totalCoeff" => $totalCoeffUsersPerMonth,
                                 "error" => $error,
-                                "totalChargeMonth"
+                                "totalChargeMonth" => $totalChargePerMonth
                             ]));
                             return $response;
                         }
@@ -249,7 +249,7 @@ class AssocieController extends RegistrationController
                             "coeff" => $coeff,
                             "totalCoeff" => $totalCoeffUsersPerMonth,
                             "success" => 'success', 'mise à jour réussie !!!',
-                            "totalChargeMonth"
+                            "totalChargeMonth"  => $totalChargePerMonth
                         ]));
                         return $response;
                     }
@@ -287,8 +287,7 @@ class AssocieController extends RegistrationController
      * @Route("/associe/create/{id<\d+>}", name="app_associe_create_user")
      */
     public function createUser(Request $request, UserPasswordEncoderInterface $passwordEncoder, Scm $scm)
-    {
-        
+    {        
         $user = new User();
         $form = $this->createForm(UserAdminType::class, $user);
         $form->add('submit', SubmitType::class, array('label' => 'Valider'));
