@@ -137,6 +137,7 @@
                                                             {{ form_widget(form.city, {'attr': {
                                                                 'placeholder':'Ville'
                                                             }}) }}
+                                                            <div class="response"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -184,4 +185,32 @@
                             </fieldset>
 {{form_end(form)}}
 </div>
+{% endblock %}
+{% block javascripts_specifique %}
+<script>
+ $("#user_admin_city").on("keyup",(e)=>{
+    $(".response").html('')
+    var val = $("#user_admin_city").val()
+    url =  "https://api-adresse.data.gouv.fr/search/?q="+val+"&type=municipality"
+    $.get(url,{   
+        access_key:"abfadee90f3388d42847ecaf65fd651d",
+        query : $("#user_admin_city").val()
+    }).then(function(response){
+        var i = 0
+        while(i < response.features.length )
+        {
+            $(".response").append("<div class='choix' style='cursor:pointer' data-zip='"+response.features[i].properties.postcode+"'>"+response.features[i].properties.name+"("+response.features[i].properties.postcode+")<div>")
+            $(".choix").on('click',function(){
+                var value = $(this).html()
+                var zip = $(this).data('zip')
+                var value = value.replace("<div></div>", "");
+                $("#user_admin_zipcode").val(zip)
+                $("#user_admin_city").val(value)
+                $(".response").html('')
+            })        
+            i++
+        }
+    })
+})
+</script>
 {% endblock %}
