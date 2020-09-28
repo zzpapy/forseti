@@ -48,9 +48,11 @@
                                     {% for i in 1..12 %}
                                         {% set bool = false %}
                                         {% set totalEnCours = 0 %}
+                                        {% set month = 0  %}
                                         {% for total in totalChargeMonth %}
                                             {% if i == total["mois"] %}
                                                 {% set bool = true  %}
+                                                {% set month = i %}
                                                 {% set totalEnCours = total["total"]  %}
                                             {% endif %}
                                         {% endfor %} 
@@ -102,16 +104,18 @@
                                                 {% for coeff in user.coefficientgeneral.values %}
                                                     {% set bool = false  %}
                                                     {% set totalEnCours = 0  %}
+                                                    {% set month = 0 %}
                                                     {% for total in totalChargeMonth %}
+                                                            {% set month = coeff.month|date('n')|number_format %}
                                                         {% if coeff.month|date('n')|number_format == total["mois"] %}
                                                             {% set bool = true  %}
                                                             {% set totalEnCours = total["total"]  %}
                                                         {% endif %}
                                                     {% endfor %} 
                                                     {% if bool %}
-                                                        <td><p>{{(totalEnCours * coeff.coefficient / 100)|number_format(2,',','.')}}</p></td>
+                                                        <td  id="total_{{month}}_{{user.id}}"><p>{{(totalEnCours * coeff.coefficient / 100)|number_format(2,',','.')}}</p></td>
                                                     {% else %}
-                                                        <td>0</td>
+                                                        <td id="total_{{month}}_{{user.id}}">0</td>
                                                     {% endif %}                                                      
                                                 {% endfor %}
                                             {% endif %}                                            

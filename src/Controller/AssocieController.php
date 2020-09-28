@@ -136,19 +136,22 @@ class AssocieController extends AbstractController
                         }
                         //si erreur on retourne erreur
                         $totalCoeffUsersPerMonth = $coeffRepo->getTotalUserCoefPerMonth($this->scm,$this->getUser());
+                        $totalChargePerMonth = $chargeRepo->getTotalChargePerMonth($this->scm,'2020-01601','2020-12-31');
                         if($error != ""){
                             $response->setStatusCode(Response::HTTP_NOT_FOUND);
                             $response->setContent(json_encode([
                                 "coeff" => $coeff,
                                 "totalCoeff" => $totalCoeffUsersPerMonth,
-                                "error" => $error
+                                "error" => $error,
+                                "totalChargeMonth" => $totalChargePerMonth
                             ]));
                             return $response;
                         }
                         $response->setContent(json_encode([
                             "coeff" => $coeff,
                             "success" => 'mise à jour réalisée avec succés !!!',
-                            "totalCoeff" => $totalCoeffUsersPerMonth
+                            "totalCoeff" => $totalCoeffUsersPerMonth,
+                            "totalChargeMonth" => $totalChargePerMonth
                         ]));
                         return $response;
                     }
@@ -225,20 +228,23 @@ class AssocieController extends AbstractController
                         }
                         //on récupère la liste des sommes des coeffs mise à jour
                         $totalCoeffUsersPerMonth = $coeffRepo->getTotalUserCoefPerMonth($this->scm,$this->getUser());
+                        $totalChargePerMonth = $chargeRepo->getTotalChargePerMonth($this->scm,'2020-01601','2020-12-31');
                         //gestion des erreurs
                         if($error != ""){
                             $response->setStatusCode(Response::HTTP_NOT_FOUND);
                             $response->setContent(json_encode([
                                 "coeff" => $coeff,
                                 "totalCoeff" => $totalCoeffUsersPerMonth,
-                                "error" => $error
+                                "error" => $error,
+                                "totalChargeMonth"
                             ]));
                             return $response;
                         }
                         $response->setContent(json_encode([
                             "coeff" => $coeff,
                             "totalCoeff" => $totalCoeffUsersPerMonth,
-                            "success" => 'success', 'mise à jour réussie !!!'
+                            "success" => 'success', 'mise à jour réussie !!!',
+                            "totalChargeMonth"
                         ]));
                         return $response;
                     }
@@ -256,7 +262,7 @@ class AssocieController extends AbstractController
             }
 
             $totalChargePerMonth = $chargeRepo->getTotalChargePerMonth($this->scm,'2020-01601','2020-12-31');
-            
+
             return $this->render('associe/associe.html.twig', [
                 'controller_name' => 'AssocieController',
                 'assoc_form_list' => $formArrayView,

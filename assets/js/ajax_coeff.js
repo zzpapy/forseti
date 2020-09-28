@@ -16,7 +16,16 @@ $(document).ready(function() {
             user_id = json.coeff[1].user_id
             //on init un tableau avec les nouveaux totaux des coeffs users
             let coeff = []
+            id = user_id.replace('user_','');
+            console.log(id)
             //on parcours les cases coeff de l'user dans le tableau
+            for(i=0; i < json.totalChargeMonth.length; i++){
+                console.log(i == json.totalChargeMonth[i].mois)
+                // if(json.totalChargeMonth[i].mois){
+                    totalUser = (json.totalChargeMonth[i].total * json.coeff[json.totalChargeMonth[i].mois].coeff / 100).toFixed(2).replace(".", ",");
+                    $("#total_"+json.totalChargeMonth[i].mois+"_"+id).html(totalUser)
+                // }
+            }
             for( i=1; i<=12; i++){
 
                 //on met à jour l'affichage avec la nouvelle valeure
