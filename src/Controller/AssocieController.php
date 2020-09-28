@@ -288,12 +288,11 @@ class AssocieController extends RegistrationController
      */
     public function createUser(Request $request, UserPasswordEncoderInterface $passwordEncoder, Scm $scm)
     {
-        // dd($scm);
+        
         $user = new User();
         $form = $this->createForm(UserAdminType::class, $user);
         $form->add('submit', SubmitType::class, array('label' => 'Valider'));
         $form->handleRequest($request);
-        // dd($form->get("password"));
         if ($form->isSubmitted() && $form->isValid()){
             $pass = $form->get("password")->get("first")->getData();
             $user->setPassword(
@@ -302,7 +301,6 @@ class AssocieController extends RegistrationController
                     $pass
                     )
                 );
-                // dd($pass);
             $userPicture = $request->files->get("picture");
             if (!is_null($userPicture)) {
                 $user->setPicture($this->recordPhoto($userPicture, $user->getEmail()));

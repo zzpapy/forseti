@@ -287,19 +287,8 @@ Gestion des associés
 {% endblock %}
 {% block javascripts_specifique %}
     <script>
-        $("#alert").slideDown(500, function () {
-            setTimeout(function () {
-                $("#alert").slideUp(500)
-            }, 5000)
-        })
-
-        $("#success").slideDown(500, function () {
-            setTimeout(function () {
-                $("#success").slideUp(500)
-            }, 5000)
-        })
         $('input').focus(function(){
-
+            //on récup le mois
             let month = $(this).attr('id')
             month = month.replace('coefficient_general_coefficient_','')
 
@@ -309,19 +298,33 @@ Gestion des associés
             'october', 'november', 'december'
             ]
             var tab = []
+            //récup la tab du total des coefs
             tab = {{totelCoeffsPerMonth|json_encode|raw }}
             function monthNameToNum(monthname) {
                 var month = months.indexOf(monthname)
                 return month
-            }   
+            }  
+            //on transforme le mois en  num du mois  
             month = monthNameToNum(month)
+
+            //on récup la valeure du total des coeffs du mois
             totalCoeffMonth = tab[month].total
+
+            //on récup la valeur avant modif
             let value = $(this).val()
             $(this).keyup(function(){
                 let val = $(this).val()
-                if(parseInt((totalCoeffMonth) - value) + parseInt(val) > 100 ){
+
+                //test si le total aprés modif > 100
+                if(parseInt((totalCoeffMonth) - value) + parseInt(val) > 100 ){//si oui
+
+                    //on bloque le bouton
                     $(".valid_coeff").prop('disabled', true)
+
+                    //on bloque les inputs
                     $("input").prop('disabled', true)
+
+                    //on débloque l'input en cours
                     $(this).prop('disabled', false)
                     $("#alert").removeClass('hide')
                     $("#alert").css('z-index','1')
@@ -329,6 +332,8 @@ Gestion des associés
                     $("#alert").css('width','25%')
                     $("#alert").css('top','60vh')
                     $("#alert").css('left','50vw')
+
+                    //on affiche l'alerte
                     $("#alert").slideDown(500, function () {
                         var tot = 100 - parseInt(totalCoeffMonth)      
                         var mess ="coefficient trop élevé il reste que "+ tot +" parts pour le mois de " + months[month]
@@ -341,7 +346,7 @@ Gestion des associés
                     })
 
                 }
-                else if(val > 100 || val < 0){
+                else if(val > 100 || val < 0){// on vérif si la valeure entrée est > 100 ou < 0
                     $(".valid_coeff").prop('disabled', true)
                     $("input").prop('disabled', true)
                     $(this).prop('disabled', false)
@@ -353,6 +358,8 @@ Gestion des associés
                     $("#alert").css('width','25%')
                     $("#alert").css('top','60vh')
                     $("#alert").css('left','50vw')
+
+                    //on affiche l'alerte
                     $("#alert").slideDown(500, function () {
                         if(val > 100){
                             var mess ="coefficient trop élevé"
@@ -370,6 +377,7 @@ Gestion des associés
                     })
                 }
                 else{
+                    //on débloque tout
                     $(".valid_coeff").prop('disabled', false)
                     $("input").prop('disabled', false)
                     $(this).css('border-color','')
