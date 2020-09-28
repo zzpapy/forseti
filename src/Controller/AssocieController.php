@@ -167,11 +167,12 @@ class AssocieController extends AbstractController
                             //on vérif qu'il n'ya pas de valeure neg ds le post
                             //on crée un nouvel objet CoefficientGeneral
                             $coefficientGeneral = new CoefficientGeneral();
-    
+                            
                             //on format le mois en DateTime
                             $dateObj   = \DateTime::createFromFormat('m', $index);
+                            
                             $totalCoeff = $totalCoeffUsersPerMonth;
-
+                            
                             //on vérif si il ya déjà des coefs entregistrés
                             if(count($totalCoeff)){
                                 $totalCoeff = $totalCoeff[$index-1]["total"];
@@ -185,7 +186,7 @@ class AssocieController extends AbstractController
                                         $error = "coefficient negatif impossible";
                                         }
                                         else{
-                                            $mois = $moisTab[date_format($coefficientGeneral->getMonth(), "n")];
+                                            $mois = $moisTab[date_format($dateObj, "n")];
                                             $error = "le coefficient du mois de ". $mois."est trop élevé";
                                         }
                                 }
@@ -199,13 +200,14 @@ class AssocieController extends AbstractController
                                     $error = "coefficient negatif impossible";
                                 }
                                 else{
-                                    $mois = $moisTab[date_format($coefficientGeneral->getMonth(), "n")];
+                                    $mois = $moisTab[date_format($dateObj, "n")];
                                     $error = "le coefficient du mois de ". $mois." est trop élevé";
                                 }
                             }
+                           
                             $coefficientGeneral->setMonth($dateObj);
                             $coefficientGeneral->setUser($user);
-    
+                            
                             //on stock en bdd
                             $em = $this->getDoctrine()->getManager();
                             $em->persist($coefficientGeneral);
