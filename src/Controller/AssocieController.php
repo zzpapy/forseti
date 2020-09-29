@@ -248,7 +248,7 @@ class AssocieController extends RegistrationController
                         $response->setContent(json_encode([
                             "coeff" => $coeff,
                             "totalCoeff" => $totalCoeffUsersPerMonth,
-                            "success" => 'success', 'mise à jour réussie !!!',
+                            "success" =>  'mise à jour réussie ave succés!!!',
                             "totalChargeMonth"  => $totalChargePerMonth
                         ]));
                         return $response;
