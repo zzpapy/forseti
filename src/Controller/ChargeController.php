@@ -2,13 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Scm;
+use App\Entity\User;
+use App\Entity\Charge;
+use App\Entity\ChargeType;
 use App\Service\ChargeManager;
 use App\Controller\BankinApiController;
+use App\Entity\CoefficientGeneral;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\ChargeType;
-use App\Entity\Charge;
 
 
 class ChargeController extends BankinApiController
@@ -47,16 +51,32 @@ class ChargeController extends BankinApiController
      *
      */
     public function dashboard(ChargeManager $chargeManager){
-
         $totalDetail = $chargeManager->calculatePercentCharge();
 
         $totalDetail2 = $chargeManager->getChargePerMonthPerType();
 
+        $totalTab =[];
+
+        foreach ($totalDetail2 as $key => $typeCharge) {
+            $totalTab[$key] = array_sum (  $typeCharge );
+        }
+        $UserRepository = $products = $this->getDoctrine()->getRepository(User::class);
+
+        $users = $UserRepository->findBy(["scm" => $this->getUser()->getScm()]);
+
+        $usersCoefs = [];
+
+        foreach ($users as $user) {
+            $usersCoefs[$user->getId()] = $user->getCoefficientGeneral()->toArray();
+        }
 
         return $this->render('charge/charge_dashboard.html.twig', [
             'controller_name' => 'ChargeController',
             'total_detail_per_type' => $totalDetail,
-            'total_detail_per_type_per_month' => $totalDetail2
+            'total_detail_per_type_per_month' => $totalDetail2,
+            'users' => $users,
+            'usersCoefs' => $usersCoefs,
+            'totalTab' => $totalTab
         ]);
     }
 
@@ -145,7 +165,7 @@ class ChargeController extends BankinApiController
 
         return $response;
     }
-
+    
     private function orderParentChildChargeType($typeList)
     {
         foreach ($typeList as $key => $type) {

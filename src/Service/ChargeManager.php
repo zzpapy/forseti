@@ -3,9 +3,10 @@
 
 namespace App\Service;
 
-
+use App\Entity\Recette;
 use App\Repository\BankAccountRepository;
 use App\Repository\ChargeRepository;
+use App\Repository\RecetteRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Service\BankinApiManager;
 use Symfony\Component\Validator\Constraints\Date;
@@ -22,7 +23,7 @@ class ChargeManager
     private $bankAccountId;
     private $bankinAccountId;
 
-    public function __construct(BankinApiManager $bankinApiManager, SessionInterface $session, ChargeRepository $chargeRepository, BankAccountRepository $accountRepository)
+    public function __construct(BankinApiManager $bankinApiManager, SessionInterface $session, ChargeRepository $chargeRepository, BankAccountRepository $accountRepository, RecetteRepository $recetteRep)
     {
         $this->session = $session;
 
@@ -30,6 +31,7 @@ class ChargeManager
 
         $this->chargeRepository = $chargeRepository;
         $this->accountRepository = $accountRepository;
+        $this->recetteRep = $recetteRep;
 
         $this->bankAccountId = $this->session->get('bank_account_id');
         $this->bankinAccountId = $this->session->get('bankin_account_id');
@@ -80,13 +82,16 @@ class ChargeManager
 
     private function filterOnlyRecette($transactionList)
     {
+        $query = $this->recetteRep->createQueryBuilder('c')->getQuery();
+        $recettes = $query->getArrayResult();
+        $chargeIds = array_column($recettes, 'bankin_transaction_id');
 
         $chargeList = [];
 
         if (count($transactionList)) {
 
             foreach ($transactionList as $transac) {
-                if ($transac['amount'] > 0) {
+                if ($transac['amount'] > 0 && !in_array($transac['id'],$chargeIds)) {
                     $chargeList[] = $transac;
                 }
             }

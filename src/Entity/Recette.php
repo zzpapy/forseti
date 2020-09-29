@@ -10,6 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Recette
 {
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -36,6 +41,11 @@ class Recette
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="recettes")
      */
     private $user;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $bankin_transaction_id;
 
     public function getId(): ?int
     {
@@ -86,6 +96,18 @@ class Recette
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getBankinTransactionId(): ?string
+    {
+        return $this->bankin_transaction_id;
+    }
+
+    public function setBankinTransactionId(string $bankin_transaction_id): self
+    {
+        $this->bankin_transaction_id = $bankin_transaction_id;
 
         return $this;
     }

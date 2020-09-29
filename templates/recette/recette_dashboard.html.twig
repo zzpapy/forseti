@@ -1,0 +1,158 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ChargeController!{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default card-view">
+                <div class="panel-heading">
+                    <div class="pull-left">
+                        <h6 class="panel-title txt-dark">Répartition des recettes annuelles</h6>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-wrapper collapse in">
+                    <div class="panel-body">
+                        <div class="flot-container">
+                            <div id="flot_bars_chart" class="demo-placeholder"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div id="legend_flot_bars_chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts_specifique %}
+
+    {{ encore_entry_script_tags('grandin_flotchart_excanvas') }}
+    {{ encore_entry_script_tags('grandin_flotchart_jquery_flot') }}
+    {{ encore_entry_script_tags('grandin_flotchart_jquery_flot_pie') }}
+    {{ encore_entry_script_tags('grandin_flotchart_jquery_flot_time') }}
+    {{ encore_entry_script_tags('grandin_flotchart_jquery_flot_stack') }}
+    {{ encore_entry_script_tags('grandin_flotchart_jquery_flot_crosshair') }}
+    {{ encore_entry_script_tags('grandin_flotchart_jquery_flot_tooltip') }}
+
+    <script type="application/javascript">
+
+        function getRandomColor() {
+            var color = Math.floor(Math.random() * 255);
+            return color;
+        }
+
+        var colorType = [];
+       
+        {% for user,key in totalRecetteUsers|keys %}
+            colorType["{{ key }}"] = "rgba(" + getRandomColor() + "," + getRandomColor() + "," + getRandomColor() + ",1)";
+        {% endfor %}
+
+        if ($('#flot_bars_chart').length > 0) {
+            /*Defining Data*/
+
+            {% for detail in totalRecetteUsers %}
+                tab = {{detail|json_encode|raw }}
+                {% set datanumer = loop.index %}
+                var d{{ loop.index }} = [];
+                delete tab.firstname
+                for (total in tab){
+                    d{{ datanumer }}.push([ {{datanumer}}, tab.total]);
+
+                }
+            {% endfor %}
+
+            var ds = [
+                {% for type in totalRecetteUsers %}
+                {
+                    label: "{{ type.firstname }}",
+                    data: d{{ loop.index }},
+                    bars: {
+                        order: {{ loop.index }}
+                    }
+                },
+                {% endfor %}];
+
+            var stack = 0,
+                bars = true,
+                lines = true,
+                steps = true;
+
+            /*Defining Option*/
+            var sales_op = {
+                bars: {
+                    show: true,
+                    barWidth: 0.4,
+                    fill: 1,
+                    align: 'center'
+                },
+                grid: {
+                    color:  '#878787',
+                    hoverable: true,
+                    borderWidth: 0,
+                    backgroundColor: 'transparent'
+                },
+                series: {
+                    stack: stack
+                },
+                legend: {
+                    position: "se",
+                    margin: [10, 0],
+                    backgroundColor: 'transparent',
+                    noColumns: 3,
+                    container: $('#legend_flot_bars_chart'),
+                    labelBoxBorderColor: null,
+                    labelFormatter: function (label, series) {
+                        // just add some space to labes
+                        return '' + label + '&nbsp;&nbsp;&nbsp;&nbsp;';
+                    },
+                    width: 30,
+                    height: 5
+                },
+                yaxis: {
+                    font: {
+                        color: '#878787'
+                    },
+                    ticks: [
+                        [0],
+                        [2500,"2500 €"],
+                        [5000,"5k €"],
+                        
+                    ],
+                },
+                xaxis: {
+                    ticks: [
+                        {% for user in totalRecetteUsers  %}
+                        [{{loop.index}}, "{{user.firstname}}"],                            
+                        {% endfor %}
+                        
+                    ],
+                    min:0,
+                    max:12,
+                    font: {
+                        color: '#878787'
+                    }
+                },
+                colors: [
+                        {% for key in totalRecetteUsers|keys %}
+                        colorType["{{ key }}"],
+                        {% endfor %}
+
+                    ],
+                tooltip: true, //activate tooltip
+                tooltipOpts: {
+                    content: function(data, x, y, dataObject) {
+                        var XdataIndex = dataObject.dataIndex;
+                        var XdataLabel = dataObject.series.xaxis.ticks[XdataIndex].label;
+                        return y+" €" ;
+                    },
+                    defaultTheme: false,
+                    shifts: { x: 0, y: -40 }
+                }
+            };
+
+            $.plot($("#flot_bars_chart"), ds, sales_op);
+        }
+    </script>
+{% endblock %}
