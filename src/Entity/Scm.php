@@ -134,10 +134,16 @@ class Scm
      */
     private $bankAccount;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Recette::class, mappedBy="scm", orphanRemoval=true)
+     */
+    private $recettes;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->charges = new ArrayCollection();
+        $this->recettes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -472,6 +478,37 @@ class Scm
         // set the owning side of the relation if necessary
         if ($bankAccount->getScm() !== $this) {
             $bankAccount->setScm($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Recette[]
+     */
+    public function getRecettes(): Collection
+    {
+        return $this->recettes;
+    }
+
+    public function addRecette(Recette $recette): self
+    {
+        if (!$this->recettes->contains($recette)) {
+            $this->recettes[] = $recette;
+            $recette->setScm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecette(Recette $recette): self
+    {
+        if ($this->recettes->contains($recette)) {
+            $this->recettes->removeElement($recette);
+            // set the owning side to null (unless already changed)
+            if ($recette->getScm() === $this) {
+                $recette->setScm(null);
+            }
         }
 
         return $this;

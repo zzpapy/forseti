@@ -48,9 +48,14 @@ class RecetteController extends BankinApiController
         $scm = $this->getUser()->getScm();
 
         $totalRecetteUsers = $recetteManager->getTotalRecetteUsers($scm);
-
+        $totalRecetteNullUser = $recetteManager->getTotalRecetteNullUsers($scm);
+        $totalRecetteNullUser[0]["id"] = 0;
+        $totalRecetteNullUser[0]["firstname"] = "Non attribué";
+        array_push($totalRecetteUsers,$totalRecetteNullUser[0]);
+        // dd($totalRecetteUsers);
         return $this->render('recette/recette_dashboard.html.twig', [
-            "totalRecetteUsers" => $totalRecetteUsers
+            "totalRecetteUsers" => $totalRecetteUsers,
+            "totalRecetteNullUser" => $totalRecetteNullUser
         ]);
     }
 
@@ -59,13 +64,14 @@ class RecetteController extends BankinApiController
      * @Route("/ajax/user_recette/{transactionid}/{user_id}", name="app_ajax_user_recette")
      * @Route("/ajax/user_recette/{transactionid}/{user_id}/{all}", name="app_ajax_user_recette")
      */
-    public function ajaxuser_recette(Request $request, ChargeManager $chargeManager)
+    public function ajaxuser_recette(Request $request, RecetteManager $recetteManager)
     {
         $transacId = $request->get('transactionid');
         $userId = $request->get('user_id');
         $all = $request->get('all');
         $userRep = $this->getDoctrine()->getRepository(USER::class);
         $user = $userRep->find($userId);
+        $scm = $this->getUser()->getScm();
         
         $authToken = $this->session->get('bankin_api_auth_token');
         
@@ -79,6 +85,7 @@ class RecetteController extends BankinApiController
         $recette->setBankinTransactionId($transacId);
         $recette->setTotal($transaction["amount"]);
         $recette->setLabel($transaction["description"]);
+        $recette->setScm($scm);
         $em = $this->getDoctrine()->getManager();
         if(null == $user){
             $mess = "à bien stockée";

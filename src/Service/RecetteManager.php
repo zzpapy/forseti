@@ -30,4 +30,13 @@ class RecetteManager
         
         return $results;
     }
+
+    public function getTotalRecetteNullUsers($scm){
+        
+        $dateStart = date('Y-m-d', strtotime($scm->getAccountingExerciceStartAt()->format('Y-m-d'). '-1 days'));
+        $dateEnd = date('Y-m-d', strtotime($scm->getAccountingExerciceEndAt()->format('Y-m-d') . '+1 days'));
+        $results = $this->recetteRep->getTotalRecetteNullUsers($scm,$dateStart,$dateEnd);
+        
+        return $results;
+    }
 }

@@ -55,14 +55,30 @@ class RecetteRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
             ->select('SUM(r.total) as total','u.firstname','u.id')
             ->innerjoin(User::class, 'u', Join::WITH, 'u.scm = :scm_id')
+            ->andWhere('r.scm = :scm_id')
             ->andWhere('r.user = u.id')
+            // ->andWhere('r.user IS NULL')
             ->andWhere('r.createdAt > :start')
             ->andWhere('r.createdAt < :end')
-            ->andWhere('r.user IS NULL')
             ->setParameter('start', $startDate)
             ->setParameter('end', $endDate)
             ->setParameter('scm_id', $scm_id)
             ->groupBy('u.id')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    public function getTotalRecetteNullUsers($scm_id,$startDate,$endDate)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('SUM(r.total) as total')
+            ->andWhere('r.scm = :scm_id')
+            ->andWhere('r.user IS NULL')
+            ->andWhere('r.createdAt > :start')
+            ->andWhere('r.createdAt < :end')
+            ->setParameter('start', $startDate)
+            ->setParameter('end', $endDate)
+            ->setParameter('scm_id', $scm_id)
             ->getQuery()
             ->getArrayResult();
     }

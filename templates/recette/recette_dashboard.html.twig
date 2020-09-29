@@ -50,8 +50,7 @@
         {% endfor %}
 
         if ($('#flot_bars_chart').length > 0) {
-            /*Defining Data*/
-
+            /*Defining Data*/        
             {% for detail in totalRecetteUsers %}
                 tab = {{detail|json_encode|raw }}
                 {% set datanumer = loop.index %}

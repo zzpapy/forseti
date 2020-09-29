@@ -47,6 +47,12 @@ class Recette
      */
     private $bankin_transaction_id;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Scm::class, inversedBy="recettes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $scm;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -108,6 +114,18 @@ class Recette
     public function setBankinTransactionId(string $bankin_transaction_id): self
     {
         $this->bankin_transaction_id = $bankin_transaction_id;
+
+        return $this;
+    }
+
+    public function getScm(): ?Scm
+    {
+        return $this->scm;
+    }
+
+    public function setScm(?Scm $scm): self
+    {
+        $this->scm = $scm;
 
         return $this;
     }
