@@ -162,18 +162,18 @@ class AssocieController extends RegistrationController
                     }
                     else{
 
+                        //on vérif qu'il n'ya pas de valeure neg ds le post
+                        if(min($formArray[$user_id]->getData()) < 0){
+                            $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                            $response->setContent(json_encode([
+                                "error" => "Coefficient négatif impossible",
+                            ]));
+                            return $response;
+                        }
                         //on init un index pour générer le mois en int
                         $index = 1;
                         foreach ($formArray[$user_id]->getData() as $coefficientGeneralRow) {
                            
-                            if(min($formArray[$user_id]->getData()) < 0){
-                                $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                                $response->setContent(json_encode([
-                                    "error" => "Coefficient négatif impossible",
-                                ]));
-                                return $response;
-                            }
-                            //on vérif qu'il n'ya pas de valeure neg ds le post
                             //on crée un nouvel objet CoefficientGeneral
                             $coefficientGeneral = new CoefficientGeneral();
                             
@@ -181,6 +181,7 @@ class AssocieController extends RegistrationController
                             $dateObj   = \DateTime::createFromFormat('m', $index);
                             
                             $totalCoeff = $totalCoeffUsersPerMonth;
+                            
                             
                             //on vérif si il ya déjà des coefs entregistrés
                             if(count($totalCoeff)){
@@ -201,7 +202,7 @@ class AssocieController extends RegistrationController
                                 }
                             }
                             elseif($coefficientGeneralRow <= 100 && $coefficientGeneralRow >= 0){
-                                $coefficientGeneral->setCoefficient($coefficientGeneralRow);
+                                $coefficientGeneral->setCoefficient($coefficientGeneralRow);                                
                             }
                             else{                                    
                                 $coefficientGeneral->setCoefficient(0);
@@ -216,7 +217,6 @@ class AssocieController extends RegistrationController
                            
                             $coefficientGeneral->setMonth($dateObj);
                             $coefficientGeneral->setUser($user);
-                            
                             //on stock en bdd
                             $em = $this->getDoctrine()->getManager();
                             $em->persist($coefficientGeneral);
@@ -230,6 +230,7 @@ class AssocieController extends RegistrationController
                             ];
                             $index++;
                             
+                            dd($index,$formArray[$user_id]->getData());
                         }
                         //on récupère la liste des sommes des coeffs mise à jour
                         $totalCoeffUsersPerMonth = $coeffRepo->getTotalUserCoefPerMonth($this->scm,$this->getUser());

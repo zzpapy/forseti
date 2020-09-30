@@ -63,6 +63,7 @@ $(document).ready(function() {
         ).fail(
             function(error){
                 //en cas d'erreur on affiche
+                console.log(error.responseJSON)
                 $("#alert").removeClass('hide')
                 $("#alert").html(error.responseJSON.error)
                 $("#alert").removeClass('hide')
