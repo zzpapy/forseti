@@ -130,4 +130,6 @@ class ChargeManager
         }
         return $formattedResults;
     }
+
+   
 }

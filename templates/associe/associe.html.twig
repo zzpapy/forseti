@@ -297,13 +297,51 @@ Gestion des associés
                 </div>
             </div>
         </div>
-        <div>
-        {{form_start(form_coeff_spe)}}
-            {{form_row(form_coeff_spe.coefficient)}}
-            {{form_row(form_coeff_spe.user)}}
-            {{form_row(form_coeff_spe.charge)}}
-            <button type="submit">Enregistrer</button>
-        {{form_end(form_coeff_spe)}}
+        <div class="panel panel-default col-lg-4 card-view">
+        <h6 >Attribution de coefficients spécifiques</h6>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body  collapse in">
+                {{form_start(form_coeff_spe)}}
+                    {{form_row(form_coeff_spe.coefficient)}}
+                    {{form_row(form_coeff_spe.user)}}
+                    {{form_row(form_coeff_spe.charge)}}
+                    <button type="submit">Enregistrer</button>
+                {{form_end(form_coeff_spe)}}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2">
+        </div>
+        <div class="panel panel-default col-lg-6 card-view ">
+        <h6 >Attribution de coefficients spécifiques</h6>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body  collapse in">
+                <div class="table-responsive">
+                    <table class="table table-striped mb-0">
+                    <thead>
+                        <th>Associé</th>
+                        <th>Label</th>
+                        <th>Montant</th>
+                        <th>Ma part</th>
+                    </thead>
+                    {% for charge in charge_spe  %}
+                    <tr>
+                        <td>                
+                            {{charge.firstname}}
+                        </td>
+                        <td>
+                            {{charge.label}}
+                        </td>
+                        <td>
+                            {{charge.total}}
+                        </td>
+                        <td>
+                            {{charge.sum}}
+                        </td>
+                    </tr>                    
+                {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

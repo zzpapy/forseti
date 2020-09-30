@@ -2,11 +2,14 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Charge;
 use App\Entity\ChargeType;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query\Expr\Join;
+use App\Entity\CoefficientSpecifique;
+use App\Form\CoefficientSpecifiqueType;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Charge|null find($id, $lockMode = null, $lockVersion = null)
@@ -130,6 +133,17 @@ class ChargeRepository extends ServiceEntityRepository
             ->setParameter('start', $startDate)
             ->setParameter('end', $endDate)
             ->groupBy('mois')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    public function getTotalChargePerCoeffSpe()
+    {
+        return $this->createQueryBuilder('c')
+            ->select( 'c.label','ABS(c.total) as total', 'u.firstname','ABS((cs.coefficient * c.total / 100 )) AS sum')
+            ->innerjoin(CoefficientSpecifique::class, 'cs', Join::WITH, 'cs.charge = c.id')
+            ->innerjoin(User::class, 'u', Join::WITH, 'cs.user = u.id')
+            ->orderBy('u.firstname')
             ->getQuery()
             ->getArrayResult();
     }
