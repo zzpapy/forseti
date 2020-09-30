@@ -54,7 +54,6 @@ class RecetteController extends BankinApiController
         array_push($totalRecetteUsers,$totalRecetteNullUser[0]);
         return $this->render('recette/recette_dashboard.html.twig', [
             "totalRecetteUsers" => $totalRecetteUsers,
-            "totalRecetteNullUser" => $totalRecetteNullUser
         ]);
     }
 
