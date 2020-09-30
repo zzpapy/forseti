@@ -23,7 +23,7 @@ class CoefficientSpecifique
     private $coefficient;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="coefficientSpecifique", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="coefficientSpecifique", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

@@ -8,6 +8,8 @@ use App\Form\UserAdminType;
 use App\Entity\CoefficientGeneral;
 use App\Form\CoefficientGeneralType;
 use App\Repository\ChargeRepository;
+use App\Entity\CoefficientSpecifique;
+use App\Form\CoefficientSpecifiqueType;
 use App\Controller\RegistrationController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -274,13 +276,34 @@ class AssocieController extends RegistrationController
 
             $totalChargePerMonth = $chargeRepo->getTotalChargePerMonth($this->scm,'2020-01601','2020-12-31');
             
+
+            $formCoeffSpe = $this->createForm(CoefficientSpecifiqueType::class);
+
+            $formCoeffSpe->handleRequest($request);
+            
+            if($formCoeffSpe->isSubmitted() && $formCoeffSpe->isValid()){
+                // dd($formCoeffSpe->getData());
+
+
+                $em = $this->getDoctrine()->getManager();
+                           
+                $em->persist($formCoeffSpe->getData());
+                $em->flush();
+                return $this->redirectToRoute('app_associe');
+            }
+
+
+
+
+
             return $this->render('associe/associe.html.twig', [
                 'controller_name' => 'AssocieController',
                 'assoc_form_list' => $formArrayView,
                 'tabAssoc' => $tabCoefsUsers,
                 'allUsers' => $allUsers,
                 'totalChargeMonth' => $totalChargePerMonth,
-                'totelCoeffsPerMonth' => $totalCoeffUsersPerMonth
+                'totelCoeffsPerMonth' => $totalCoeffUsersPerMonth,
+                "form_coeff_spe" =>  $formCoeffSpe->createView()
             ]);
         } else { // sinon on redirige vers un formulaire de créa des associés
             return $this->redirectToRoute('app_associe_create_user', ['id' => $this->scm->getId()]);

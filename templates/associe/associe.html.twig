@@ -297,6 +297,14 @@ Gestion des associés
                 </div>
             </div>
         </div>
+        <div>
+        {{form_start(form_coeff_spe)}}
+            {{form_row(form_coeff_spe.coefficient)}}
+            {{form_row(form_coeff_spe.user)}}
+            {{form_row(form_coeff_spe.charge)}}
+            <button type="submit">Enregistrer</button>
+        {{form_end(form_coeff_spe)}}
+        </div>
     </div>
 {% endblock %}
 {% block javascripts_specifique %}
