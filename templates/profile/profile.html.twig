@@ -254,6 +254,9 @@
                             <li role="presentation" class=""><a data-toggle="tab" id="photos_tab_8" role="tab"
                                                                 href="#charge"
                                                                 aria-expanded="false"><span>Montant des charges</span></a></li>
+                            <li role="presentation" class=""><a data-toggle="tab" id="photos_tab_8" role="tab"
+                                                                href="#recette"
+                                                                aria-expanded="false"><span>Recettes</span></a></li>
                         </ul>
                         {% set avg = 0 %}
                         {% for coeff in app.user.coefficientgeneral.values %}
@@ -320,6 +323,50 @@
                                                                 <td><strong> {{totalgene|number_format(2, ',', '.')}} €</strong>  </td>
                                                                 <td><strong> {{totaluser|number_format(2, ',', '.')}} €</strong> </td>
                                                             </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                                   
+                                    </div>
+                                </div>
+                            </div>
+                            <div  id="recette" class="tab-pane fade " role="tabpanel">
+                                <div class="md-12">
+                                    <div class="pt-20">                                     
+                                        <div class="panel panel-inverse card-view">
+                                            <div class="panel-heading">
+                                                <div class="pull-left">
+                                                    <h6 class="panel-title">{{scm.companyname}}</h6>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div  class="panel-wrapper collapse in">
+                                                <div  class="panel-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped mb-0">
+                                                            <thead>
+                                                                <th>Libelé</th>
+                                                                <th>Date</th>
+                                                                <th>Montant</p></th>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% set totalgene = 0 %}
+                                                                {% set totaluser = 0 %}
+                                                                {% for detail in recette %}
+                                                                <tr>                                                            
+                                                                    <td>{{detail.label}}</td>
+                                                                    {% set totalgene = totalgene + detail.total  %}
+                                                                    <td>{{detail.createdAt|date}}</td>
+                                                                    <td>{{detail.total}} €</td>
+                                                                </tr>
+                                                                {% endfor %}
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <td>Total</td>
+                                                                    <td>{{totalgene}} €</td>                                                            
+                                                                </tr>
+                                                            </tbody>
                                                         </table>
                                                     </div>
                                                 </div>

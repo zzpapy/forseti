@@ -52,7 +52,6 @@ class RecetteController extends BankinApiController
         $totalRecetteNullUser[0]["id"] = 0;
         $totalRecetteNullUser[0]["firstname"] = "Non attribué";
         array_push($totalRecetteUsers,$totalRecetteNullUser[0]);
-        // dd($totalRecetteUsers);
         return $this->render('recette/recette_dashboard.html.twig', [
             "totalRecetteUsers" => $totalRecetteUsers,
             "totalRecetteNullUser" => $totalRecetteNullUser

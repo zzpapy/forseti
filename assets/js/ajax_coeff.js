@@ -31,15 +31,10 @@ $(document).ready(function() {
                 coeff.push(json.coeff[i].coeff)
 
                 //flash message mise à jour
-                $("#success").removeClass('hide')
-                $("#success").removeClass('hide')
+                
                 $("#success").html(json.success)
                 $("#success").removeClass('hide')
-                $("#success").css('z-index','1')
-                $("#success").css('position','fixed')
                 $("#success").css('width','25%')
-                $("#success").css('top','60vh')
-                $("#success").css('left','50vw')
                 $("#success").slideDown(500, function () {
                     setTimeout(function () {
                         $("#success").slideUp(500)
@@ -63,7 +58,6 @@ $(document).ready(function() {
         ).fail(
             function(error){
                 //en cas d'erreur on affiche
-                console.log(error)
                 $("#alert").removeClass('hide')
                 $("#alert").html(error.responseJSON.error)
                 $("#alert").removeClass('hide')
@@ -118,7 +112,6 @@ $('.validate-userRecette').on('click', function (e) {
             data: {transactionid: transacId, user_id: recetteUserId}
         })
         .done(function (json) {
-            console.log(transacId)
             $('#edit_datable_recette').DataTable().row($("#row-" + transacId)).remove().draw();
             swal({
                 title: "Recette sauvegardée",

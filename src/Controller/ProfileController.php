@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Recette;
 use App\Form\UserAdminType;
 use App\Form\ChangePasswordFormType;
 use App\Repository\ChargeRepository;
@@ -64,12 +65,20 @@ class ProfileController extends RegistrationController
         $scmEntity = $user->getScm();
         $totalCharge = $chargeRepo->getTotalChargePerType($scmEntity);
 
+        $recetteRep = $this->getDoctrine()->getRepository(Recette::class);
+
+        $recetteUser = $recetteRep->findBy([
+            'user' => $user->getId(),
+            'scm' => $user->getScm()->getId()
+        ]);
+
         return $this->render('profile/profile.html.twig', [
             'controller_name' => 'ProfileController',
             'edit_profile' => $form->createView(),
             'edit_password' => $passForm->createView(),
             'scm' => $scmEntity,
-            'totalCharge' => $totalCharge
+            'totalCharge' => $totalCharge,
+            "recette" => $recetteUser
         ]);
     }
 

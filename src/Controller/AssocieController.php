@@ -222,10 +222,7 @@ class AssocieController extends RegistrationController
                             $coefficientGeneral->setUser($user);
                             //on stock en bdd
                             $em = $this->getDoctrine()->getManager();
-                            dump($index);
-                                            // if($toto){
-                                            //     dd($index);
-                                            //    }
+                           
                             $em->persist($coefficientGeneral);
                             $em->flush();
 
@@ -235,7 +232,6 @@ class AssocieController extends RegistrationController
                                 "coeff" => $coefficientGeneral->getCoefficient(),
                                 "user_id" => $user_id
                             ];
-                            dump($index);
                             $index++;
                             
                             $toto = true;
