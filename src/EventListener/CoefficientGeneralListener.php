@@ -59,7 +59,7 @@ class CoefficientGeneralListener
 
             //on récup le num du mois
             $month = $coefficientGeneral->getMonth();
-
+            dump($totalCoeffUsersPerMonth);
             //on récupère l'entrée du total des coefs en fct du mois
             $index = date_format($coefficientGeneral->getMonth(), "n");
             $coefAdmin = 100 - $totalCoeffUsersPerMonth[$index - 1]["total"];

@@ -127,7 +127,13 @@ Gestion des associés
                                                         <td id="total_{{month}}_{{user.id}}">0</td>
                                                     {% endif %}                                                      
                                                 {% endfor %}
-                                            {% endif %}                                            
+                                            {% else %}
+                                                {% set month = 0 %}
+                                                {% for i in 1..12 %}
+                                                {% set month = loop.index %}
+                                                        <td id="total_{{month}}_{{user.id}}">0</td>                                                    
+                                                {% endfor %}                                           
+                                            {% endif %} 
                                         </tr>
                                         <tr></tr>
                                         <tr>

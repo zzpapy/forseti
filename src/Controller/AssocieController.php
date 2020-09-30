@@ -96,6 +96,7 @@ class AssocieController extends RegistrationController
                             $index = date_format($coefficientGeneral->getMonth(), "n");
                             
                             $totalCoeff = $totalCoeffUsersPerMonth[$index-1]["total"];
+                            
                             //on vérifie que la nouvelle valeur est différente de l'actuelle
                             
                             if($formArray[$user_id]->getData()[$keys[$index-1]] != $coefficientGeneral->getCoefficient()){
@@ -172,19 +173,21 @@ class AssocieController extends RegistrationController
                         }
                         //on init un index pour générer le mois en int
                         $index = 1;
+                        $toto = false;
                         foreach ($formArray[$user_id]->getData() as $coefficientGeneralRow) {
                            
                             //on crée un nouvel objet CoefficientGeneral
                             $coefficientGeneral = new CoefficientGeneral();
                             
                             //on format le mois en DateTime
-                            $dateObj   = \DateTime::createFromFormat('m', $index);
+                            $dateObj   = \DateTime::createFromFormat('m-d', $index."-01");
                             
                             $totalCoeff = $totalCoeffUsersPerMonth;
                             
-                            
                             //on vérif si il ya déjà des coefs entregistrés
                             if(count($totalCoeff)){
+                               
+                               
                                 $totalCoeff = $totalCoeff[$index-1]["total"];
                                 //on set l'objet CoefficientGeneral si positif et total inf à 100
                                 if($totalCoeff + $coefficientGeneralRow <= 100 && $coefficientGeneralRow >= 0){
@@ -193,7 +196,7 @@ class AssocieController extends RegistrationController
                                 else{
                                     $coefficientGeneral->setCoefficient(0);
                                     if($totalCoeff + $coefficientGeneralRow <= 100 && $coefficientGeneralRow < 0){
-                                        $error = "coefficient negatif impossible";
+                                            $error = "coefficient negatif impossible";
                                         }
                                         else{
                                             $mois = $moisTab[date_format($dateObj, "n")];
@@ -201,7 +204,7 @@ class AssocieController extends RegistrationController
                                         }
                                 }
                             }
-                            elseif($coefficientGeneralRow <= 100 && $coefficientGeneralRow >= 0){
+                            elseif($coefficientGeneralRow <= 100 && $coefficientGeneralRow >= 0){                                
                                 $coefficientGeneral->setCoefficient($coefficientGeneralRow);                                
                             }
                             else{                                    
@@ -214,11 +217,15 @@ class AssocieController extends RegistrationController
                                     $error = "le coefficient du mois de ". $mois." est trop élevé";
                                 }
                             }
-                           
+                            
                             $coefficientGeneral->setMonth($dateObj);
                             $coefficientGeneral->setUser($user);
                             //on stock en bdd
                             $em = $this->getDoctrine()->getManager();
+                            dump($index);
+                                            // if($toto){
+                                            //     dd($index);
+                                            //    }
                             $em->persist($coefficientGeneral);
                             $em->flush();
 
@@ -228,10 +235,12 @@ class AssocieController extends RegistrationController
                                 "coeff" => $coefficientGeneral->getCoefficient(),
                                 "user_id" => $user_id
                             ];
+                            dump($index);
                             $index++;
                             
-                            dd($index,$formArray[$user_id]->getData());
+                            $toto = true;
                         }
+                        
                         //on récupère la liste des sommes des coeffs mise à jour
                         $totalCoeffUsersPerMonth = $coeffRepo->getTotalUserCoefPerMonth($this->scm,$this->getUser());
                         $totalChargePerMonth = $chargeRepo->getTotalChargePerMonth($this->scm,'2020-01601','2020-12-31');
