@@ -67,7 +67,7 @@ class ChargeRepository extends ServiceEntityRepository
     public function getTotalCharge($scm_id, $startDate, $endDate)
     {
         return $this->createQueryBuilder('c')
-            ->select('SUM(c.total) as total')
+            ->select('SUM(ABS(c.total)) as total')
             ->andWhere('c.scm = :scm_id')
             ->andWhere('c.payedAt > :start')
             ->andWhere('c.payedAt < :end')

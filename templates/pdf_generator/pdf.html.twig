@@ -1,0 +1,262 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block pdf %}
+<pre>
+   
+</pre>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Generate PDF File</title>
+        <link type="text/css"  href="{{asset('css/app.css')}}" rel="stylesheet" />
+    </head>
+    <body>
+        {% set Tabmoyenne = [] %}
+        {% set moyenne = 0 %}
+        {% for user in scm.users %}
+        {% set total = 0  %}
+            {% for coeffs in user.coefficientgeneral %}
+                    {% set total = coeffs.coefficient + total  %}
+                                
+            {% endfor %}
+            {% set moyenne = total / 12 %}
+        {% set Tabmoyenne = Tabmoyenne|merge({ ("user"~user.id) : moyenne }) %}
+        {% endfor %}
+        <table class="table table-striped test">
+        <tr>
+            <th colspan="9">V — ÉTAT DÉTAILLÉ DES DÉPENSES RÉPARTIES ENTRE LES ASSOCIÉS DES SOCIÉTÉS CIVILES DE MOYENS C
+(si ce cadre est insuffisant, joindre un état de même modèle)
+CES DÉPENSES SONT À VENTILER SUR LA DÉCLARATION PROFESSIONNELLE DE CHACUN DES ASSOCIÉS </th>
+        </tr>
+        <thead>
+        <tr>
+            <td>N°d’ordre des associés</td>
+            <td>Achats (à l’exclusion des dépenses de matériel et d’outillage) </td>
+            <td colspan="2">Frais de personnel </td> 
+            <td colspan="3"> Impôts et taxes</td>
+            <td>Loyer et charges locativesn (baux professionnels)</td> 
+            <td>Location de matériel et de mobilier</td>             
+        </tr>
+        <tr>
+            <td></td>
+            <td></td> 
+            <td>Salaires nets et avantages en nature</td>
+            <td>Charges sociales sur salaires (parts patronales et ouvrières)</td> 
+            <td>Taxes foncières sur les propriétés bâties</td>
+            <td>Taxe sur les salaires</td> 
+            <td>Autres impôts</td>
+            <td></td>
+            <td></td>  
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in scm.users %}
+        <tr>
+            <td>{{user.id}}</td>
+            <td></td>
+            <td>
+            {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Salaires nets et avantages en nature " %}
+                    {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td> 
+            <td>
+                 {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Charges sociales sur salaires (parts patronales et ouvrières)" %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td>
+            <td>
+                 {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Taxes foncières sur les propriétés bâties" %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td> 
+            <td>
+                 {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Autres impôts" %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td>
+            <td>
+                 {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Loyer et charges locatives (baux professionnels)" %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td> 
+            <td>
+             {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Location de matériel et de mobilier" %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+            
+        </table>
+        <table class="table table-striped">
+        <thead>
+        <tr>
+            <td>N°d’ordre des associés</td>
+            <td>Entretien et réparations</td> 
+            <td>Personnel intérimaire </td>
+            <td>Matériel et petit outillage (valeur unitaire < 500€ HT) </td> 
+            <td>Chauffage, eau, gaz, électricité </td>
+            <td>Honoraires ne constituant pas des rétrocessions</td> 
+            <td>Primes d’assurances </td>
+            <td>Frais de véhicules </td>
+            <td>Autres frais de déplacements (voyages) </td>  
+        </tr>
+        </thead>
+       <tbody>
+        {% for user in scm.users %}
+        <tr>
+            <td>{{user.id}}</td>
+            <td>
+                 {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Entretien et réparations" %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td>
+            <td>
+                 {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Personnel intérimaire" %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td> 
+            <td>
+                 {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Matériel et petit outillage (valeur unitaire < 500€ HT) " %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td>
+            <td>
+                 {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Chauffage, eau, gaz, électricité" %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td> 
+            <td>
+                 {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Honoraires ne constituant pas des rétrocessions" %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td>
+            <td>
+                 {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Primes d’assurances" %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td>
+            <td>
+                 {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Frais de véhicules" %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td> 
+            <td>
+                 {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Autres frais de déplacements (voyages)" %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td> 
+        </tr>
+        {% endfor %}
+        </tbody>
+            
+        </table>
+        <table class="table table-striped">
+        <thead>
+        <tr>
+            <td>N°d’ordre des associés</td>
+            <td>Frais de réception, de représentation et de congrès </td> 
+            <td>Fournitures de bureau, frais de documentation, de correspondance et de téléphone  </td>
+            <td>Frais d’actes et de contentieux  </td> 
+            <td>Cotisations syndicales et professionnelles  </td>
+            <td>Autres frais divers de gestion</td> 
+            <td>Frais financiers</td>
+            <td>Amortissements (fraction répartie entre les associés) </td>
+            <td>Total par associé (Total des colonnes 1 à 23) </td>  
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in scm.users %}
+        <tr>
+            <td>{{user.id}}</td>
+            <td>
+                 {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Frais de réception, de représentation et de congrès" %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td>
+            <td>
+                 {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Fournitures de bureau, frais de documentation, de correspondance et de téléphone" %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td> 
+            <td>
+                 {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Frais d’actes et de contentieux" %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td>
+            <td>
+                 {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Cotisations syndicales et professionnelles" %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td> 
+            <td>
+                 {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Autres frais divers de gestion" %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td>
+            <td>
+                 {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Frais financiers" %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td>
+            <td>
+                 {% for type in totalChargePerType %}
+                {% if type["label"] ==  "Amortissements (fraction répartie entre les associés)" %}
+                     {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+                {% endif %}
+            {% endfor %}
+            </td> 
+            <td>{{(totalCharge * Tabmoyenne["user"~user.id] / 100)|round}}</td> 
+        </tr>
+        {% endfor %}
+        </tbody>
+            
+        </table>
+        
+    </body>
+</html>
+{% endblock %}
+

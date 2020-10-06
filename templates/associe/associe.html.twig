@@ -5,6 +5,7 @@
 {% block page_title %}
 Gestion des associés
  <a class="btn btn-primary mb-5" href="{{ path('app_associe_create_user',{ id : app.user.scm.id }) }}">Ajouter un associé</a>
+ <a class="btn btn-primary mb-5" href="{{ path('app_pdf_generator',{ id : app.user.scm.id }) }}">Générer le cerfa 2036</a>
 {% endblock %}
 {% block page_breadcrumbs %}
     <li><a href="{{ path('home') }}">Accueil</a></li>
