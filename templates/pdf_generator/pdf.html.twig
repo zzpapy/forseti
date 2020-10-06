@@ -5,15 +5,19 @@
 {% block pdf %}
 <style>
     *{
-        margin:0;
+        margin:0.2em;
         font-family:Roboto;
+        font-size:0.98em
     }
     .table, td, th { 
         border: 1px solid black;
         border-collapse: collapse;
     }
+    td{
+         padding:1em;
+    }
     table{
-        width:100px;
+        width:50%;
     }
     .fixed-sidebar-left, .navbar{
         display:none;
@@ -47,23 +51,23 @@ CES DÉPENSES SONT À VENTILER SUR LA DÉCLARATION PROFESSIONNELLE DE CHACUN DES
         </tr>
         <thead>
         <tr>
-            <td>N°d’ordre des associés</td>
-            <td>Achats (à l’exclusion des dépenses de matériel et d’outillage) </td>
-            <td colspan="2">Frais de personnel </td> 
-            <td colspan="3"> Impôts et taxes</td>
-            <td>Loyer et charges locatives (baux professionnels)</td> 
-            <td>Location de matériel et de mobilier</td>             
+            <th>N°d’ordre des associés</th>
+            <th>Achats (à l’exclusion des dépenses de matériel et d’outillage) </th>
+            <th colspan="2">Frais de personnel </th> 
+            <th colspan="3"> Impôts et taxes</th>
+            <th>Loyer et charges locatives (baux professionnels)</th> 
+            <th>Location de matériel et de mobilier</th>             
         </tr>
         <tr>
-            <td></td>
-            <td></td> 
-            <td>Salaires nets et avantages en nature</td>
-            <td>Charges sociales sur salaires (parts patronales et ouvrières)</td> 
-            <td>Taxes foncières sur les propriétés bâties</td>
-            <td>Taxe sur les salaires</td> 
-            <td>Autres impôts</td>
-            <td></td>
-            <td></td>  
+            <th></th>
+            <th></th> 
+            <th>Salaires nets et avantages en nature</th>
+            <th>Charges sociales sur salaires (parts patronales et ouvrières)</th> 
+            <th>Taxes foncières sur les propriétés bâties</th>
+            <th>Taxe sur les salaires</th> 
+            <th>Autres impôts</th>
+            <th></th>
+            <th></th>  
         </tr>
         </thead>
         <tbody>
@@ -118,15 +122,15 @@ CES DÉPENSES SONT À VENTILER SUR LA DÉCLARATION PROFESSIONNELLE DE CHACUN DES
         {% endfor %}
         
         <tr>
-            <td>N°d’ordre des associés</td>
-            <td>Entretien et réparations</td> 
-            <td>Personnel intérimaire </td>
-            <td>Matériel et petit outillage (valeur unitaire < 500€ HT) </td> 
-            <td>Chauffage, eau, gaz, électricité </td>
-            <td>Honoraires ne constituant pas des rétrocessions</td> 
-            <td>Primes d’assurances </td>
-            <td>Frais de véhicules </td>
-            <td>Autres frais de déplacements (voyages) </td>  
+            <th>N°d’ordre des associés</th>
+            <th>Entretien et réparations</th> 
+            <th>Personnel intérimaire </th>
+            <th>Matériel et petit outillage (valeur unitaire < 500€ HT) </th> 
+            <th>Chauffage, eau, gaz, électricité </th>
+            <th>Honoraires ne constituant pas des rétrocessions</th> 
+            <th>Primes d’assurances </th>
+            <th>Frais de véhicules </th>
+            <th>Autres frais de déplacements (voyages) </th>  
         </tr>
        
         {% for user in scm.users %}
@@ -192,15 +196,15 @@ CES DÉPENSES SONT À VENTILER SUR LA DÉCLARATION PROFESSIONNELLE DE CHACUN DES
         {% endfor %}
         
         <tr>
-            <td>N°d’ordre des associés</td>
-            <td>Frais de réception, de représentation et de congrès </td> 
-            <td>Fournitures de bureau, frais de documentation, de correspondance et de téléphone  </td>
-            <td>Frais d’actes et de contentieux  </td> 
-            <td>Cotisations syndicales et professionnelles  </td>
-            <td>Autres frais divers de gestion</td> 
-            <td>Frais financiers</td>
-            <td>Amortissements (fraction répartie entre les associés) </td>
-            <td>Total par associé (Total des colonnes 1 à 23) </td>  
+            <th>N°d’ordre des associés</th>
+            <th>Frais de réception, de représentation et de congrès </th> 
+            <th>Fournitures de bureau, frais de documentation, de correspondance et de téléphone  </th>
+            <th>Frais d’actes et de contentieux  </th> 
+            <th>Cotisations syndicales et professionnelles  </th>
+            <th>Autres frais divers de gestion</th> 
+            <th>Frais financiers</th>
+            <th>Amortissements (fraction répartie entre les associés) </th>
+            <th>Total par associé (Total des colonnes 1 à 23) </th>  
         </tr>
         </thead>
         <tbody>
