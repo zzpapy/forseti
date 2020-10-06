@@ -3,9 +3,24 @@
 
 
 {% block pdf %}
-<pre>
-   
-</pre>
+<style>
+    *{
+        margin:0;
+        font-family:Roboto;
+    }
+    .table, td, th { 
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    table{
+        width:100px;
+    }
+    .fixed-sidebar-left, .navbar{
+        display:none;
+    }
+
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -36,7 +51,7 @@ CES DÉPENSES SONT À VENTILER SUR LA DÉCLARATION PROFESSIONNELLE DE CHACUN DES
             <td>Achats (à l’exclusion des dépenses de matériel et d’outillage) </td>
             <td colspan="2">Frais de personnel </td> 
             <td colspan="3"> Impôts et taxes</td>
-            <td>Loyer et charges locativesn (baux professionnels)</td> 
+            <td>Loyer et charges locatives (baux professionnels)</td> 
             <td>Location de matériel et de mobilier</td>             
         </tr>
         <tr>
@@ -98,13 +113,10 @@ CES DÉPENSES SONT À VENTILER SUR LA DÉCLARATION PROFESSIONNELLE DE CHACUN DES
                 {% endif %}
             {% endfor %}
             </td>
+            <td></td>
         </tr>
         {% endfor %}
-        </tbody>
-            
-        </table>
-        <table class="table table-striped">
-        <thead>
+        
         <tr>
             <td>N°d’ordre des associés</td>
             <td>Entretien et réparations</td> 
@@ -116,8 +128,7 @@ CES DÉPENSES SONT À VENTILER SUR LA DÉCLARATION PROFESSIONNELLE DE CHACUN DES
             <td>Frais de véhicules </td>
             <td>Autres frais de déplacements (voyages) </td>  
         </tr>
-        </thead>
-       <tbody>
+       
         {% for user in scm.users %}
         <tr>
             <td>{{user.id}}</td>
@@ -179,11 +190,7 @@ CES DÉPENSES SONT À VENTILER SUR LA DÉCLARATION PROFESSIONNELLE DE CHACUN DES
             </td> 
         </tr>
         {% endfor %}
-        </tbody>
-            
-        </table>
-        <table class="table table-striped">
-        <thead>
+        
         <tr>
             <td>N°d’ordre des associés</td>
             <td>Frais de réception, de représentation et de congrès </td> 
