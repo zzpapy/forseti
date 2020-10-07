@@ -24,6 +24,7 @@ class CoefficientSpecifiqueType extends AbstractType
                     return $er->createQueryBuilder('u')
                         ->orderBy('u.firstname', 'ASC');
                 },
+                'label' => 'Associé',
                 'expanded' => true,
                 'multiple' => false,
                 'choice_label' => 'firstname',
