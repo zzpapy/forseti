@@ -327,30 +327,34 @@ Gestion des associés
         <h6 >Détail des charges avec coefficient spécifique</h6>
             <div class="panel-wrapper collapse in">
                 <div class="panel-body  collapse in">
-                <div class="table-responsive">
-                    <table class="table table-striped mb-0">
-                    <thead>
-                        <th>Associé</th>
-                        <th>Label</th>
-                        <th>Montant</th>
-                        <th>Ma part</th>
-                    </thead>
-                    {% for charge in charge_spe  %}
-                    <tr>
-                        <td>                
-                            {{charge.firstname}}
-                        </td>
-                        <td>
-                            {{charge.label}}
-                        </td>
-                        <td>
-                            {{charge.total}} €
-                        </td>
-                        <td>
-                            {{charge.sum}} € ({{charge.sum * 100 / charge.total}} %)
-                        </td>
-                    </tr>                    
-                {% endfor %}
+                    <div class="table-responsive">
+                        <table class="table table-striped mb-0">
+                            <thead>
+                                <th>Associé</th>
+                                <th>Label</th>
+                                <th>Montant</th>
+                                <th>Ma part</th>
+                            </thead>
+                            <tbody>
+                                {% for charge in charge_spe  %}
+                                <tr>
+                                    <td>                
+                                        {{charge.firstname}}
+                                    </td>
+                                    <td>
+                                        {{charge.label}}
+                                    </td>
+                                    <td>
+                                        {{charge.total}} €
+                                    </td>
+                                    <td>
+                                        {{charge.sum}} € ({{charge.sum * 100 / charge.total}} %)
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody> 
+                        </table>                   
+                    </div>
                 </div>
             </div>
         </div>

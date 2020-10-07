@@ -1,5 +1,5 @@
-$(document).ready(function () {
-    $('#user_admin_picture').change(function (e) {
+$(document).on('ready',function () {
+    $('#user_admin_picture').on('change',function (e) {
 
         if ($('#user_admin_picture').val()) {
             var reader = new FileReader()
