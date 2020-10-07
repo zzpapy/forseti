@@ -52,6 +52,15 @@
                                                 <div class="col-md-6">
                                                     {{ form_widget(registrationForm.picture) }}
                                                 </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div>
+                                                            <img style="max-width:100%"id="current_admin_user_picture"
+                                                                    class="picture inline-block mb-10"
+                                                                    src=""/>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -494,4 +503,18 @@
 {% endblock %}
 {% block javascripts_specifique %}
     {{ encore_entry_script_tags('forseti_collection') }}
+    <script>
+     $(document).on('input','#registration_form_picture',function (e) {
+        console.log("toto",$('#registration_form_picture').val())
+        if ($('#registration_form_picture').val()) {
+            var reader = new FileReader()
+    
+            reader.onload = function (e) {
+                $('#current_admin_user_picture').attr('src', e.target.result)
+            }
+    
+            reader.readAsDataURL($('#registration_form_picture')[0].files[0])
+        }
+    });
+    </script>
 {% endblock %}
