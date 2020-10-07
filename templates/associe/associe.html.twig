@@ -18,6 +18,7 @@ Gestion des associés
             <div class="panel panel-default card-view">
                 <div class="panel-heading">
                     <div class="pull-left">
+                        {% set totalChargeYear = 0  %}
                         <h6 class="panel-title txt-dark">Récapitulatif</h6>
                     </div>
                     <div class="clearfix"></div>
@@ -49,11 +50,13 @@ Gestion des associés
                                         {% set bool = false %}
                                         {% set totalEnCours = 0 %}
                                         {% set month = 0  %}
+                                        
                                         {% for total in totalChargeMonth %}
                                             {% if i == total["mois"] %}
                                                 {% set bool = true  %}
                                                 {% set month = i %}
                                                 {% set totalEnCours = total["total"]  %}
+                                                {% set totalChargeYear = totalChargeYear + totalEnCours %}
                                             {% endif %}
                                         {% endfor %} 
                                         {% if bool %}
@@ -163,6 +166,7 @@ Gestion des associés
                             </div>
                         </div>
                     </div>
+                        <p style="text-align:right; padding:1em; font-size:1.5em">total des charges : {{totalChargeYear}} €</p>
                 </div>
             </div>
             <div class="panel-heading">
