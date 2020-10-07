@@ -73,6 +73,34 @@ $(document).ready(function () {
         }
     });
 
+    $('#edit_datable_recette').on('draw.dt', function () {
+        $('.selectpicker').selectpicker();
+    });
+    $('.validate-userRecette').on('click', function (e) {
+        e.preventDefault();
+        let url = $(this).data('ajax--url');
+        let transacId = $(this).data('transac-id');
+    
+        let recetteUserId = $("#select-recette-user-" + transacId).val();
+        
+         $.ajax({
+                method: "POST",
+                url: url,
+                data: {transactionid: transacId, user_id: recetteUserId}
+            })
+            .done(function (json) {
+                $('#edit_datable_recette').DataTable().row($("#row-" + transacId)).remove().draw();
+                swal({
+                    title: "Recette sauvegardée",
+                    type: "success",
+                    text: json.msg,
+                    confirmButtonColor: "#76c880",
+                });
+                let initial = $("#count-transactions").html();
+                $("#count-transactions").html(initial - 1);
+            });
+    });
+
    
 });
 
