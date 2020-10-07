@@ -300,6 +300,7 @@
                                                             {{ form_widget(formScm.city, {'attr': {
                                                                 'placeholder':'Ville'
                                                             }}) }}
+                                                            <div class="response3"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -542,6 +543,34 @@
             i++
         }
     })
+    
+})
+
+$(document).on('input','#scm_city',(e)=>{
+    $(".response3").html('')
+    var val = $("#scm_city").val()
+    console.log(val)
+    url =  "https://api-adresse.data.gouv.fr/search/?q="+val+"&type=municipality"
+    $.get(url,{   
+        access_key:"abfadee90f3388d42847ecaf65fd651d",
+        query : $("#scm_city").val()
+    }).then(function(response){
+        var i = 0
+        while(i < response.features.length )
+        {
+            $(".response3").append("<div class='choix' style='cursor:pointer' data-zip='"+response.features[i].properties.postcode+"'>"+response.features[i].properties.name+"("+response.features[i].properties.postcode+")<div>")
+            $(".choix").on('click',function(){
+                var value = $(this).html()
+                var zip = $(this).data('zip')
+                var value = value.replace("<div></div>", "");
+                $("#registration_form_zipcode").val(zip)
+                $("#scm_city").val(value)
+                $(".response3").html('')
+            })        
+            i++
+        }
+    })
+    
 })
 
 </script>
