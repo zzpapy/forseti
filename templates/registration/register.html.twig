@@ -153,6 +153,7 @@
                                                             {{ form_widget(registrationForm.city, {'attr': {
                                                                 'placeholder':'Ville'
                                                             }}) }}
+                                                            <div class="response2"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -516,5 +517,32 @@
             reader.readAsDataURL($('#registration_form_picture')[0].files[0])
         }
     });
-    </script>
+
+ $(document).on('input','#registration_form_city',(e)=>{
+    $(".response2").html('')
+    var val = $("#registration_form_city").val()
+    console.log(val)
+    url =  "https://api-adresse.data.gouv.fr/search/?q="+val+"&type=municipality"
+    $.get(url,{   
+        access_key:"abfadee90f3388d42847ecaf65fd651d",
+        query : $("#registration_form_city").val()
+    }).then(function(response){
+        var i = 0
+        while(i < response.features.length )
+        {
+            $(".response2").append("<div class='choix' style='cursor:pointer' data-zip='"+response.features[i].properties.postcode+"'>"+response.features[i].properties.name+"("+response.features[i].properties.postcode+")<div>")
+            $(".choix").on('click',function(){
+                var value = $(this).html()
+                var zip = $(this).data('zip')
+                var value = value.replace("<div></div>", "");
+                $("#registration_form_zipcode").val(zip)
+                $("#registration_form_city").val(value)
+                $(".response2").html('')
+            })        
+            i++
+        }
+    })
+})
+
+</script>
 {% endblock %}
