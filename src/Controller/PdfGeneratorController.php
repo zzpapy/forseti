@@ -21,15 +21,11 @@ class PdfGeneratorController extends AbstractController
 
         $totalChargePerMonth = $chargeRepo->getTotalChargePerMonth($scm,'2020-01601','2020-12-31');
         $totalChargePerType =$chargeRepo->getTotalChargePerType($scm);
-        $chargePerMonthPerType = $chargeManager->getChargePerMonthPerType();
         $totalCharge = $chargeRepo->getTotalCharge($scm,'2020-01-01','2020-12-31');
-        // dd($totalCharge);
-        $chargetype = $this->getDoctrine()->getRepository(ChargeType::class)->findAll();
         $options = new Options();
         $options->set('defaultFont', 'Roboto');
         foreach ($totalChargePerType as $key => $value) {
             // dump($totalChargePerType);
-            // dump($chargetype);
             // dd(in_array("Autres frais divers de gestion" ,array_values($value)));
         }
     
@@ -44,15 +40,12 @@ class PdfGeneratorController extends AbstractController
             'totalChargePerType' => $totalChargePerType,
             'totalCharge' => $totalCharge
         ]);
-        // dd($totalChargePerMonth);
+
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
         $dompdf->stream("testpdf.pdf", [
             "Attachment" => false
         ]);
-        // return $this->render('pdf_generator/pdf.html.twig', [
-        //     'controller_name' => 'PdfGeneratorController',
-        // ]);
     }
 }
