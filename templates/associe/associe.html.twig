@@ -293,7 +293,7 @@ Gestion des associés
                                             <tr>
                                                 <th>
                                                     <input type="hidden" name="user_id" value="{{ user }}"/>
-                                                    <button type="submit" class="valid_coeff" class="btn" data-user-id="{{user}}" data-ajax-url="{{ path('app_associe')}}">Enregistrer</button>
+                                                    <button type="submit" class="valid_coeff btn btn-primary" data-user-id="{{user}}" data-ajax-url="{{ path('app_associe')}}">Enregistrer</button>
                                                 </th>
                                             </tr>
                                         </table>
@@ -333,7 +333,7 @@ Gestion des associés
                                 <th>Associé</th>
                                 <th>Label</th>
                                 <th>Montant</th>
-                                <th>Ma part</th>
+                                <th>Part associé</th>
                             </thead>
                             <tbody>
                                 {% for charge in charge_spe  %}
