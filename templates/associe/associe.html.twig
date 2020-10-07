@@ -351,11 +351,26 @@ Gestion des associés
                                 <th>Part associé</th>
                             </thead>
                             <tbody>
+                                {% set previous = false %}
+                                {% set next = "" %}
                                 {% for charge in charge_spe  %}
                                 <tr>
+                                {% if not previous and charge.firstname != next %}
+                                    {# use it #}
                                     <td>                
                                         {{charge.firstname}}
                                     </td>
+                                    {% set next = charge.firstname %}
+                                    {% set previous = true %}
+                                {% elseif next != charge.firstname %}
+                                    <td>                
+                                        {{charge.firstname}}
+                                        {% set next = charge.firstname %}
+                                         {% set previous = false %}
+                                    </td>
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
                                     <td>
                                         {{charge.label}}
                                     </td>
