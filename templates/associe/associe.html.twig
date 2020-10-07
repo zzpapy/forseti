@@ -166,7 +166,9 @@ Gestion des associés
                             </div>
                         </div>
                     </div>
-                        <p style="text-align:right; padding:1em; font-size:1.5em">total des charges : {{totalChargeYear}} €</p>
+                    <p style="text-align:right; padding:1em; font-size:1.5em">
+                        total des charges : {{totalChargeYear}} €
+                    </p>
                 </div>
             </div>
             <div class="panel-heading">
@@ -181,15 +183,17 @@ Gestion des associés
                         <span id="alert" class="hide alert alert-danger"></span>
                         <span id="success" class="hide alert alert-success"></span>
                     </div>
-                    <p class="text-muted">Veuillez ajouter les clés de répartition pour chaque associé.</p>
+                    <p class="text-muted">Veuillez ajouter/modifier les clés de répartition pour chaque associé.</p>
                     <div class="pills-struct horizontal-pills mt-40">
                         <ul role="tablist" class="nav nav-pills" id="myTabs_10">
                             {% set tab = [] %}
                             {% for user in assoc_form_list|keys %}
-                                <li{% if loop.first %} class="active" {% endif %}><a aria-expanded="true"
-                                                                                     data-toggle="tab" role="tab"
-                                                                                     id="tab_{{ user }}"
-                                                                                     href="#content_{{ user }}">{{ allUsers[loop.index].firstname }} {{ allUsers[loop.index].lastname }}</a>
+                                <li{% if loop.first %} class="active" {% endif %}>
+                                    <a aria-expanded="true"
+                                        data-toggle="tab" role="tab"
+                                        id="tab_{{ user }}"
+                                        href="#content_{{ user }}">{{ allUsers[loop.index].firstname }} {{ allUsers[loop.index].lastname }}
+                                    </a>
                                 </li>
                                 {% set index = loop.index0 %}
                                 {% if tabAssoc[index] is not empty and tabAssoc[index] is defined %}
@@ -308,8 +312,10 @@ Gestion des associés
                 <div class="panel-body  collapse in">
                 {{form_start(form_coeff_spe)}}
                     {{form_row(form_coeff_spe.coefficient)}}
-                    {{form_row(form_coeff_spe.user)}}
-                    {{form_row(form_coeff_spe.charge)}}
+                    <div style="display:flex; justify-content:space-between">
+                        {{form_row(form_coeff_spe.user)}}
+                        {{form_row(form_coeff_spe.charge)}}
+                    </div>
                     <button type="submit">Enregistrer</button>
                 {{form_end(form_coeff_spe)}}
                 </div>
