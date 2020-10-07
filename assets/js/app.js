@@ -43,6 +43,8 @@ const $ = require('jquery');
 global.$ = global.jQuery = $;
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';
+
+//active link
 $(".link").removeClass("active")
 $('.link').each(function(){
     if(this.pathname === location.pathname){
