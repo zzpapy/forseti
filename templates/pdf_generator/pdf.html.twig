@@ -40,13 +40,13 @@
         {% endfor %}
         <table class="table table-striped test">
         <tr>
-            <th colspan="9">V — ÉTAT DÉTAILLÉ DES DÉPENSES RÉPARTIES ENTRE LES ASSOCIÉS DES SOCIÉTÉS CIVILES DE MOYENS 
+            <th colspan="9">V — ÉTAT DÉTAILLÉ DES DÉPENSES RÉPARTIES ENTRE LES ASSOCIÉS DES SOCIÉTÉS CIVILES DE MOYENS **
 (si ce cadre est insuffisant, joindre un état de même modèle)
 CES DÉPENSES SONT À VENTILER SUR LA DÉCLARATION PROFESSIONNELLE DE CHACUN DES ASSOCIÉS </th>
         </tr>
         <thead>
         <tr>
-            <th>N°d’ordre des associés</th>
+            <th> N°d’ordre des associés *</th>
             <th>Achats (à l’exclusion des dépenses de matériel et d’outillage) </th>
             <th colspan="2">Frais de personnel </th> 
             <th colspan="3"> Impôts et taxes</th>
@@ -117,7 +117,7 @@ CES DÉPENSES SONT À VENTILER SUR LA DÉCLARATION PROFESSIONNELLE DE CHACUN DES
         {% endfor %}
         
         <tr>
-            <th>N°d’ordre des associés</th>
+            <th> N°d’ordre des associés *</th>
             <th>Entretien et réparations</th> 
             <th>Personnel intérimaire </th>
             <th>Matériel et petit outillage (valeur unitaire < 500€ HT) </th> 
@@ -191,7 +191,7 @@ CES DÉPENSES SONT À VENTILER SUR LA DÉCLARATION PROFESSIONNELLE DE CHACUN DES
         {% endfor %}
         
         <tr>
-            <th>N°d’ordre des associés</th>
+            <th> N°d’ordre des associés *</th>
             <th>Frais de réception, de représentation et de congrès </th> 
             <th>Fournitures de bureau, frais de documentation, de correspondance et de téléphone  </th>
             <th>Frais d’actes et de contentieux  </th> 
@@ -258,11 +258,25 @@ CES DÉPENSES SONT À VENTILER SUR LA DÉCLARATION PROFESSIONNELLE DE CHACUN DES
             <td>{{(totalCharge * Tabmoyenne["user"~user.id] / 100)|round}}</td> 
         </tr>
         {% endfor %}
+        <tr>
+          <td colspan="8">MONTANT TOTAL DES DÉPENSES RÉPARTIES ENTRE LES ASSOCIÉS </td>
+          <td colspan="9">{{totalCharge}}</td>
+        </tr>
+        <tr>
+          <td colspan="9">* IMPORTANT: l’ordre des associés doit être identique à celui déjà mentionné au tableau III. S’agissant des associés dont l’activité est soumise à l’impôt
+sur le revenu dans la catégorie des bénéfices non commerciaux, les dépenses doivent être reportées sur le formulaire n° 2035-SD (annexe 2035-A-SD).
+<br>** Cet état détaillé doit être servi conformément à l’article 261B du code général des impôts et aux articles 46 terdecies G et 96 A de l’annexe III au
+même code. Les dépenses à répartir sont les dépenses communes payées par la société en vue de mettre à la disposition de ses membres les moyens
+nécessaires à l’exercice de leur profession et effectivement remboursées par ces derniers. Elles ne comprennent pas les dépenses particulières des
+associés tels que les cotisations personnelles ou la contribution économique territoriale et les frais de déplacement. La répartition des dépenses
+communes entre les associés doit se faire en imputant à chacun le coût des achats, fournitures ou services le concernant et en répartissant de la
+même manière les amortissements régulièrement comptabilisés. Il convient de distinguer (en les soulignant d’un trait), les dépenses communes dont
+le remboursement est exonéré de TVA, à savoir les dépenses correspondant uniquement à des prestations de services qui concourent directement
+et exclusivement à la réalisation d’opérations professionnelles exonérées de TVA ou placées hors du champ d’application de cette taxe.</td>
+        </tr>
         </tbody>
             
         </table>
-        <p>pour info : {{totalCharge}}</p>
-        
     </body>
 </html>
 {% endblock %}
