@@ -94,6 +94,9 @@ $(document).ready(function() {
     })
 })
 
+$('#edit_datable_recette').on('draw.dt', function () {
+    $('.selectpicker').selectpicker();
+});
 $('.validate-userRecette').on('click', function (e) {
     e.preventDefault();
     let url = $(this).data('ajax--url');
