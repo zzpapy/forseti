@@ -73,9 +73,16 @@ $(document).ready(function () {
         }
     });
 
+    $('#edit_datable_recette').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+        }
+    });
+
     $('#edit_datable_recette').on('draw.dt', function () {
         $('.selectpicker').selectpicker();
     });
+
     $('.validate-userRecette').on('click', function (e) {
         e.preventDefault();
         let url = $(this).data('ajax--url');
