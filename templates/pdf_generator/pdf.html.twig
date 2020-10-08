@@ -5,7 +5,6 @@
 {% block pdf %}
 <style>
     *{
-        margin:0.05em;
         font-family:Roboto;
         font-size:0.98em
     }
@@ -13,8 +12,12 @@
         border: 1px solid black;
         border-collapse: collapse;
     }
+    .container{
+         max-width:90%;
+         margin:auto;
+    }
     .content{
-         max-width:75%;
+         max-width:100%;
          margin:auto;
     }
     td{
@@ -26,761 +29,810 @@
     }
 </style>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Generate PDF File</title>
-        <link type="text/css"  href="{{asset('css/app.css')}}" rel="stylesheet" />
-    </head>
-    <body>
-        {% set Tabmoyenne = [] %}
-        {% set moyenne = 0 %}
-        {% for user in scm.users %}
-        {% set total = 0  %}
-            {% for coeffs in user.coefficientgeneral %}
-                    {% set total = coeffs.coefficient + total  %}
-                                
-            {% endfor %}
-            {% set moyenne = total / 12 %}
-        {% set Tabmoyenne = Tabmoyenne|merge({ ("user"~user.id) : moyenne }) %}
-        {% endfor %}
-        <div class="container">
-        <div class="content">
-        <table class="table">
-        <thead>
-            <tr>
-                <th>I — DÉTERMINATION DU RÉSULTAT FISCAL</th>
-                <th>Bénéfices non commerciaux </th>
-                <th>Bénéfices industriels et commerciaux
-                    et bénéfices non commerciaux “créances-dettes”</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td></td>
-                <td>Colonne I </td>
-                <td>Colonne II </td>
-            </tr>
-            <tr>
-                <td>1 - Dépenses réparties entre les associés</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>2 - Autres dépenses </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>3 - Charges payées d’avance </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>4 - Fournisseurs et charges à payer </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>5 - Dotations aux amortissements 
-                </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>6 - Dotations aux provisions </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>7 - Pertes </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>8 - Divers à déduire</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>I - Total des charges </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>9 - Remboursements par les associés 
-                </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>10 - Autres produits </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>11 - Profits </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>12 - Divers à réintégrer </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>II - Total des produits </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>13 - Bénéfice fiscal (II -I) </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>14 - Perte fiscale (I - II) </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>15 - Montant des plus-values nettes à long terme à 12,8 % </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>16 - Montant des moins-values nettes à long terme à 12,8 % </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th>NOM ET ADRESSE </th>
-                <th colspane="2"></th>
-            </tr>
-            <tr>
-                <td>
-                <table>
-                    <tr>
-                        <td>du comptable</td>
-                        <td colspan="2"></td>
-                        
-                    </tr>
-                    <tr>
-                         <td>du conseil</td>
-                         <td colspan="2"></td>
-                    </tr>
-                    </table>
-                </td>
-                <td colspan="2">
-                    À _____________________ , le ______________________
-                    Signature,
-                    Nom et qualité du signataire 
-                </td>
-            </tr>
-             <tr>
-                <td colspan="2">OPTION POUR LA COMPTABILITÉ SUPER-SIMPLIFIÉE (cocher la case) </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="3">Arrondis fiscaux : Attention, ne portez pas les centimes d’euro, l’arrondissement s’effectue à l’unité la plus proche. (Les fractions d’euro
-                    inférieures à 0,50 sont négligées, celles supérieures ou égales à 0,50 sont comptées pour 1).</td>
-            </tr>
-        </tbody>
-     </table>
-     <p>Les dispositions des articles 39 et 40 de la loi n°78-17 du 6 janvier 1978 relative à l’informatique, aux fichiers et aux libertés, modifiée par
-          la loi n°2004-801 du 6 août 2004, garantissent les droits des personnes physiques à l’égard des traitements des données à caractère personnel. </p>
-           <table>
-               <thead>
-               <tr>
-                    <th colspan="7">II — IMMOBILISATIONS ET AMORTISSEMENTS (si ce cadre est insuffisant, joindre un état de même modèle) </th>
-               </tr>
-               </thead>
-               <tbody>
-                    <tr>
-                         <th>Nature des immobilisations 1</th>
-                         <th>Date d’acquisition 2</th>
-                         <th>Base amortissable 3</th>
-                         <th>Montant des amortissements antérieurs 4</th>
-                         <th>Taux d’amortissement 5</th>
-                         <th>Montant des dotations de l’exercice 6</th>
-                         <th>
-                              <table>
-                              <tr>
-                                   <th colspan="2">En cas de cession en 2019</th>
-                              </tr>
-                              <tr>
-                                   <th>Date de cession 7</th>
-                                   <th>Prix de cession 8</th>
-                              </tr>
-                              </table>
-                         </th>
-                    </tr>
-                     <tr>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td>
-                              <table>
-                                   <tr>
-                                        <td></td>
-                                        <td></td>
-                                   </tr>
-                              </table>
-                         </td>
-                    </tr>
-                    <tr>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td>
-                              <table>
-                                   <tr>
-                                        <td></td>
-                                        <td></td>
-                                   </tr>
-                              </table>
-                         </td>
-                    </tr>
-                    <tr>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td>
-                              <table>
-                                   <tr>
-                                        <td></td>
-                                        <td></td>
-                                   </tr>
-                              </table>
-                         </td>
-                    </tr>
-                    <tr>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td>
-                              <table>
-                                   <tr>
-                                        <td></td>
-                                        <td></td>
-                                   </tr>
-                              </table>
-                         </td>
-                    </tr>
-                    <tr>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td>
-                              <table>
-                                   <tr>
-                                        <td></td>
-                                        <td></td>
-                                   </tr>
-                              </table>
-                         </td>
-                    </tr>
-                    <tr>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td>
-                              <table>
-                                   <tr>
-                                        <td></td>
-                                        <td></td>
-                                   </tr>
-                              </table>
-                         </td>
-                    </tr>
-                    <tr>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td>
-                              <table>
-                                   <tr>
-                                        <td></td>
-                                        <td></td>
-                                   </tr>
-                              </table>
-                         </td>
-                    </tr>
-                    <tr>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td>
-                              <table>
-                                   <tr>
-                                        <td></td>
-                                        <td></td>
-                                   </tr>
-                              </table>
-                         </td>
-                    </tr>
-                    <tr>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td>
-                              <table>
-                                   <tr>
-                                        <td></td>
-                                        <td></td>
-                                   </tr>
-                              </table>
-                         </td>
-                    </tr>
-                    <tr>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td>
-                              <table>
-                                   <tr>
-                                        <td></td>
-                                        <td></td>
-                                   </tr>
-                              </table>
-                         </td>
-                    </tr>
-                    <tr>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td>
-                              <table>
-                                   <tr>
-                                        <td></td>
-                                        <td></td>
-                                   </tr>
-                              </table>
-                         </td>
-                    </tr>
-                    <tr>
-                         <td colspan="4">Total des amortissements </td>
-                         <td></td>
-                    </tr>
-                    <tr>
-                         <td colspan="3">(1) dont fraction répartie entre les associés à reporter colonne 23 cadre V <td>
-                         <td colspan="2">(1) dont fraction non répartie entre les associés à reporter ligne 5 cadre I <td>
-                    </tr>
-               </tbody>
-          </table>
-          <table>
-               <thead>
-                    <tr>
-                         <th colspan="7">III — RÉPARTITION DU RÉSULTAT ENTRE LES ASSOCIÉS (si ce cadre est insuffisant, joindre un état annexe de même modèle) </th>
-                    </tr>
-                    <tr>
-                         <th width="25%" colspan="2">RENSEIGNEMENTS CONCERNANT LES ASSOCIÉS Nom, prénoms, profession, SIREN, lieu principal d’exercice de la profession (adresse complète)</th>
-                         <th>Régime fiscal </th>
-                         <th>Nombre de parts </th>
-                         <th>Bénéfice</th>
-                         <th>Déficit </th>
-                         <th>Plus-value à long terme </th>
-                    </tr>
-               </thead>
-               <tbody>
-                    <tr>
-                         <td width="3%">1</td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                    </tr>
-               </tbody>
-          </table>
-          <table>
-          <tr>
-               <th colspan="1">IV — DIVERS </th>
-               <th colspan="7"></th>
-          </tr>
-          <tr>
-               <th></th>
-               <th colspan="6">EFFECTIF DU PERSONNEL À LA CLÔTURE DE L’EXERCICE (y compris les dirigeants salariés)</th>
-               <td></td>
-          </tr>
-          <tr>
-               <th></th>
-               <th colspan="6">MONTANT DES APPORTS FAITS AU COURS DE L’EXERCICE .......................................... </th>
-               <td></td>
-          </tr>
-          </table>
-          <table >
-               <tr>
-                    <th colspan="9">V — ÉTAT DÉTAILLÉ DES DÉPENSES RÉPARTIES ENTRE LES ASSOCIÉS DES SOCIÉTÉS CIVILES DE MOYENS **
-                         (si ce cadre est insuffisant, joindre un état de même modèle)
-                         CES DÉPENSES SONT À VENTILER SUR LA DÉCLARATION PROFESSIONNELLE DE CHACUN DES ASSOCIÉS </th>
-               </tr>
-               <thead>
-               <tr>
-                    <th> N°d’ordre des associés *</th>
-                    <th>Achats (à l’exclusion des dépenses de matériel et d’outillage) </th>
-                    <th colspan="2">Frais de personnel </th> 
-                    <th colspan="3"> Impôts et taxes</th>
-                    <th>Loyer et charges locatives (baux professionnels)</th> 
-                    <th>Location de matériel et de mobilier</th>             
-               </tr>
-               <tr>
-                    <th></th>
-                    <th></th> 
-                    <th>Salaires nets et avantages en nature</th>
-                    <th>Charges sociales sur salaires (parts patronales et ouvrières)</th> 
-                    <th>Taxes foncières sur les propriétés bâties</th>
-                    <th>Taxe sur les salaires</th> 
-                    <th>Autres impôts</th>
-                    <th></th>
-                    <th></th>  
-               </tr>
-               <tr style="font-size: 0.5em">
-               <td></td>
-               <td>1</td>
-               <td>2</td>
-               <td>3</td>
-               <td>4</td>
-               <td>5</td>
-               <td>6</td>
-               <td>7</td>
-               <td>8</td>
-               </tr>
-               </thead>
-               <tbody>
-               {% for user in scm.users %}
-               <tr>
-                    <td>{{user.id}}</td>
-                    <td></td>
-                    <td>
-                    {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Salaires nets et avantages en nature " %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td> 
-                    <td>
-                         {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Charges sociales sur salaires (parts patronales et ouvrières)" %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td>
-                    <td>
-                         {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Taxes foncières sur les propriétés bâties" %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td> 
-                    <td>
-                         {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Autres impôts" %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td>
-                    <td>
-                         {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Loyer et charges locatives (baux professionnels)" %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td> 
-                    <td>
-                    {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Location de matériel et de mobilier" %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td>
-                    <td></td>
-               </tr>
-               {% endfor %}
-               
-               <tr>
-                    <th> N°d’ordre des associés *</th>
-                    <th>Entretien et réparations</th> 
-                    <th>Personnel intérimaire </th>
-                    <th>Matériel et petit outillage (valeur unitaire < 500€ HT) </th> 
-                    <th>Chauffage, eau, gaz, électricité </th>
-                    <th>Honoraires ne constituant pas des rétrocessions</th> 
-                    <th>Primes d’assurances </th>
-                    <th>Frais de véhicules </th>
-                    <th>Autres frais de déplacements (voyages) </th>  
-               </tr>
-               <tr style="font-size: 0.5em">
-               <td></td>
-               <td>9</td>
-               <td>10</td>
-               <td>11</td>
-               <td>12</td>
-               <td>13</td>
-               <td>14</td>
-               <td>15</td>
-               <td>16</td>
-               </tr>
-               
-               {% for user in scm.users %}
-               <tr>
-                    <td>{{user.id}}</td>
-                    <td>
-                         {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Entretien et réparations" %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td>
-                    <td>
-                         {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Personnel intérimaire" %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td> 
-                    <td>
-                         {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Matériel et petit outillage (valeur unitaire < 500€ HT) " %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td>
-                    <td>
-                         {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Chauffage, eau, gaz, électricité" %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td> 
-                    <td>
-                         {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Honoraires ne constituant pas des rétrocessions" %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td>
-                    <td>
-                         {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Primes d’assurances" %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td>
-                    <td>
-                         {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Frais de véhicules" %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td> 
-                    <td>
-                         {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Autres frais de déplacements (voyages)" %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td> 
-               </tr>
-               {% endfor %}
-               
-               <tr>
-                    <th> N°d’ordre des associés *</th>
-                    <th>Frais de réception, de représentation et de congrès </th> 
-                    <th>Fournitures de bureau, frais de documentation, de correspondance et de téléphone  </th>
-                    <th>Frais d’actes et de contentieux  </th> 
-                    <th>Cotisations syndicales et professionnelles  </th>
-                    <th>Autres frais divers de gestion</th> 
-                    <th>Frais financiers</th>
-                    <th>Amortissements (fraction répartie entre les associés) </th>
-                    <th>Total par associé (Total des colonnes 1 à 23) </th>  
-               </tr>
-               <tr style="font-size: 0.5em">
-               <td></td>
-               <td>17</td>
-               <td>18</td>
-               <td>19</td>
-               <td>20</td>
-               <td>21</td>
-               <td>22</td>
-               <td>23</td>
-               <td></td>
-               </tr>
-          </thead>
-          <tbody>
-               {% for user in scm.users %}
-               <tr>
-                    <td>{{user.id}}</td>
-                    <td>
-                         {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Frais de réception, de représentation et de congrès" %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td>
-                    <td>
-                         {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Fournitures de bureau, frais de documentation, de correspondance et de téléphone" %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td> 
-                    <td>
-                         {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Frais d’actes et de contentieux" %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td>
-                    <td>
-                         {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Cotisations syndicales et professionnelles" %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td> 
-                    <td>
-                         {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Autres frais divers de gestion" %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td>
-                    <td>
-                         {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Frais financiers" %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td>
-                    <td>
-                         {% for type in totalChargePerType %}
-                         {% if type["label"] ==  "Amortissements (fraction répartie entre les associés)" %}
-                              {{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-                         {% endif %}
-                    {% endfor %}
-                    </td> 
-                    <td>{{(totalCharge * Tabmoyenne["user"~user.id] / 100)|round}}</td> 
-               </tr>
-               {% endfor %}
-               <tr>
-                    <td colspan="8">MONTANT TOTAL DES DÉPENSES RÉPARTIES ENTRE LES ASSOCIÉS </td>
-                    <td colspan="9">{{totalCharge}}</td>
-               </tr>
-               <tr style="border:1px solid black">
-                    <td colspan="9" style="text-align:left">* IMPORTANT: l’ordre des associés doit être identique à celui déjà mentionné au tableau III. S’agissant des associés dont l’activité est soumise à l’impôt
-                         sur le revenu dans la catégorie des bénéfices non commerciaux, les dépenses doivent être reportées sur le formulaire n° 2035-SD (annexe 2035-A-SD).
-                         <br>** Cet état détaillé doit être servi conformément à l’article 261B du code général des impôts et aux articles 46 terdecies G et 96 A de l’annexe III au
-                         même code. Les dépenses à répartir sont les dépenses communes payées par la société en vue de mettre à la disposition de ses membres les moyens
-                         nécessaires à l’exercice de leur profession et effectivement remboursées par ces derniers. Elles ne comprennent pas les dépenses particulières des
-                         associés tels que les cotisations personnelles ou la contribution économique territoriale et les frais de déplacement. La répartition des dépenses
-                         communes entre les associés doit se faire en imputant à chacun le coût des achats, fournitures ou services le concernant et en répartissant de la
-                         même manière les amortissements régulièrement comptabilisés. Il convient de distinguer (en les soulignant d’un trait), les dépenses communes dont
-                         le remboursement est exonéré de TVA, à savoir les dépenses correspondant uniquement à des prestations de services qui concourent directement
-                         et exclusivement à la réalisation d’opérations professionnelles exonérées de TVA ou placées hors du champ d’application de cette taxe.
-                    </td>
-               </tr>
-          </tbody>            
-          </table>
-          <div style="border:1px solid black">
-               <h4>NOTICE</h4>
-               <p>
-                    <h6>Sociétés concernées :</h6>
-                    La déclaration 2036-SD doit être souscrite par les sociétés civiles de moyens, définies à l’article 36 de la loi n° 66-879 du 29 novembre 1966 quel que
-                    soit le montant des recettes qu’elles réalisent, dans les cas suivants :
-                    – lorsqu’elles sont composées exclusivement d’associés dont les activités non commerciales sont soumises à l’impôt sur le revenu dans la catégorie
-                    des bénéfices non commerciaux, ou d’associés dont les activités commerciales sont soumises à l’impôt sur le revenu dans la catégorie des
-                    bénéfices industriels et commerciaux ou à l’impôt sur les sociétés ;
-                    – ou lorsqu’elles comprennent des associés dont les activités sont imposées dans la catégorie des bénéfices non commerciaux et des associés
-                    imposés dans la catégorie des bénéfices industriels et commerciaux (ou à l’impôt sur les sociétés).
-                    Dans la mesure où leur chiffre d’affaires excède 55000 € hors taxes, les sociétés civiles de moyens sont tenues de joindre à leur déclaration de résultats
-                    un bilan simplifié n° 2033-A-SD (ce formulaire est disponible sur le site www.impots.gouv.fr ou à retirer auprès du service des impôts des entreprises).
-                    Cette obligation n’est pas exigée lorsque les sociétés comprennent exclusivement des associés exerçant une activité dont les revenus sont imposables
-                    dans la catégorie des bénéfices non commerciaux.
-                    Les sociétés civiles de moyens qui ne comprennent pas exclusivement des associés exerçant une activité dont les revenus sont imposables dans la
-                    catégorie des bénéfices non commerciaux peuvent opter pour la détermination de leur résultat selon le régime réel normal des bénéfices industriels et
-                    commerciaux et souscrire la déclaration n° 2031-SD (et tableaux annexes 2050-SD et suivants). Elles doivent joindre à cette déclaration un état détaillé
-                    des dépenses à répartir entre les associés (formulaire n° 2036 bis-SD) et, le cas échéant, le formulaire n° 2036-SD dûment rempli pour la détermination
-                    du bénéfice revenant aux associés exerçant une activité dont les revenus sont imposables dans la catégorie des bénéfices non commerciaux.
-                    <h6>CADRE I : DÉTERMINATION DU RÉSULTAT FISCAL</h6>
-                    Ce cadre permet de déterminer le bénéfice dégagé par la société civile de moyens selon les règles propres aux bénéfices non commerciaux – dépenses
-                    payées/recettes encaissées – (colonne I) ou aux bénéfices industriels et commerciaux (et aux bénéfices non commerciaux déterminés selon les règles
-                    prévues à l’article 93 A du Code général des impôts) – créances /dettes – (colonne II) dans les conditions suivantes : •  Servir uniquement la colonne I lorsque la société civile de moyens comprend exclusivement des associés exerçant une activité dont les revenus sont
-                    imposables dans la catégorie des bénéfices non commerciaux ;
-                    •  Servir uniquement la colonne II lorsque la société comprend exclusivement des associés exerçant une activité dont les revenus sont imposables
-                    dans la catégorie des bénéfices industriels et commerciaux ou relevant de l’impôt sur les sociétés, ou dont les revenus imposables dans la catégorie des
-                    bénéfices non commerciaux sont déterminés selon les règles décrites à l’article 93 A du Code général des impôts ;
-                    •  Servir les colonnes I et II lorsque la société comprend à la fois des associés exerçant une activité dont les revenus sont imposables dans la catégorie
-                    des bénéfices non commerciaux et des associés exerçant une activité dont les revenus sont imposables dans la catégorie des bénéfices industriels et
-                    commerciaux ou relevant de l’impôt sur les sociétés, ou dont les revenus imposables dans la catégorie des bénéfices non commerciaux sont déterminés
-                    selon les règles décrites à l’article 93 A du Code général des impôts.
-                    <h6>Les dépenses (colonne I) et les charges (colonne II) :</h6>
-                    Ligne 1 : faire apparaître les dépenses supportées par la société pour le compte des associés. Pour la colonne I, il s’agit des dépenses effectivement
-                    payées au cours de l’année civile. Pour la colonne II, il s’agit, des dépenses engagées au titre de l’exercice.
-                    Ligne 2: faire apparaître les dépenses correspondant aux opérations réalisées avec les tiers selon les mêmes règles que celles prévues pour la ligne 1.
-                    Ligne 3: retrancher, (colonne II) uniquement, le montant des charges payées d’avance, c’est-à-dire la fraction des dépenses payées en cours d’exercice,
-                    comprises ligne 1, mais qui se rapportent à l’exercice suivant.
-                    Ligne 4 : ajouter, (colonne II) uniquement, le montant des sommes dues aux fournisseurs et les charges à payer, c’est-à-dire le montant des frais engagés
-                    au cours de l’exercice mais qui seront payés lors du prochain exercice.
-                    Rappel: Option pour la comptabilité super simplifiée. Les sociétés civiles de moyens soumises au régime simplifié peuvent tenir une comptabilité
-                    de trésorerie n’enregistrant journellement que le détail des encaissements et des paiements ; en fin d’exercice, elles doivent constater leurs
-                    créances et leurs dettes.
-                    Ligne 5: porter, colonnes I et II, la fraction des dotations aux amortissements des biens dont la société est propriétaire, non répartie entre les associés.
-                    Ligne 6 : colonne II : si des provisions sont constituées, joindre le relevé prévu en matière de bénéfice industriel et commercial réel simplifié (modèle
-                    2033-D-SD); Ce formulaire est disponible sur le site www.impots.gouv.fr ou auprès du service des impôts des entreprises. Il est précisé que les charges
-                    à payer ne constituent pas des provisions.
-                    Pour les sociétés qui déterminent un bénéfice non commercial en fonction des créances/dettes, seule la déduction des provisions pour dépréciation des
-                    créances douteuses ou litigieuses est autorisée.
-                    Ligne 7: porter, en colonnes I et II, les pertes exceptionnelles déductibles, telles les moins-values à court terme.
-                    <h6>Les recettes (colonne I) et les créances (colonne II) :</h6>
-                    Ligne 9 : faire apparaître les remboursements, par les associés, des charges supportées par la société pour leur compte. Pour la colonne I, il s’agit, des sommes
-                    remboursées par les associés au titre de l’année civile. Pour la colonne II, il s’agit, des sommes dues au titre de l’exercice par les associés, qu’elles aient ou non
-                    été payées.
-                    Ligne 10: faire apparaître les produits correspondant aux opérations réalisées avec les tiers, selon les mêmes règles que celles prévues pour la ligne 9.
-                    Ligne 11: porter, en colonnes I et II, les profits financiers et les profits exceptionnels, dont les plus-values à court terme.
-                    Ligne 12: produits divers à réintégrer tels que les versements effectués dans le cadre des dépenses de mécénat, comptabilisés en charge, qui ne sont
-                    pas déductibles du bénéfice mais donnent lieu à une réduction d’impôt (article 238 bis du CGI).
-                    <h6>Cession d’une immobilisation :<h6>
-                    Lignes 15 et 16 : Le régime d’imposition de la plus-value ou la moins-value diffère selon la durée de détention et la nature du bien. Le tableau suivant résume
-                    les critères de distinction :
-                    P
-               </p>
-          </div>
-          </div>
-          </div>
-    </body>
+	<head>
+		<meta charset="UTF-8">
+		<title>Generate PDF File</title>
+		<link type="text/css" href="{{asset('css/app.css')}}" rel="stylesheet"/>
+	</head>
+	<body>
+		{% set Tabmoyenne = [] %}
+		{% set moyenne = 0 %}
+		{% for user in scm.users %}
+			{% set total = 0  %}
+			{% for coeffs in user.coefficientgeneral %}
+				{% set total = coeffs.coefficient + total  %}
+
+			{% endfor %}
+			{% set moyenne = total / 12 %}
+			{% set Tabmoyenne = Tabmoyenne|merge({ ("user"~user.id) : moyenne }) %}
+		{% endfor %}
+		<div class="container">
+			<div class="content">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>I — DÉTERMINATION DU RÉSULTAT FISCAL</th>
+							<th>Bénéfices non commerciaux
+							</th>
+							<th>Bénéfices industriels et commerciaux
+								                              et bénéfices non commerciaux “créances-dettes”</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td>Colonne I
+							</td>
+							<td>Colonne II
+							</td>
+						</tr>
+						<tr>
+							<td>1 - Dépenses réparties entre les associés</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>2 - Autres dépenses
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>3 - Charges payées d’avance
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>4 - Fournisseurs et charges à payer
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>5 - Dotations aux amortissements
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>6 - Dotations aux provisions
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>7 - Pertes
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>8 - Divers à déduire</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>I - Total des charges
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>9 - Remboursements par les associés
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>10 - Autres produits
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>11 - Profits
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>12 - Divers à réintégrer
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>II - Total des produits
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>13 - Bénéfice fiscal (II -I)
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>14 - Perte fiscale (I - II)
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>15 - Montant des plus-values nettes à long terme à 12,8 %
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>16 - Montant des moins-values nettes à long terme à 12,8 %
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<th>NOM ET ADRESSE
+							</th>
+							<th colspane="2"></th>
+						</tr>
+						<tr>
+							<td>
+								<table>
+									<tr>
+										<td>du comptable</td>
+										<td colspan="2"></td>
+
+									</tr>
+									<tr>
+										<td>du conseil</td>
+										<td colspan="2"></td>
+									</tr>
+								</table>
+							</td>
+							<td colspan="2">
+								À _____________________ , le ______________________
+								                              Signature,
+								                              Nom et qualité du signataire
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">OPTION POUR LA COMPTABILITÉ SUPER-SIMPLIFIÉE (cocher la case)
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="3">Arrondis fiscaux : Attention, ne portez pas les centimes d’euro, l’arrondissement s’effectue à l’unité la plus proche. (Les fractions d’euro
+								                              inférieures à 0,50 sont négligées, celles supérieures ou égales à 0,50 sont comptées pour 1).</td>
+						</tr>
+					</tbody>
+				</table>
+				<p>Les dispositions des articles 39 et 40 de la loi n°78-17 du 6 janvier 1978 relative à l’informatique, aux fichiers et aux libertés, modifiée par
+					                    la loi n°2004-801 du 6 août 2004, garantissent les droits des personnes physiques à l’égard des traitements des données à caractère personnel.
+				</p>
+				<table>
+					<thead>
+						<tr>
+							<th colspan="7">II — IMMOBILISATIONS ET AMORTISSEMENTS (si ce cadre est insuffisant, joindre un état de même modèle)
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th>Nature des immobilisations 1</th>
+							<th>Date d’acquisition 2</th>
+							<th>Base amortissable 3</th>
+							<th>Montant des amortissements antérieurs 4</th>
+							<th>Taux d’amortissement 5</th>
+							<th>Montant des dotations de l’exercice 6</th>
+							<th>
+								<table>
+									<tr>
+										<th colspan="2">En cas de cession en 2019</th>
+									</tr>
+									<tr>
+										<th>Date de cession 7</th>
+										<th>Prix de cession 8</th>
+									</tr>
+								</table>
+							</th>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>
+								<table>
+									<tr>
+										<td></td>
+										<td></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>
+								<table>
+									<tr>
+										<td></td>
+										<td></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>
+								<table>
+									<tr>
+										<td></td>
+										<td></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>
+								<table>
+									<tr>
+										<td></td>
+										<td></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>
+								<table>
+									<tr>
+										<td></td>
+										<td></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>
+								<table>
+									<tr>
+										<td></td>
+										<td></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>
+								<table>
+									<tr>
+										<td></td>
+										<td></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>
+								<table>
+									<tr>
+										<td></td>
+										<td></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>
+								<table>
+									<tr>
+										<td></td>
+										<td></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>
+								<table>
+									<tr>
+										<td></td>
+										<td></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>
+								<table>
+									<tr>
+										<td></td>
+										<td></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4">Total des amortissements
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="3">(1) dont fraction répartie entre les associés à reporter colonne 23 cadre V</td>
+							<td></td>
+							<td colspan="2">(1) dont fraction non répartie entre les associés à reporter ligne 5 cadre I</td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+				<table>
+					<thead>
+						<tr>
+							<th colspan="7">III — RÉPARTITION DU RÉSULTAT ENTRE LES ASSOCIÉS (si ce cadre est insuffisant, joindre un état annexe de même modèle)
+							</th>
+						</tr>
+						<tr>
+							<th width="25%" colspan="2">RENSEIGNEMENTS CONCERNANT LES ASSOCIÉS Nom, prénoms, profession, SIREN, lieu principal d’exercice de la profession (adresse complète)</th>
+							<th>Régime fiscal
+							</th>
+							<th>Nombre de parts
+							</th>
+							<th>Bénéfice</th>
+							<th>Déficit
+							</th>
+							<th>Plus-value à long terme
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td width="3%">1</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+				<table>
+					<tr>
+						<th colspan="1">IV — DIVERS
+						</th>
+						<th colspan="7"></th>
+					</tr>
+					<tr>
+						<th></th>
+						<th colspan="6">EFFECTIF DU PERSONNEL À LA CLÔTURE DE L’EXERCICE (y compris les dirigeants salariés)</th>
+						<td></td>
+					</tr>
+					<tr>
+						<th></th>
+						<th colspan="6">MONTANT DES APPORTS FAITS AU COURS DE L’EXERCICE ..........................................
+						</th>
+						<td></td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<th colspan="9">V — ÉTAT DÉTAILLÉ DES DÉPENSES RÉPARTIES ENTRE LES ASSOCIÉS DES SOCIÉTÉS CIVILES DE MOYENS **
+							                                   (si ce cadre est insuffisant, joindre un état de même modèle)
+							                                   CES DÉPENSES SONT À VENTILER SUR LA DÉCLARATION PROFESSIONNELLE DE CHACUN DES ASSOCIÉS
+						</th>
+					</tr>
+					<tr>
+						<th>
+							N°d’ordre des associés *</th>
+						<th>Achats (à l’exclusion des dépenses de matériel et d’outillage)
+						</th>
+						<th colspan="2">Frais de personnel
+						</th>
+						<th colspan="3">
+							Impôts et taxes</th>
+						<th>Loyer et charges locatives (baux professionnels)</th>
+						<th>Location de matériel et de mobilier</th>
+					</tr>
+					<tr>
+						<th></th>
+						<th></th>
+						<th>Salaires nets et avantages en nature</th>
+						<th>Charges sociales sur salaires (parts patronales et ouvrières)</th>
+						<th>Taxes foncières sur les propriétés bâties</th>
+						<th>Taxe sur les salaires</th>
+						<th>Autres impôts</th>
+						<th></th>
+						<th></th>
+					</tr>
+					<tr style="font-size: 0.5em">
+						<td></td>
+						<td>1</td>
+						<td>2</td>
+						<td>3</td>
+						<td>4</td>
+						<td>5</td>
+						<td>6</td>
+						<td>7</td>
+						<td>8</td>
+					</tr>
+					<tbody>
+						{% for user in scm.users %}
+							<tr>
+								<td>{{user.id}}</td>
+								<td></td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Salaires nets et avantages en nature " %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Charges sociales sur salaires (parts patronales et ouvrières)" %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Taxes foncières sur les propriétés bâties" %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Autres impôts" %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Loyer et charges locatives (baux professionnels)" %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Location de matériel et de mobilier" %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td></td>
+							</tr>
+						{% endfor %}
+
+						<tr>
+							<th>
+								N°d’ordre des associés *</th>
+							<th>Entretien et réparations</th>
+							<th>Personnel intérimaire
+							</th>
+							<th>Matériel et petit outillage (valeur unitaire < 500€ HT)
+							</th>
+							<th>Chauffage, eau, gaz, électricité
+							</th>
+							<th>Honoraires ne constituant pas des rétrocessions</th>
+							<th>Primes d’assurances
+							</th>
+							<th>Frais de véhicules
+							</th>
+							<th>Autres frais de déplacements (voyages)
+							</th>
+						</tr>
+						<tr style="font-size: 0.5em">
+							<td></td>
+							<td>9</td>
+							<td>10</td>
+							<td>11</td>
+							<td>12</td>
+							<td>13</td>
+							<td>14</td>
+							<td>15</td>
+							<td>16</td>
+						</tr>
+						{% for user in scm.users %}
+							<tr>
+								<td>{{user.id}}</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Entretien et réparations" %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Personnel intérimaire" %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Matériel et petit outillage (valeur unitaire < 500€ HT) " %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Chauffage, eau, gaz, électricité" %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Honoraires ne constituant pas des rétrocessions" %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Primes d’assurances" %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Frais de véhicules" %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Autres frais de déplacements (voyages)" %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+							</tr>
+						{% endfor %}
+
+						<tr>
+							<th>
+								N°d’ordre des associés *</th>
+							<th>Frais de réception, de représentation et de congrès
+							</th>
+							<th>Fournitures de bureau, frais de documentation, de correspondance et de téléphone
+							</th>
+							<th>Frais d’actes et de contentieux
+							</th>
+							<th>Cotisations syndicales et professionnelles
+							</th>
+							<th>Autres frais divers de gestion</th>
+							<th>Frais financiers</th>
+							<th>Amortissements (fraction répartie entre les associés)
+							</th>
+							<th>Total par associé (Total des colonnes 1 à 23)
+							</th>
+						</tr>
+						<tr style="font-size: 0.5em">
+							<td></td>
+							<td>17</td>
+							<td>18</td>
+							<td>19</td>
+							<td>20</td>
+							<td>21</td>
+							<td>22</td>
+							<td>23</td>
+							<td></td>
+						</tr>					
+						{% for user in scm.users %}
+							<tr>
+								<td>{{user.id}}</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Frais de réception, de représentation et de congrès" %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Fournitures de bureau, frais de documentation, de correspondance et de téléphone" %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Frais d’actes et de contentieux" %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Cotisations syndicales et professionnelles" %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Autres frais divers de gestion" %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Frais financiers" %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>
+									{% for type in totalChargePerType %}
+										{% if type["label"] ==  "Amortissements (fraction répartie entre les associés)" %}
+											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td>{{(totalCharge * Tabmoyenne["user"~user.id] / 100)|round}}</td>
+							</tr>
+						{% endfor %}
+						<tr>
+							<td colspan="8">MONTANT TOTAL DES DÉPENSES RÉPARTIES ENTRE LES ASSOCIÉS
+							</td>
+							<td colspan="9">{{totalCharge}}</td>
+						</tr>
+						<tr style="border:1px solid black">
+							<td colspan="9" style="text-align:left">* IMPORTANT: l’ordre des associés doit être identique à celui déjà mentionné au tableau III. S’agissant des associés dont l’activité est soumise à l’impôt
+								                                   sur le revenu dans la catégorie des bénéfices non commerciaux, les dépenses doivent être reportées sur le formulaire n° 2035-SD (annexe 2035-A-SD).
+								<br>** Cet état détaillé doit être servi conformément à l’article 261B du code général des impôts et aux articles 46 terdecies G et 96 A de l’annexe III au
+								                                   même code. Les dépenses à répartir sont les dépenses communes payées par la société en vue de mettre à la disposition de ses membres les moyens
+								                                   nécessaires à l’exercice de leur profession et effectivement remboursées par ces derniers. Elles ne comprennent pas les dépenses particulières des
+								                                   associés tels que les cotisations personnelles ou la contribution économique territoriale et les frais de déplacement. La répartition des dépenses
+								                                   communes entre les associés doit se faire en imputant à chacun le coût des achats, fournitures ou services le concernant et en répartissant de la
+								                                   même manière les amortissements régulièrement comptabilisés. Il convient de distinguer (en les soulignant d’un trait), les dépenses communes dont
+								                                   le remboursement est exonéré de TVA, à savoir les dépenses correspondant uniquement à des prestations de services qui concourent directement
+								                                   et exclusivement à la réalisation d’opérations professionnelles exonérées de TVA ou placées hors du champ d’application de cette taxe.
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div style="border:1px solid black">
+					<h4>NOTICE</h4>
+                         <p>
+                              <h6>Sociétés concernées :</h6>
+                              La déclaration 2036-SD doit être souscrite par les sociétés civiles de moyens, définies à l’article 36 de la loi n° 66-879 du 29 novembre 1966 quel que
+						                              soit le montant des recettes qu’elles réalisent, dans les cas suivants :
+						                              – lorsqu’elles sont composées exclusivement d’associés dont les activités non commerciales sont soumises à l’impôt sur le revenu dans la catégorie
+						                              des bénéfices non commerciaux, ou d’associés dont les activités commerciales sont soumises à l’impôt sur le revenu dans la catégorie des
+						                              bénéfices industriels et commerciaux ou à l’impôt sur les sociétés ;
+						                              – ou lorsqu’elles comprennent des associés dont les activités sont imposées dans la catégorie des bénéfices non commerciaux et des associés
+						                              imposés dans la catégorie des bénéfices industriels et commerciaux (ou à l’impôt sur les sociétés).
+						                              Dans la mesure où leur chiffre d’affaires excède 55000 € hors taxes, les sociétés civiles de moyens sont tenues de joindre à leur déclaration de résultats
+						                              un bilan simplifié n° 2033-A-SD (ce formulaire est disponible sur le site www.impots.gouv.fr ou à retirer auprès du service des impôts des entreprises).
+						                              Cette obligation n’est pas exigée lorsque les sociétés comprennent exclusivement des associés exerçant une activité dont les revenus sont imposables
+						                              dans la catégorie des bénéfices non commerciaux.
+						                              Les sociétés civiles de moyens qui ne comprennent pas exclusivement des associés exerçant une activité dont les revenus sont imposables dans la
+						                              catégorie des bénéfices non commerciaux peuvent opter pour la détermination de leur résultat selon le régime réel normal des bénéfices industriels et
+						                              commerciaux et souscrire la déclaration n° 2031-SD (et tableaux annexes 2050-SD et suivants). Elles doivent joindre à cette déclaration un état détaillé
+						                              des dépenses à répartir entre les associés (formulaire n° 2036 bis-SD) et, le cas échéant, le formulaire n° 2036-SD dûment rempli pour la détermination
+						                              du bénéfice revenant aux associés exerçant une activité dont les revenus sont imposables dans la catégorie des bénéfices non commerciaux.
+						     <h6>CADRE I : DÉTERMINATION DU RÉSULTAT FISCAL</h6>
+						     Ce cadre permet de déterminer le bénéfice dégagé par la société civile de moyens selon les règles propres aux bénéfices non commerciaux – dépenses
+						                              payées/recettes encaissées – (colonne I) ou aux bénéfices industriels et commerciaux (et aux bénéfices non commerciaux déterminés selon les règles
+						                              prévues à l’article 93 A du Code général des impôts) – créances /dettes – (colonne II) dans les conditions suivantes : •  Servir uniquement la colonne I lorsque la société civile de moyens comprend exclusivement des associés exerçant une activité dont les revenus sont
+						                              imposables dans la catégorie des bénéfices non commerciaux ;
+						                              •  Servir uniquement la colonne II lorsque la société comprend exclusivement des associés exerçant une activité dont les revenus sont imposables
+						                              dans la catégorie des bénéfices industriels et commerciaux ou relevant de l’impôt sur les sociétés, ou dont les revenus imposables dans la catégorie des
+						                              bénéfices non commerciaux sont déterminés selon les règles décrites à l’article 93 A du Code général des impôts ;
+						                              •  Servir les colonnes I et II lorsque la société comprend à la fois des associés exerçant une activité dont les revenus sont imposables dans la catégorie
+						                              des bénéfices non commerciaux et des associés exerçant une activité dont les revenus sont imposables dans la catégorie des bénéfices industriels et
+						                              commerciaux ou relevant de l’impôt sur les sociétés, ou dont les revenus imposables dans la catégorie des bénéfices non commerciaux sont déterminés
+						                              selon les règles décrites à l’article 93 A du Code général des impôts.
+                                   <h6>Les dépenses (colonne I) et les charges (colonne II) :</h6>
+                                   Ligne 1 : faire apparaître les dépenses supportées par la société pour le compte des associés. Pour la colonne I, il s’agit des dépenses effectivement
+						                              payées au cours de l’année civile. Pour la colonne II, il s’agit, des dépenses engagées au titre de l’exercice.
+						                              Ligne 2: faire apparaître les dépenses correspondant aux opérations réalisées avec les tiers selon les mêmes règles que celles prévues pour la ligne 1.
+						                              Ligne 3: retrancher, (colonne II) uniquement, le montant des charges payées d’avance, c’est-à-dire la fraction des dépenses payées en cours d’exercice,
+						                              comprises ligne 1, mais qui se rapportent à l’exercice suivant.
+						                              Ligne 4 : ajouter, (colonne II) uniquement, le montant des sommes dues aux fournisseurs et les charges à payer, c’est-à-dire le montant des frais engagés
+						                              au cours de l’exercice mais qui seront payés lors du prochain exercice.
+						                              Rappel: Option pour la comptabilité super simplifiée. Les sociétés civiles de moyens soumises au régime simplifié peuvent tenir une comptabilité
+						                              de trésorerie n’enregistrant journellement que le détail des encaissements et des paiements ; en fin d’exercice, elles doivent constater leurs
+						                              créances et leurs dettes.
+						                              Ligne 5: porter, colonnes I et II, la fraction des dotations aux amortissements des biens dont la société est propriétaire, non répartie entre les associés.
+						                              Ligne 6 : colonne II : si des provisions sont constituées, joindre le relevé prévu en matière de bénéfice industriel et commercial réel simplifié (modèle
+						                              2033-D-SD); Ce formulaire est disponible sur le site www.impots.gouv.fr ou auprès du service des impôts des entreprises. Il est précisé que les charges
+						                              à payer ne constituent pas des provisions.
+						                              Pour les sociétés qui déterminent un bénéfice non commercial en fonction des créances/dettes, seule la déduction des provisions pour dépréciation des
+						                              créances douteuses ou litigieuses est autorisée.
+						                              Ligne 7: porter, en colonnes I et II, les pertes exceptionnelles déductibles, telles les moins-values à court terme.
+						     <h6>Les recettes (colonne I) et les créances (colonne II) :</h6>
+						          Ligne 9 : faire apparaître les remboursements, par les associés, des charges supportées par la société pour leur compte. Pour la colonne I, il s’agit, des sommes
+						                              remboursées par les associés au titre de l’année civile. Pour la colonne II, il s’agit, des sommes dues au titre de l’exercice par les associés, qu’elles aient ou non
+						                              été payées.
+						                              Ligne 10: faire apparaître les produits correspondant aux opérations réalisées avec les tiers, selon les mêmes règles que celles prévues pour la ligne 9.
+						                              Ligne 11: porter, en colonnes I et II, les profits financiers et les profits exceptionnels, dont les plus-values à court terme.
+						                              Ligne 12: produits divers à réintégrer tels que les versements effectués dans le cadre des dépenses de mécénat, comptabilisés en charge, qui ne sont
+						                              pas déductibles du bénéfice mais donnent lieu à une réduction d’impôt (article 238 bis du CGI).
+						     <h6>Cession d’une immobilisation :<h6>
+								Lignes 15 et 16 : Le régime d’imposition de la plus-value ou la moins-value diffère selon la durée de détention et la nature du bien. Le tableau suivant résume
+								                              les critères de distinction :
+								                              P
+							</p>
+						</div>
+					</p>
+				</div>
+			</div>
+		</body>
+	</body>
 </html>
+
 {% endblock %}
 
