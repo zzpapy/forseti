@@ -23,7 +23,7 @@ class CoefficientSpecifique
     private $coefficient;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="coefficientSpecifique", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="coefficientSpecifique")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -73,5 +73,10 @@ class CoefficientSpecifique
         $this->charge = $charge;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->user->getFirstName();
     }
 }

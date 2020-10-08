@@ -17,7 +17,9 @@ class CoefficientSpecifiqueType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('coefficient')
+            ->add('coefficient',null,[
+                'label' => "coefficient spécifique"
+            ])
             ->add('user', EntityType::class, [
                 'class' => User::class,
                 'query_builder' => function (EntityRepository $er) {
@@ -25,21 +27,9 @@ class CoefficientSpecifiqueType extends AbstractType
                         ->orderBy('u.firstname', 'ASC');
                 },
                 'label' => 'Associé',
-                'expanded' => true,
+                'expanded' => false,
                 'multiple' => false,
                 'choice_label' => 'firstname',
-            ])
-            ->add('charge', EntityType::class, [
-                'class' => Charge::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('c')
-                        ->leftjoin(CoefficientSpecifique::class, 'cs', Join::WITH, 'cs.charge = c.id')
-                        ->andWhere('cs.charge IS NULL')
-                        ->orderBy('c.label', 'DESC');
-                },
-                'expanded' => true,
-                'multiple' => false,
-                'choice_label' => 'label',
             ])
         ;
     }

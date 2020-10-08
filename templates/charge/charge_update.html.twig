@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!{% endblock %}
+{% block page_breadcrumbs %}
+    <li><a href="{{ path('home') }}">Accueil</a></li>
+    <li><a href="{{ path('app_associe') }}">Associés</a></li>
+    <li class="active">Nouvel associé</li>
+{% endblock %}
+{% block body %}
+
+<div class="example-wrapper">
+{{form_start(formCharge)}}
+  <div class="panel-wrapper collapse in">
+<div class="panel-body">
+    <h3><span class="number"><i class="icon-eye txt-black"></i></span><span
+    class="head-font capitalize-font">Modifié cette charge</span></h3>
+<fieldset>
+    <hr class="light-grey-hr">
+    <div class="row">
+        <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">                        
+                                {{ form_widget(formCharge.label) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                        
+                                {{ form_widget(formCharge.type) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                        
+                                <div id="coeff"
+                                        data-prototype="{{ form_widget(formCharge.coefficientSpecifiques.vars.prototype)|e }}"
+                                        data-widget-tags="{{ '<div class="coeff-form"></div>'|e }}"
+                                        data-widget-counter="{{ formCharge.coefficientSpecifiques|length }}">
+                                </div>
+                                {% for coeff in formCharge.coefficientSpecifiques %}
+                                    {{form(coeff)}}
+                                    <button data-coeff=" {{coeff.vars["id"]}} " class="del-coeff">supprimer</button>
+                                {% endfor %}
+                                <div class="row" id="button_add_coeff">
+                                    <button id='addButtonCoeffSpe' class="btn btn-primary ml-15 col-sm-1">Ajouter un coefficient spécifique</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary">Modifier</button>
+            </div>
+        </div>
+    </div>
+</fieldset>
+{{form_end(formCharge)}}
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script>
+function putDeleteButtonCoeff($form) {
+    let $deleteButton = $('<div class="row" id="button_remove_coeff"><button type="button" class="btn btn-danger mb-10 ml-15 col-sm-1">Supprimer</button></div>')
+    $form.append($deleteButton)
+    $deleteButton.on('click', function () {
+        $form.remove()
+    })
+}
+    $collectionFormsCoeff = $('#coeff');
+    $collectionFormsCoeff.find('.coeff-form').each(function () {
+        putDeleteButtonCoeff($(this));
+    })
+
+    let $addButtonCoeff = $("#addButtonCoeffSpe")
+    let $buttonContainerCoeff = $("#button_add_coeff")
+    console.log($("del-coeff").length)
+    $addButtonCoeff.on("click", (event) => {
+        event.preventDefault()
+        let $newCoeffForm = $("#coeff").data("prototype")
+        let counter = $("#coeff").data("widget-counter")
+        console.log(counter)
+        console.log(counter,"toto")
+        $newCoeffForm = $($newCoeffForm.replace(/_name_/g, counter))
+        putDeleteButtonCoeff($newCoeffForm)
+        $("#coeff").append(
+            $($("#coeff").data("widget-tags")).html($newCoeffForm)
+        )
+        console.log($newCoeffForm,"tata")
+
+        $("#coeff").append($buttonContainerCoeff)
+    })
+    $('.del-coeff').on('click',function(e){
+        e.preventDefault()
+        let coeff =$(this).data('coeff').replace(" ","")
+        //d = $('#'+coeff)
+        console.log(("#"+coeff))
+        $('#'+coeff).remove()
+        
+    })
+</script>
+{% endblock %}

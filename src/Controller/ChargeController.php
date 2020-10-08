@@ -5,11 +5,12 @@ namespace App\Controller;
 use App\Entity\Scm;
 use App\Entity\User;
 use App\Entity\Charge;
-use App\Entity\ChargeType;
+use App\Form\ChargeType;
 use App\Service\ChargeManager;
-use App\Controller\BankinApiController;
 use App\Entity\CoefficientGeneral;
 use App\Repository\UserRepository;
+use App\Controller\BankinApiController;
+use App\Form\CoefficientSpecifiqueType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -77,6 +78,52 @@ class ChargeController extends BankinApiController
             'users' => $users,
             'usersCoefs' => $usersCoefs,
             'totalTab' => $totalTab
+        ]);
+    }
+
+     /**
+     * @Route("/charge/liste-charges/{id}", name="app_charge_list")
+     *
+     */
+    public function ChargeList(Scm $scm){
+        $charges = $this->getDoctrine()->getRepository(Charge::class)->findBy([
+            "scm" => $scm
+        ]);
+
+        return $this->render('charge/charge_list.html.twig', [
+            'charges' => $charges
+        ]);
+    }
+
+     /**
+     * @Route("/charge/modif-charge/{id}", name="app_charge_update")
+     *
+     */
+    public function ChargeUpdate(Charge $charge, Request $request){
+       
+            $formCharge = $this->createForm(ChargeType::class, $charge);
+            $formCharge->remove("users");
+            $formCharge->handleRequest($request);
+            
+            if ($formCharge->isSubmitted() && $formCharge->isValid()) {
+                
+                $entityManager = $this->getDoctrine()->getManager();
+                dump(count($formCharge->getData()->getCoefficientSpecifiques()));
+                
+                foreach ($formCharge->getData()->getCoefficientSpecifiques() as $value) {
+                    $entityManager->persist($value);
+                    dump($value);
+                }
+                // dd($request->request);
+               
+    
+                $entityManager->persist($charge);
+                $entityManager->flush();
+                // return $this->redirectToRoute('app_charge_list', ['id' => $this->getUser()->getScm()->getId()]);
+            }
+        return $this->render('charge/charge_update.html.twig', [
+            'charge' => $charge,
+            'formCharge' => $formCharge->createView()
         ]);
     }
 

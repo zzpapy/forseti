@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ChargeController!{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default card-view">
+                <div class="panel-heading">
+                    <div class="pull-left">
+                        <h6 class="panel-title txt-dark">Typage des charges</h6>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-wrapper collapse in">
+                    <div class="panel-body">
+                        <div class="table-wrap mt-40">
+                            <div class="table-responsive">
+                                <table id="edit_datable_charge" class="table table-hover display mb-30">
+                                    <thead>
+                                        <tr>
+                                            <th>Label</th>
+                                            <th>Date d'enregistrement</th>
+                                            <th>Date</th>
+                                            <th>Type</th>
+                                            <th>Montant</th>
+                                            <th>Coefficient spécifique</th>
+                                            <th>action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for charge in charges %}
+                                        <tr id="row-{{ charge.id }}">
+                                            <td> {{charge.label}} </td>
+                                            <td> {{charge.createdAt|date}} </td>
+                                            <td> {{charge.payedAt|date}} </td>
+                                            <td> {{charge.type.label}} </td>
+                                            {% if charge.coefficientSpecifiques|length %}
+                                            <td>
+                                                <table>
+                                                {% for coeff in charge.coefficientSpecifiques %}
+                                                <tr>                                        
+                                                    <td> {{coeff.user.firstname}} {{coeff.coefficient}}%</td> 
+                                                <tr>                                               
+                                                {% endfor %}
+                                                </table>
+                                            </td>
+                                            {% else %}
+                                                <td></td>                                             
+                                            {% endif %}                                            
+                                            <td> {{charge.total}} </td>
+                                            <td>
+                                                <a class="link" href="{{ path('app_charge_update',{ id : charge.id }) }}"><i class="ti-pencil-alt"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts_specifique %}
+    {{ encore_entry_script_tags('grandin_select_picker') }}
+    {{ encore_entry_script_tags('grandin_editable_table_data') }}
+{% endblock %}

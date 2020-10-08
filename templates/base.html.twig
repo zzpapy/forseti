@@ -29,6 +29,7 @@
                     </div>
                 </div>
             </div>
+        {% block nav %}{% endblock %}
         </nav>
         <div class="fixed-sidebar-left">
             <ul class="nav navbar-nav side-nav nicescroll-bar">
@@ -79,7 +80,7 @@
                 </li>
                 {% if is_granted('ROLE_ADMIN') %}
                     <li>
-                        <a class="link" href="{{ path('app_charge') }}">Charges</a>
+                        <a class="link" href="{{ path('app_charge_list',{ id : app.user.scm.id }) }}">Charges</a>
                     </li>
                     <li>
                         <a class="link" href="{{ path('app_recette') }}">Recettes</a>
