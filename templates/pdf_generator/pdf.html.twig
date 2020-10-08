@@ -13,6 +13,10 @@
         border: 1px solid black;
         border-collapse: collapse;
     }
+    .content{
+         max-width:75%;
+         margin:auto;
+    }
     td{
          
          text-align:right;
@@ -39,6 +43,8 @@
             {% set moyenne = total / 12 %}
         {% set Tabmoyenne = Tabmoyenne|merge({ ("user"~user.id) : moyenne }) %}
         {% endfor %}
+        <div class="container">
+        <div class="content">
         <table class="table">
         <thead>
             <tr>
@@ -436,7 +442,7 @@
                <td></td>
           </tr>
           </table>
-          <table class="table table-striped test">
+          <table >
                <tr>
                     <th colspan="9">V — ÉTAT DÉTAILLÉ DES DÉPENSES RÉPARTIES ENTRE LES ASSOCIÉS DES SOCIÉTÉS CIVILES DE MOYENS **
                          (si ce cadre est insuffisant, joindre un état de même modèle)
@@ -771,6 +777,8 @@
                     les critères de distinction :
                     P
                </p>
+          </div>
+          </div>
           </div>
     </body>
 </html>
