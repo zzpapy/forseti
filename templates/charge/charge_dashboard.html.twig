@@ -118,7 +118,8 @@
                 {% for month, total in detail %}
                 d{{ datanumer }}.push([{{ month }}, {{ total }}]);
                 {% endfor %}
-
+            {% endfor %}
+            
             var ds = [
                 {% for type in total_detail_per_type_per_month|keys %}
                 {
