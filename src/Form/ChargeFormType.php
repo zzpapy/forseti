@@ -7,15 +7,17 @@ use App\Form\CoefficientSpecifiqueType;
 use Symfony\Component\Form\AbstractType;
 use App\Entity\ChargeType as EntityChargeType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class ChargeType extends AbstractType
+class ChargeFormType extends AbstractType
 {
+   
     public function buildForm(FormBuilderInterface $builder, array $options)
     { 
-        
+       
         $builder
             ->add('label',null,[
                 'label' => "Label"
@@ -35,9 +37,7 @@ class ChargeType extends AbstractType
                 "by_reference"=>false,
                 'entry_options'=>[
                     'label'=>false,
-                ]
-
-
+                ],
             ])
         ;
     }

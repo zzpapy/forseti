@@ -5,7 +5,8 @@ namespace App\Controller;
 use App\Entity\Scm;
 use App\Entity\User;
 use App\Entity\Charge;
-use App\Form\ChargeType;
+use App\Entity\ChargeType;
+use App\Form\ChargeFormType;
 use App\Service\ChargeManager;
 use App\Entity\CoefficientGeneral;
 use App\Repository\UserRepository;
@@ -101,10 +102,11 @@ class ChargeController extends BankinApiController
      */
     public function ChargeUpdate(Charge $charge, Request $request){
        
-            $formCharge = $this->createForm(ChargeType::class, $charge, array(
+            $formCharge = $this->createForm(ChargeFormType::class, $charge, [
                 'scm' => $this->getUser()->getScm(),
-            ));
-            
+            ]);
+            $scmSess = $this->session->set("scm",$this->getUser()->getScm());
+            // dd($this->session->get("scm"));
             $formCharge->handleRequest($request);
             
             if ($formCharge->isSubmitted() && $formCharge->isValid()) {
