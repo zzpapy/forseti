@@ -102,11 +102,8 @@ class ChargeController extends BankinApiController
      */
     public function ChargeUpdate(Charge $charge, Request $request){
        
-            $formCharge = $this->createForm(ChargeFormType::class, $charge, [
-                'scm' => $this->getUser()->getScm(),
-            ]);
+            $formCharge = $this->createForm(ChargeFormType::class, $charge);
             $scmSess = $this->session->set("scm",$this->getUser()->getScm());
-            // dd($this->session->get("scm"));
             $formCharge->handleRequest($request);
             
             if ($formCharge->isSubmitted() && $formCharge->isValid()) {

@@ -6,6 +6,14 @@ function putDeleteButton($form) {
     })
 }
 
+function putDeleteButtonCoeff($form) {
+    let $deleteButton = $('<div class="row" id="button_remove_coeff"><button type="button" class="btn btn-danger mb-10 ml-15 col-sm-1 col-lg-12 col-md-8">Supprimer</button></div>')
+    $form.append($deleteButton)
+    $deleteButton.on('click', function () {
+        $form.remove()
+    })
+}
+
 $(document).ready(function () {
     $collectionForms = $('#users');
     $collectionForms.find('.userForm').each(function () {
@@ -30,7 +38,36 @@ $(document).ready(function () {
 
 
 
-
+    
+        $collectionFormsCoeff = $('#coeff');
+        $collectionFormsCoeff.find('.coeff-form').each(function () {
+            putDeleteButtonCoeff($(this));
+        })
+    
+        let $addButtonCoeff = $("#addButtonCoeffSpe")
+        let $buttonContainerCoeff = $("#button_add_coeff")
+        console.log($("del-coeff").length)
+        $addButtonCoeff.on("click", (event) => {
+            event.preventDefault()
+           
+            let counter = $("#coeff").children('.coeff-form').length
+            console.log(counter)
+            let $newCoeffForm = $("#coeff").data("prototype")
+            
+            $newCoeffForm = $($newCoeffForm.replace(/_name_/g, counter))
+            putDeleteButtonCoeff($newCoeffForm)
+            $("#coeff").append(
+                $($("#coeff").data("widget-tags")).html($newCoeffForm)
+            )
+            $(".test").append($buttonContainerCoeff)
+        })
+        $('.del-coeff').on('click',function(e){
+            e.preventDefault()
+            let coeff =$(this).data('coeff').replace(" ","")
+            $('#'+coeff).remove()
+            $(this).remove()
+            
+        })
   
 })
 
