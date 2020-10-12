@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    {{form_start(formRecette)}}
+    <div class="panel-wrapper collapse in">
+        <div class="panel-body">
+            <h3><span class="number"><i class="icon-eye txt-black"></i></span><span
+            class="head-font capitalize-font">Modifié cette recette</span></h3>
+            <fieldset>
+                <hr class="light-grey-hr">
+                <div class="row">
+                    <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group">                        
+                                            {{ form_row(formRecette.label) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group">                        
+                                            {{ form_row(formRecette.createdAt) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group">  
+                                            {{ form_row(formRecette.total) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group">                        
+                                            {{ form_row(formRecette.user) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary">Modifier</button>
+            </fildset>
+        </div>
+    </div>
+</div>
+{{form_end(formRecette)}}
+
+{# {{form(formRecette)}} #}
+{% endblock %}

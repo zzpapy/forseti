@@ -2,9 +2,8 @@
 
 {% block title %}Hello ProfileController!{% endblock %}
 {% block page_breadcrumbs %}
-    <li><a href="{{ path('home') }}">Accueil</a></li>
-    <li><a href="{{ path('app_associe') }}">Associés</a></li>
-    <li class="active">Nouvel associé</li>
+    <li><a class="link" href="{{ path('app_charge_list',{ id : app.user.scm.id }) }}">Charge</a></li>    
+    <li class="active">Modifier</li>
 {% endblock %}
 {% block body %}
 
@@ -22,7 +21,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <div class="input-group">                        
-                                {{ form_widget(formCharge.label) }}
+                                {{ form_row(formCharge.label) }}
                             </div>
                         </div>
                     </div>
@@ -30,25 +29,28 @@
                         <div class="form-group">
                             <div class="input-group">
                         
-                                {{ form_widget(formCharge.type) }}
+                                {{ form_row(formCharge.type) }}
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="width:100%">
                         <div class="form-group">
-                            <div class="input-group">
-                        
-                                <div id="coeff"
+                            <div class="input-group test">                        
+                                <div id="coeff" style="display:flex; justify-content:space-around;flex-wrap:wrap"
                                         data-prototype="{{ form_widget(formCharge.coefficientSpecifiques.vars.prototype)|e }}"
                                         data-widget-tags="{{ '<div class="coeff-form"></div>'|e }}"
                                         data-widget-counter="{{ formCharge.coefficientSpecifiques|length }}">
+                                        {% for coeff in formCharge.coefficientSpecifiques %}
+                                            <div class="coeff-form">
+                                            {{form_widget(coeff.coefficient,{
+                                                        'placeholder':'Coefficient',
+                                                    })}}
+                                            {{form_widget(coeff.user)}}
+                                            </div>
+                                        {% endfor %}
                                 </div>
-                                {% for coeff in formCharge.coefficientSpecifiques %}
-                                    {{form(coeff)}}
-                                    <button data-coeff=" {{coeff.vars["id"]}} " class="del-coeff">supprimer</button>
-                                {% endfor %}
                                 <div class="row" id="button_add_coeff">
-                                    <button id='addButtonCoeffSpe' class="btn btn-primary ml-15 col-sm-1">Ajouter un coefficient spécifique</button>
+                                    <button id='addButtonCoeffSpe'  data-list-selector="#coeff" class="btn btn-primary ml-15 col-sm-1 col-lg-12 col-md-12">Ajouter un coefficient spécifique</button>
                                 </div>
                             </div>
                         </div>
@@ -64,7 +66,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 <script>
 function putDeleteButtonCoeff($form) {
-    let $deleteButton = $('<div class="row" id="button_remove_coeff"><button type="button" class="btn btn-danger mb-10 ml-15 col-sm-1">Supprimer</button></div>')
+    let $deleteButton = $('<div class="row" id="button_remove_coeff"><button type="button" class="btn btn-danger mb-10 ml-15 col-sm-1 col-lg-12 col-md-8">Supprimer</button></div>')
     $form.append($deleteButton)
     $deleteButton.on('click', function () {
         $form.remove()
@@ -80,25 +82,23 @@ function putDeleteButtonCoeff($form) {
     console.log($("del-coeff").length)
     $addButtonCoeff.on("click", (event) => {
         event.preventDefault()
-        let $newCoeffForm = $("#coeff").data("prototype")
-        let counter = $("#coeff").data("widget-counter")
+       
+        let counter = $("#coeff").children('.coeff-form').length
         console.log(counter)
-        console.log(counter,"toto")
+        let $newCoeffForm = $("#coeff").data("prototype")
+        
         $newCoeffForm = $($newCoeffForm.replace(/_name_/g, counter))
         putDeleteButtonCoeff($newCoeffForm)
         $("#coeff").append(
             $($("#coeff").data("widget-tags")).html($newCoeffForm)
         )
-        console.log($newCoeffForm,"tata")
-
-        $("#coeff").append($buttonContainerCoeff)
+        $(".test").append($buttonContainerCoeff)
     })
     $('.del-coeff').on('click',function(e){
         e.preventDefault()
         let coeff =$(this).data('coeff').replace(" ","")
-        //d = $('#'+coeff)
-        console.log(("#"+coeff))
         $('#'+coeff).remove()
+        $(this).remove()
         
     })
 </script>

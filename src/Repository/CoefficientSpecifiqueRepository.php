@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\Charge;
+use Doctrine\ORM\Query\Expr\Join;
 use App\Entity\CoefficientSpecifique;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method CoefficientSpecifique|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +50,5 @@ class CoefficientSpecifiqueRepository extends ServiceEntityRepository
         ;
     }
     */
+    
 }

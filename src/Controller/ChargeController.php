@@ -101,8 +101,10 @@ class ChargeController extends BankinApiController
      */
     public function ChargeUpdate(Charge $charge, Request $request){
        
-            $formCharge = $this->createForm(ChargeType::class, $charge);
-            $formCharge->remove("users");
+            $formCharge = $this->createForm(ChargeType::class, $charge, array(
+                'scm' => $this->getUser()->getScm(),
+            ));
+            
             $formCharge->handleRequest($request);
             
             if ($formCharge->isSubmitted() && $formCharge->isValid()) {
@@ -112,14 +114,11 @@ class ChargeController extends BankinApiController
                 
                 foreach ($formCharge->getData()->getCoefficientSpecifiques() as $value) {
                     $entityManager->persist($value);
-                    dump($value);
                 }
-                // dd($request->request);
-               
     
                 $entityManager->persist($charge);
                 $entityManager->flush();
-                // return $this->redirectToRoute('app_charge_list', ['id' => $this->getUser()->getScm()->getId()]);
+                return $this->redirectToRoute('app_charge_list', ['id' => $this->getUser()->getScm()->getId()]);
             }
         return $this->render('charge/charge_update.html.twig', [
             'charge' => $charge,

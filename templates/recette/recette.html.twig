@@ -29,7 +29,7 @@
                                     </thead>
                                     <tbody>
                                     {% for transac in transaction_list %}
-                                        <tr id="row-{{ transac.id }}">
+                                        <tr id="row-{{transac.id}}">
                                             <td>{{ transac.id }}</td>
                                             <td>{{ transac.description}}</td>
                                             <td>{{ transac.amount }}</td>
@@ -39,9 +39,10 @@
                                                     {% for user in users %}                                                       
                                                         <option value="{{ user.id }}">{{ user.lastname }} {{user.firstname}} </option>                                                       
                                                     {% endfor %}
-                                                </select></td>
+                                                </select>
+                                            </td>
                                             <td>
-                                                <button type="submit" class="btn btn-success validate-userRecette" data-transac-id="{{ transac.id }}" data-ajax--url="{{ path('app_ajax_user_recette_default', {transactionid:transac.id}) }}">Confirmer</button>
+                                                <button type="submit" class="btn btn-success validate-userRecette" data-description="{{transac.description}}"  data-transac-id="{{ transac.id }}" data-ajax--url="{{ path('app_ajax_user_recette_default', {transactionid:transac.id}) }}">Confirmer</button>
                                             </td>
                                         </tr>
                                     {% endfor %}

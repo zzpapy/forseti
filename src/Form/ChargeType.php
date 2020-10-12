@@ -14,9 +14,12 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 class ChargeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    { 
+        
         $builder
-            ->add('label')
+            ->add('label',null,[
+                'label' => "Label"
+            ])
             ->add('type', EntityType::class, [
                 'class' => EntityChargeType::class,                
                 'label' => 'type',
@@ -26,7 +29,7 @@ class ChargeType extends AbstractType
             ])
             ->add('coefficientSpecifiques', CollectionType::class,[
                 'entry_type'=> CoefficientSpecifiqueType::class,
-                'block_name'=>'user_list',
+                'block_name'=>'user_list',                
                 "allow_add"=>true,
                 "allow_delete"=>true,
                 "by_reference"=>false,
@@ -43,6 +46,7 @@ class ChargeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Charge::class,
+            'scm' => null,
         ]);
     }
 }

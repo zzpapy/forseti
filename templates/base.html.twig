@@ -16,6 +16,7 @@
         <div class="la-anim-1"></div>
     </div>
 {% endblock %}
+{% block connection %}{% endblock %}
 {% block wrapper %}
     <div class="wrapper theme-1-active pimary-color-pink clearfix">
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -29,6 +30,8 @@
                     </div>
                 </div>
             </div>
+        
+        
         {% block nav %}{% endblock %}
         </nav>
         <div class="fixed-sidebar-left">
@@ -83,7 +86,7 @@
                         <a class="link" href="{{ path('app_charge_list',{ id : app.user.scm.id }) }}">Charges</a>
                     </li>
                     <li>
-                        <a class="link" href="{{ path('app_recette') }}">Recettes</a>
+                        <a class="link" href="{{ path('app_recette_list',{ id : app.user.scm.id }) }}">Recettes</a>
                     </li>
                     <li>
                         <a class="link" href="{{ path('app_associe') }}">Associés</a>

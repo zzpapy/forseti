@@ -14,7 +14,7 @@
                         <span class="top-nav-icon-badge"> {{transaction_list|length}} </span>
                         {% endif %}
                     </a>
-                    {% if is_transaction %}
+                    {% if is_transaction or is_transactionRecette %}
                     <ul  class="dropdown-menu alert-dropdown" style="right:0 !important"data-dropdown-in="bounceIn" data-dropdown-out="bounceOut">
                         <li>
                             <div class="notification-box-head-wrap">
@@ -27,12 +27,20 @@
                         <li>
                             <div class="streamline message-nicescroll-bar">
                                 <div class="sl-item">
-                                    <a href="{{ path('app_charge') }}">
-                                        <div class="icon bg-green">
-                                            <i class="zmdi zmdi-flag"></i>
-                                        </div>
+                                    <a href="{{ path('app_charge') }}">                                
                                         <div class="sl-content">
                                             <span class="inline-block capitalize-font  pull-left truncate head-notifications">Vous avez des charges à catégoriser</span>
+                                            <i class="fa fa-minus-square-o"></i>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </a>	
+                                </div>
+                                <hr class="light-grey-hr ma-0"/>
+                                <div class="sl-item">
+                                    <a href="{{ path('app_charge') }}">
+                                        <div class="sl-content">
+                                            <span class="inline-block capitalize-font  pull-left truncate head-notifications">Vous avez des recettes à attribuer</span>
+                                            <i class="fa fa-plus-square-o"></i>
                                             <div class="clearfix"></div>
                                         </div>
                                     </a>	
@@ -53,13 +61,6 @@
                     <h6 class="panel-title txt-dark">Bienvenue sur Forseti</h6>
                 </div>
                 <div class="clearfix"></div>
-            </div>
-            <div class="panel-wrapper collapse in">
-                <div class="panel-body">
-                    {% if render_bankin_conf %}
-                        <div id="bankin_config_alert_message"></div>
-                    {% endif %}
-                </div>
             </div>
         </div>
     </div>
@@ -109,6 +110,44 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="panel panel-default card-view">
+                <div class="panel-heading">
+                    <div class="pull-left">
+                        <h6 class="panel-title txt-dark">Répartition des recettes annuelles</h6>
+                    </div>
+                    {% if is_transactionRecette %}
+                        <div class="pull-right blink" style="border:1px solid red; border-radius:15px; padding:0.5em">
+                             <a class="link home" href="{{ path('app_recette') }}">
+                              <i class="ti-alert" style="color:red"></i>Vous avez des recettes à attribuer.
+                             </a>
+                        </div>                        
+                    {% endif %}
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-wrapper collapse in">
+                    <div class="panel-body">
+                        <div class="flot-container">
+                            <div id="flot_bars_recette_chart" class="demo-placeholder"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div id="legend_flot_bars_recette_chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block connection %}
+    <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    {% if render_bankin_conf %}
+                        <div id="bankin_config_alert_message"></div>
+                    {% endif %}
+                </div>
+            </div>
 {% endblock %}
 {% block javascripts_specifique %}
 
@@ -295,6 +334,124 @@
             };
 
             $.plot($("#flot_bars_chart"), ds, sales_op);
+        }
+
+        //recettes
+
+         function getRandomColor() {
+            var color = Math.floor(Math.random() * 255);
+            return color;
+        }
+
+        var colorType = [];
+       
+        {% for user,key in totalRecetteUsers|keys %}
+            colorType["{{ key }}"] = "rgba(" + getRandomColor() + "," + getRandomColor() + "," + getRandomColor() + ",1)";
+        {% endfor %}
+
+        if ($('#flot_bars_recette_chart').length > 0) {
+            /*Defining Data*/        
+            {% for detail in totalRecetteUsers %}
+                tab = {{detail|json_encode|raw }}
+                {% set datanumer = loop.index %}
+                var d{{ loop.index }} = [];
+                delete tab.firstname
+                for (total in tab){
+                    d{{ datanumer }}.push([ {{datanumer}}, tab.total]);
+
+                }
+            {% endfor %}
+
+            var ds = [
+                {% for type in totalRecetteUsers %}
+                {
+                    label: "{{ type.firstname }}",
+                    data: d{{ loop.index }},
+                    bars: {
+                        order: {{ loop.index }}
+                    }
+                },
+                {% endfor %}];
+
+            var stack = 0,
+                bars = true,
+                lines = true,
+                steps = true;
+
+            /*Defining Option*/
+            var sales_op = {
+                bars: {
+                    show: true,
+                    barWidth: 0.4,
+                    fill: 1,
+                    align: 'center'
+                },
+                grid: {
+                    color:  '#878787',
+                    hoverable: true,
+                    borderWidth: 0,
+                    backgroundColor: 'transparent'
+                },
+                series: {
+                    stack: stack
+                },
+                legend: {
+                    position: "se",
+                    margin: [10, 0],
+                    backgroundColor: 'transparent',
+                    noColumns: 3,
+                    container: $('#legend_flot_bars_recette_chart'),
+                    labelBoxBorderColor: null,
+                    labelFormatter: function (label, series) {
+                        // just add some space to labes
+                        return '' + label + '&nbsp;&nbsp;&nbsp;&nbsp;';
+                    },
+                    width: 30,
+                    height: 5
+                },
+                yaxis: {
+                    font: {
+                        color: '#878787'
+                    },
+                    ticks: [
+                        [0],
+                        [2500,"2500 €"],
+                        [5000,"5k €"],
+                        
+                    ],
+                },
+                xaxis: {
+                    ticks: [
+                        {% for user in totalRecetteUsers  %}
+                        [{{loop.index}}, "{{user.firstname}}"],                            
+                        {% endfor %}
+                        
+                    ],
+                    min:0,
+                    max:12,
+                    font: {
+                        color: '#878787'
+                    }
+                },
+                colors: [
+                        {% for key in totalRecetteUsers|keys %}
+                        colorType["{{ key }}"],
+                        {% endfor %}
+
+                    ],
+                tooltip: true, //activate tooltip
+                tooltipOpts: {
+                    content: function(data, x, y, dataObject) {
+                        var XdataIndex = dataObject.dataIndex;
+                        var XdataLabel = dataObject.series.xaxis.ticks[XdataIndex].label;
+                        return y+" €" ;
+                    },
+                    defaultTheme: false,
+                    shifts: { x: 0, y: -40 }
+                }
+            };
+
+            $.plot($("#flot_bars_recette_chart"), ds, sales_op);
         }
     </script>
 {% endblock %}

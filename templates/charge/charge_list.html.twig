@@ -35,6 +35,7 @@
                                             <td> {{charge.createdAt|date}} </td>
                                             <td> {{charge.payedAt|date}} </td>
                                             <td> {{charge.type.label}} </td>
+                                            <td> {{charge.total}} </td>
                                             {% if charge.coefficientSpecifiques|length %}
                                             <td>
                                                 <table>
@@ -48,7 +49,6 @@
                                             {% else %}
                                                 <td></td>                                             
                                             {% endif %}                                            
-                                            <td> {{charge.total}} </td>
                                             <td>
                                                 <a class="link" href="{{ path('app_charge_update',{ id : charge.id }) }}"><i class="ti-pencil-alt"></i></a>
                                             </td>

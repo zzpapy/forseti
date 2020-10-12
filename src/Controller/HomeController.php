@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\ChargeType;
 use App\Service\ChargeManager;
+use App\Service\RecetteManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,53 +22,80 @@ class HomeController extends BankinApiController
     /**
      * @Route("/home", name="home")
      */
-    public function index(ChargeManager $chargeManager)
+    public function index(ChargeManager $chargeManager,RecetteManager $recetteManager)
     {
         $renderBankinConf = false;
-
         if(in_array('ROLE_ADMIN', $this->getUser()->getRoles()) && is_null($this->session->get('bank_account_id'))){
             $renderBankinConf = true;
+            // dd($renderBankinConf);
         }
+        if(!$renderBankinConf){
 
-        $totalDetail = $chargeManager->calculatePercentCharge();
+            $totalDetail = $chargeManager->calculatePercentCharge();
 
-        $totalDetail2 = $chargeManager->getChargePerMonthPerType();
+            $totalDetail2 = $chargeManager->getChargePerMonthPerType();
 
-        $totalTab =[];
+            $totalTab =[];
 
-        foreach ($totalDetail2 as $key => $typeCharge) {
-            $totalTab[$key] = array_sum (  $typeCharge );
-        }
-        $UserRepository = $this->getDoctrine()->getRepository(User::class);
+            foreach ($totalDetail2 as $key => $typeCharge) {
+                $totalTab[$key] = array_sum (  $typeCharge );
+            }
+            $UserRepository = $this->getDoctrine()->getRepository(User::class);
 
-        $users = $UserRepository->findBy(["scm" => $this->getUser()->getScm()]);
+            $users = $UserRepository->findBy(["scm" => $this->getUser()->getScm()]);
 
-        $usersCoefs = [];
+            $usersCoefs = [];
 
-        foreach ($users as $user) {
-            $usersCoefs[$user->getId()] = $user->getCoefficientGeneral()->toArray();
-        }
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $this->reconnectApiUser();
-        $transactionList = $chargeManager->getTransactionToSynchronise('onlyCharge');
+            foreach ($users as $user) {
+                $usersCoefs[$user->getId()] = $user->getCoefficientGeneral()->toArray();
+            }
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
+            $this->reconnectApiUser();
+            $transactionList = $chargeManager->getTransactionToSynchronise('onlyCharge');
 
-        if($transactionList){
-            $isTransaction = true;
+            if($transactionList){
+                $isTransaction = true;
+            }
+            else{
+                $isTransaction = false;
+            }
+
+
+            $scm = $this->getUser()->getScm();
+
+            $totalRecetteUsers = $recetteManager->getTotalRecetteUsers($scm);
+            $totalRecetteNullUser = $recetteManager->getTotalRecetteNullUsers($scm);
+            $totalRecetteNullUser[0]["id"] = 0;
+            $totalRecetteNullUser[0]["firstname"] = "Non attribué";
+            // dd($totalRecetteUsers);
+            array_push($totalRecetteUsers,$totalRecetteNullUser[0]);
+
+            $transactionListRecette = $chargeManager->getTransactionToSynchronise('onlyCharge');
+        if($transactionListRecette){
+                $isTransactionRecette = true;
         }
         else{
-            $isTransaction = false;
+            $isTransactionRecette = false;
         }
+            return $this->render('home/index.html.twig', [
+                'render_bankin_conf' => $renderBankinConf,
+                'total_detail_per_type' => $totalDetail,
+                'total_detail_per_type_per_month' => $totalDetail2,
+                'users' => $users,
+                'usersCoefs' => $usersCoefs,
+                'totalTab' => $totalTab,
+                'is_transaction' => $isTransaction,
+                'is_transactionRecette' => $isTransactionRecette,
+                'transaction_list' => $transactionList,
+                "totalRecetteUsers" => $totalRecetteUsers,
+            ]);
+        }
+        else{
+            return $this->render('home/index.html.twig', [
+                'render_bankin_conf' => $renderBankinConf,
+            ]);
 
-        return $this->render('home/index.html.twig', [
-            'render_bankin_conf' => $renderBankinConf,
-            'total_detail_per_type' => $totalDetail,
-            'total_detail_per_type_per_month' => $totalDetail2,
-            'users' => $users,
-            'usersCoefs' => $usersCoefs,
-            'totalTab' => $totalTab,
-            'is_transaction' => $isTransaction,
-            'transaction_list' => $transactionList
-        ]);
+        }
     }
 
     private function orderParentChildChargeType($typeList)

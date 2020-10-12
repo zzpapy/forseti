@@ -25,9 +25,9 @@ class CoefficientSpecifiqueType extends AbstractType
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
                         ->orderBy('u.firstname', 'ASC');
-                },
+                },   
                 'label' => 'Associé',
-                'expanded' => false,
+                'expanded' => true,
                 'multiple' => false,
                 'choice_label' => 'firstname',
             ])
