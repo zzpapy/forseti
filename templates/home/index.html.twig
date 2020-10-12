@@ -6,55 +6,9 @@
 {% block page_breadcrumbs %}<li class="active">Accueil</li>{% endblock %}
 
 {% block nav %}
-    <ul class="nav navbar-right top-nav pull-right">
-                <li class="dropdown alert-drp">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="zmdi zmdi-notifications top-nav-icon"></i>
-                        {% if is_transaction %}
-                        <span class="top-nav-icon-badge"> {{transaction_list|length}} </span>
-                        {% endif %}
-                    </a>
-                    {% if is_transaction or is_transactionRecette %}
-                    <ul  class="dropdown-menu alert-dropdown" style="right:0 !important"data-dropdown-in="bounceIn" data-dropdown-out="bounceOut">
-                        <li>
-                            <div class="notification-box-head-wrap">
-                                <span class="notification-box-head pull-left inline-block">notifications</span>
-                                <a class="txt-danger pull-right clear-notifications inline-block" href="javascript:void(0)"> clear all </a>
-                                <div class="clearfix"></div>
-                                <hr class="light-grey-hr ma-0"/>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="streamline message-nicescroll-bar">
-                                <div class="sl-item">
-                                    <a href="{{ path('app_charge') }}">                                
-                                        <div class="sl-content">
-                                            <span class="inline-block capitalize-font  pull-left truncate head-notifications">Vous avez des charges à catégoriser</span>
-                                            <i class="fa fa-minus-square-o"></i>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                    </a>	
-                                </div>
-                                <hr class="light-grey-hr ma-0"/>
-                                <div class="sl-item">
-                                    <a href="{{ path('app_charge') }}">
-                                        <div class="sl-content">
-                                            <span class="inline-block capitalize-font  pull-left truncate head-notifications">Vous avez des recettes à attribuer</span>
-                                            <i class="fa fa-plus-square-o"></i>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                    </a>	
-                                </div>
-                                <hr class="light-grey-hr ma-0"/>
-                            </div>
-                        </li>
-                    </ul>
-                    {% endif %}
-                </li>
-            </ul>
-{% endblock %}
+    {% endblock %}
 {% block body %}
-    <div class="col-sm-12">
+    {# <div class="col-sm-12">
         <div class="panel panel-default card-view">
             <div class="panel-heading">
                 <div class="pull-left">
@@ -63,7 +17,7 @@
                 <div class="clearfix"></div>
             </div>
         </div>
-    </div>
+    </div> #}
     <div class="row">
         <div class="col-lg-6">
             <div class="panel panel-default card-view">
@@ -122,7 +76,11 @@
                              <a class="link home" href="{{ path('app_recette') }}">
                               <i class="ti-alert" style="color:red"></i>Vous avez des recettes à attribuer.
                              </a>
-                        </div>                        
+                        </div>
+                    {% else %}
+                        <div class="pull-right" style="border:1px solid green; border-radius:15px; padding:0.5em">
+                           Toutes vos recettes sont à jour.
+                        </div>                  
                     {% endif %}
                     <div class="clearfix"></div>
                 </div>

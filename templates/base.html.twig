@@ -30,8 +30,56 @@
                     </div>
                 </div>
             </div>
-        
-        
+            <ul class="nav navbar-right top-nav pull-right">
+                <li class="dropdown alert-drp">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="zmdi zmdi-notifications top-nav-icon"></i>
+                        {% if app.session.get('is_transaction') or app.session.get('is_transactionRecette') %}
+                        <span class="top-nav-icon-badge"></span>
+                        {% endif %}
+                    </a>
+                    {% if app.session.get('is_transaction') or app.session.get('is_transactionRecette') %}
+                    <ul  class="dropdown-menu alert-dropdown" style="right:0 !important"data-dropdown-in="bounceIn" data-dropdown-out="bounceOut">
+                        <li>
+                            <div class="notification-box-head-wrap">
+                                <span class="notification-box-head pull-left inline-block">notifications</span>
+                                <a class="txt-danger pull-right clear-notifications inline-block" href="javascript:void(0)"> clear all </a>
+                                <div class="clearfix"></div>
+                                <hr class="light-grey-hr ma-0"/>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="streamline message-nicescroll-bar">
+                                {% if app.session.get("is_transaction") %}
+                                <div class="sl-item">
+                                    <a href="{{ path('app_charge') }}">                                
+                                        <div class="sl-content">
+                                            <span class="inline-block capitalize-font  pull-left truncate head-notifications">Vous avez des charges à catégoriser</span>
+                                            <i class="fa fa-minus-square-o"></i>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </a>	
+                                </div>
+                                <hr class="light-grey-hr ma-0"/>
+                                {% endif %}
+                                {% if app.session.get("is_transactionRecette") %}
+                                <div class="sl-item">
+                                    <a href="{{ path('app_charge') }}">
+                                        <div class="sl-content">
+                                            <span class="inline-block capitalize-font  pull-left truncate head-notifications">Vous avez des recettes à attribuer</span>
+                                            <i class="fa fa-plus-square-o"></i>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </a>	
+                                </div>
+                                <hr class="light-grey-hr ma-0"/>
+                                {% endif %}
+                            </div>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </li>
+            </ul>        
         {% block nav %}{% endblock %}
         </nav>
         <div class="fixed-sidebar-left">

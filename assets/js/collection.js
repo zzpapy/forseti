@@ -15,6 +15,8 @@ function putDeleteButtonCoeff($form) {
 }
 
 $(document).ready(function () {
+
+    // user collection
     $collectionForms = $('#users');
     $collectionForms.find('.userForm').each(function () {
         putDeleteButton($(this));
@@ -36,38 +38,36 @@ $(document).ready(function () {
         $("#users").append($buttonContainer)
     })
 
+    // coefficient specifique collection
+    $collectionFormsCoeff = $('#coeff');
+    $collectionFormsCoeff.find('.coeff-form').each(function () {
+        putDeleteButtonCoeff($(this));
+    })
 
-
-    
-        $collectionFormsCoeff = $('#coeff');
-        $collectionFormsCoeff.find('.coeff-form').each(function () {
-            putDeleteButtonCoeff($(this));
-        })
-    
-        let $addButtonCoeff = $("#addButtonCoeffSpe")
-        let $buttonContainerCoeff = $("#button_add_coeff")
-        console.log($("del-coeff").length)
-        $addButtonCoeff.on("click", (event) => {
-            event.preventDefault()
-           
-            let counter = $("#coeff").children('.coeff-form').length
-            console.log(counter)
-            let $newCoeffForm = $("#coeff").data("prototype")
-            
-            $newCoeffForm = $($newCoeffForm.replace(/_name_/g, counter))
-            putDeleteButtonCoeff($newCoeffForm)
-            $("#coeff").append(
-                $($("#coeff").data("widget-tags")).html($newCoeffForm)
-            )
-            $(".test").append($buttonContainerCoeff)
-        })
-        $('.del-coeff').on('click',function(e){
-            e.preventDefault()
-            let coeff =$(this).data('coeff').replace(" ","")
-            $('#'+coeff).remove()
-            $(this).remove()
-            
-        })
+    let $addButtonCoeff = $("#addButtonCoeffSpe")
+    let $buttonContainerCoeff = $("#button_add_coeff")
+    console.log($("del-coeff").length)
+    $addButtonCoeff.on("click", (event) => {
+        event.preventDefault()
+        
+        let counter = $("#coeff").children('.coeff-form').length
+        console.log(counter)
+        let $newCoeffForm = $("#coeff").data("prototype")
+        
+        $newCoeffForm = $($newCoeffForm.replace(/_name_/g, counter))
+        putDeleteButtonCoeff($newCoeffForm)
+        $("#coeff").append(
+            $($("#coeff").data("widget-tags")).html($newCoeffForm)
+        )
+        $(".test").append($buttonContainerCoeff)
+    })
+    $('.del-coeff').on('click',function(e){
+        e.preventDefault()
+        let coeff =$(this).data('coeff').replace(" ","")
+        $('#'+coeff).remove()
+        $(this).remove()
+        
+    })
   
 })
 

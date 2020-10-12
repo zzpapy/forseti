@@ -66,8 +66,7 @@ class RecetteController extends BankinApiController
      */
     public function ChargeUpdate(Recette $recette, Request $request){
         $formRecette = $this->createForm(RecetteType::class, $recette);
-        
-        // dd($request->request);
+       
         $formRecette->handleRequest($request);
         
         if ($formRecette->isSubmitted() && $formRecette->isValid()) {
@@ -78,9 +77,9 @@ class RecetteController extends BankinApiController
             
             $entityManager->persist($recette);
             $entityManager->flush();
-            // return $this->redirectToRoute('app_recette_list', ['id' => $this->getUser()->getScm()->getId()]);
+            return $this->redirectToRoute('app_recette_list', ['id' => $this->getUser()->getScm()->getId()]);
         }
-        // dd($formRecette);
+        
     return $this->render('recette/recette_update.html.twig', [
         'recette' => $recette,
         'formRecette' => $formRecette->createView()

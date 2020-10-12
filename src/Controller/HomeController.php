@@ -12,13 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends BankinApiController
 {
-    // private $session;
-
-    // protected function __construct(SessionInterface $session)
-    // {
-    //     $this->session = $session;
-    // }
-
     /**
      * @Route("/home", name="home")
      */
@@ -27,7 +20,6 @@ class HomeController extends BankinApiController
         $renderBankinConf = false;
         if(in_array('ROLE_ADMIN', $this->getUser()->getRoles()) && is_null($this->session->get('bank_account_id'))){
             $renderBankinConf = true;
-            // dd($renderBankinConf);
         }
         if(!$renderBankinConf){
 
@@ -67,16 +59,20 @@ class HomeController extends BankinApiController
             $totalRecetteNullUser = $recetteManager->getTotalRecetteNullUsers($scm);
             $totalRecetteNullUser[0]["id"] = 0;
             $totalRecetteNullUser[0]["firstname"] = "Non attribué";
-            // dd($totalRecetteUsers);
             array_push($totalRecetteUsers,$totalRecetteNullUser[0]);
 
-            $transactionListRecette = $chargeManager->getTransactionToSynchronise('onlyCharge');
+            $this->reconnectApiUser();
+            $transactionListRecette = $chargeManager->getTransactionToSynchronise('onlyRecette');
+            
         if($transactionListRecette){
                 $isTransactionRecette = true;
         }
         else{
             $isTransactionRecette = false;
         }
+        $this->session->set("is_transactionRecette",$isTransactionRecette);
+        $this->session->set("is_transaction",$isTransaction);
+        $this->session->set("transaction_list",$transactionList);
             return $this->render('home/index.html.twig', [
                 'render_bankin_conf' => $renderBankinConf,
                 'total_detail_per_type' => $totalDetail,

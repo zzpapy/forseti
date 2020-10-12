@@ -3,8 +3,6 @@
 namespace App\Form;
 
 use App\Entity\User;
-use App\Entity\Charge;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\EntityRepository;
 use App\Entity\CoefficientSpecifique;
 use Symfony\Component\Form\AbstractType;
