@@ -11,11 +11,20 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class RecetteType extends AbstractType
 {
+    private $session;
+
+    public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
+    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $scm =$this->session->get('scm');
         $builder
             ->add('label')
             ->add('createdAt', DateType::class, [
@@ -29,19 +38,17 @@ class RecetteType extends AbstractType
                 'label' => 'Montant'
             ])
             ->add('user', EntityType::class, [
-                'class' => User::class,                
-                'label' => 'Associés',
-                'expanded' => false,
+                'class' => User::class,
+                'query_builder' => function (EntityRepository $er) use ($scm) {
+                        $er = $er->findByScm($scm);
+                    return $er;
+                },
+                'label' => 'Associé',
+                'expanded' => true,
                 'multiple' => false,
                 'choice_label' => 'firstname',
-            ])
-            // ->add('scm', EntityType::class, [
-            //     'class' => EntityScmType::class,                
-            //     'label' => 'type',
-            //     'expanded' => false,
-            //     'multiple' => false,
-            //     'choice_label' => 'label',
-            // ])
+                ])
+                ;
         ;
     }
 

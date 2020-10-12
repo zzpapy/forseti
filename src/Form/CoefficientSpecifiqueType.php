@@ -28,18 +28,18 @@ class CoefficientSpecifiqueType extends AbstractType
         ->add('coefficient',null,[
                 'label' => "coefficient spécifique"
                 ])
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'query_builder' => function (EntityRepository $er) use ($scm) {
-                        $er = $er->findByScm($scm);
-                    return $er;
-                },
-                'label' => 'Associé',
-                'expanded' => true,
-                'multiple' => false,
-                'choice_label' => 'firstname',
-                ])
-                ;
+        ->add('user', EntityType::class, [
+            'class' => User::class,
+            'query_builder' => function (EntityRepository $er) use ($scm) {
+                    $er = $er->findByScm($scm);
+                return $er;
+            },
+            'label' => 'Associé',
+            'expanded' => true,
+            'multiple' => false,
+            'choice_label' => 'firstname',
+            ])
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
