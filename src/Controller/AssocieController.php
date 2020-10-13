@@ -274,34 +274,15 @@ class AssocieController extends RegistrationController
                 $tabCoefsUsers[$key] = $listCeoffsuser;
             }
 
-            $totalChargePerMonth = $chargeRepo->getTotalChargePerMonth($this->scm,'2020-01601','2020-12-31');
+            $totalChargePerMonth = $chargeRepo->getTotalChargePerMonth($this->scm,'2020-01-01','2020-12-31');
             
-            
-            
-            //test coeffspecifique
-
-            $formCoeffSpe = $this->createForm(CoefficientSpecifiqueType::class);
-
-            $formCoeffSpe->handleRequest($request);
-            $chargesSpe = $chargeRepo->getTotalChargePerCoeffSpe();
-            
-            if($formCoeffSpe->isSubmitted() && $formCoeffSpe->isValid()){
-                $em = $this->getDoctrine()->getManager();
-                           
-                $em->persist($formCoeffSpe->getData());
-                $em->flush();
-                return $this->redirectToRoute('app_associe');
-            }
-
             return $this->render('associe/associe.html.twig', [
                 'controller_name' => 'AssocieController',
                 'assoc_form_list' => $formArrayView,
                 'tabAssoc' => $tabCoefsUsers,
                 'allUsers' => $allUsers,
                 'totalChargeMonth' => $totalChargePerMonth,
-                'totelCoeffsPerMonth' => $totalCoeffUsersPerMonth,
-                "form_coeff_spe" =>  $formCoeffSpe->createView(),
-                "charge_spe" => $chargesSpe
+                'totelCoeffsPerMonth' => $totalCoeffUsersPerMonth
             ]);
         } else { // sinon on redirige vers un formulaire de créa des associés
             return $this->redirectToRoute('app_associe_create_user', ['id' => $this->scm->getId()]);

@@ -7,6 +7,7 @@ use App\Entity\Recette;
 use App\Form\UserAdminType;
 use App\Form\ChangePasswordFormType;
 use App\Repository\ChargeRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -20,7 +21,7 @@ class ProfileController extends RegistrationController
     /**
      * @Route("/profile/{id<\d+>}", name="app_profile")
      */
-    public function index(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder, ChargeRepository $chargeRepo)
+    public function index(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder, ChargeRepository $chargeRepo, EntityManagerInterface $entityManager)
     {
         if ($this->getUser()->getId() != $request->get("id")) {
             return $this->redirectToRoute('app_logout');
@@ -71,6 +72,10 @@ class ProfileController extends RegistrationController
             'user' => $user->getId(),
             'scm' => $user->getScm()->getId()
         ]);
+        $sql = 'CALL calcCoeffSpe("'.$this->getUser()->getId().'")';
+        $coeffSpeUser = $entityManager->getConnection()->prepare($sql);
+        $coeffSpeUser->execute();
+        $coeffSpeUser = $coeffSpeUser->fetchAll();
 
         return $this->render('profile/profile.html.twig', [
             'controller_name' => 'ProfileController',
@@ -78,7 +83,8 @@ class ProfileController extends RegistrationController
             'edit_password' => $passForm->createView(),
             'scm' => $scmEntity,
             'totalCharge' => $totalCharge,
-            "recette" => $recetteUser
+            "recette" => $recetteUser,
+            'coeffSpeUser' => $coeffSpeUser
         ]);
     }
 
