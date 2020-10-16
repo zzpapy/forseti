@@ -15,6 +15,7 @@ $(document).ready(function () {
 
     $('.validate-chargetype').on('click', function (e) {
         e.preventDefault();
+        console.log("toto")
         let url = $(this).data('ajax--url');
         let transacId = $(this).data('transac-id');
 
@@ -96,6 +97,7 @@ $(document).ready(function () {
 
     $('.validate-userRecette').on('click', function (e) {
         e.preventDefault();
+       
         let url = $(this).data('ajax--url');
         let transacId = $(this).data('transac-id');
         let description = $(this).data('description');

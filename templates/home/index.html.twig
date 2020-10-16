@@ -41,6 +41,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="panel-footer">
+                    <div id="legend_flot_pie_chart"></div>
+                </div>
             </div>
         </div>
         <div class="col-lg-6">
@@ -65,7 +68,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-6">
             <div class="panel panel-default card-view">
                 <div class="panel-heading">
                     <div class="pull-left">
@@ -159,8 +162,21 @@
                         }
                     }
                 },
+                
                 legend: {
+                    position: "se",
+                    margin: [10, 0],
                     backgroundColor: 'transparent',
+                    noColumns: 3,
+                    container: $('#legend_flot_pie_chart'),
+                    labelBoxBorderColor: null,
+                    labelFormatter: function (label, series) {
+                        // just add some space to labes
+                        return '' + label + '&nbsp;&nbsp;';
+                    },
+                    width: 30,
+                    height: 5
+                    
                 },
                 grid: {
                     hoverable: true
@@ -175,6 +191,7 @@
                     },
                     defaultTheme: false
                 },
+                
             };
             $.plot($("#flot_pie_chart"), pie_data, pie_op);
         }

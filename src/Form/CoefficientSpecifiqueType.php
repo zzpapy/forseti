@@ -24,15 +24,15 @@ class CoefficientSpecifiqueType extends AbstractType
         $scm =$this->session->get('scm');
         $builder
         ->add('coefficient',null,[
-                'label' => "coefficient spécifique"
-                ])
-        ->add('user', EntityType::class, [
-            'class' => User::class,
-            'query_builder' => function (EntityRepository $er) use ($scm) {
-                    $er = $er->findByScm($scm);
-                return $er;
-            },
-            'label' => 'Associé',
+            'attr' => ["placeholder" => "coefficient"],
+            "label" => false
+            ])
+            ->add('user', EntityType::class, [
+                'class' => User::class,
+                'query_builder' => function (EntityRepository $er) use ($scm) {
+                    return $er->findByScm($scm);
+                },
+            'label' => false,
             'expanded' => true,
             'multiple' => false,
             'choice_label' => 'firstname',

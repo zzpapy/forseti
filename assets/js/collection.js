@@ -22,6 +22,7 @@ $(document).ready(function () {
         putDeleteButton($(this));
     })
 
+   
     let $addButton = $("#addButton")
     let $buttonContainer = $("#button_add_users")
 
@@ -46,7 +47,6 @@ $(document).ready(function () {
 
     let $addButtonCoeff = $("#addButtonCoeffSpe")
     let $buttonContainerCoeff = $("#button_add_coeff")
-    console.log($("del-coeff").length)
     $addButtonCoeff.on("click", (event) => {
         event.preventDefault()
         

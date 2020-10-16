@@ -12,7 +12,7 @@
         <div class="panel-body">
             <h3><span class="number"><i class="icon-eye txt-black"></i></span><span
             class="head-font capitalize-font">Modifié cette charge</span></h3>
-            <fieldset>
+            <div>
                 <hr class="light-grey-hr">
                 <div class="row">
                     <div class="col-sm-12">
@@ -33,16 +33,14 @@
                                 </div>
                                 <div class="col-md-12" style="width:100%">
                                     <div class="form-group">
-                                        <div class="input-group">                        
+                                        <div class="input-group">
                                             <div id="coeff"
                                                 data-prototype="{{ form_widget(formCharge.coefficientSpecifiques.vars.prototype)|e }}"
-                                                data-widget-tags="{{ '<div class="coeff-form"></div>'|e }}"
+                                                data-widget-tags="{{ '<div class="coeff-form card"></div>'|e }}"
                                                 data-widget-counter="{{ formCharge.coefficientSpecifiques|length }}">
                                                 {% for coeff in formCharge.coefficientSpecifiques %}
                                                     <div class="coeff-form card" >
-                                                    {{form_widget(coeff.coefficient,{
-                                                                'placeholder':'Coefficient',
-                                                            })}}
+                                                    {{form_widget(coeff.coefficient)}}
                                                     {{form_widget(coeff.user)}}
                                                     </div>
                                                 {% endfor %}
@@ -58,7 +56,7 @@
                         </div>
                     </div>
                 </div>
-            </fieldset>
+            </div>
             {{form_end(formCharge)}}
         </div>
     </div>
