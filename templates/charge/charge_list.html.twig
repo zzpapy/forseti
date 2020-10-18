@@ -35,19 +35,21 @@
                                             <td> {{charge.createdAt|date}} </td>
                                             <td> {{charge.payedAt|date}} </td>
                                             <td> {{charge.type.label}} </td>
-                                            <td> {{charge.total}} </td>
+                                            <td> {{charge.total|abs}} </td>
                                             {% if charge.coefficientSpecifiques|length %}
                                             <td>
-                                                <table>
+                                                <table width="100%">
+                                                <tbody>
                                                 {% for coeff in charge.coefficientSpecifiques %}
                                                 <tr>                                        
-                                                    <td> {{coeff.user.firstname}} {{coeff.coefficient}}%</td> 
-                                                <tr>                                               
+                                                    <td class="text-center"> {{coeff.user.firstname}} {{coeff.coefficient}}%</td> 
+                                                </tr>                                               
                                                 {% endfor %}
+                                                </tbody>
                                                 </table>
                                             </td>
                                             {% else %}
-                                                <td></td>                                             
+                                                <td></td>
                                             {% endif %}                                            
                                             <td>
                                                 <a class="link" href="{{ path('app_charge_update',{ id : charge.id }) }}"><i class="ti-pencil-alt"></i></a>

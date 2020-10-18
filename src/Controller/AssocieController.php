@@ -280,6 +280,8 @@ class AssocieController extends RegistrationController
 
             //test récup total charges annuelles total payé par user fct coeff specifique 
             //et total restant
+
+            
             $calc = $chargeRepo->getTotalchargeCalcCoeffs($this->scm);
             $totalMois = 0;
             $totalReste = 0;

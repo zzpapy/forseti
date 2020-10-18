@@ -7,10 +7,13 @@ use App\Form\CoefficientSpecifiqueType;
 use Symfony\Component\Form\AbstractType;
 use App\Entity\ChargeType as EntityChargeType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class ChargeFormType extends AbstractType
 {
@@ -19,7 +22,7 @@ class ChargeFormType extends AbstractType
     { 
        
         $builder
-            ->add('label',null,[
+            ->add('label',TextType::class,[
                 'label' => "Label"
             ])
             ->add('type', EntityType::class, [
@@ -33,11 +36,15 @@ class ChargeFormType extends AbstractType
                 'entry_type'=> CoefficientSpecifiqueType::class,
                 'block_name'=>'user_list',                
                 "allow_add"=>true,
+                "label" => false,
                 "allow_delete"=>true,
                 "by_reference"=>false,
                 'entry_options'=>[
                     'label'=>false,
                 ],
+            ])
+            ->add('total',IntegerType::class,[
+                'label' => "Montant"
             ])
         ;
     }

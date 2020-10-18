@@ -18,48 +18,58 @@
         <div class="panel-body">
             <h3><span class="number"><i class="icon-eye txt-black"></i></span><span
             class="head-font capitalize-font">Modifié cette charge</span></h3>
-            <div>
-                <hr class="light-grey-hr">
-                <div class="row">
-                    <div class="col-sm-12">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <div class="input-group">                        
-                                            {{ form_row(formCharge.label) }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <div class="input-group">                        
-                                            {{ form_row(formCharge.type) }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12" style="width:100%">
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <div id="coeff"
-                                                data-prototype="{{ form_widget(formCharge.coefficientSpecifiques.vars.prototype)|e }}"
-                                                data-widget-tags="{{ '<div class="coeff-form card"></div>'|e }}"
-                                                data-widget-counter="{{ formCharge.coefficientSpecifiques|length }}">
-                                                {% for coeff in formCharge.coefficientSpecifiques %}
-                                                    <div class="coeff-form card" >
-                                                    {{form_widget(coeff.coefficient)}}
-                                                    {{form_widget(coeff.user)}}
-                                                    </div>
-                                                {% endfor %}
-                                            </div>
-                                            <div class="row" id="button_add_coeff">
-                                                <button id='addButtonCoeffSpe'  data-list-selector="#coeff" class="btn btn-primary ml-15 col-sm-1 col-lg-12 col-md-12">Ajouter un coefficient spécifique</button>
-                                            </div>
-                                        </div>
+            <hr class="light-grey-hr">
+            <div class="row">
+                <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <div class="input-group">                        
+                                        {{ form_row(formCharge.label) }}
                                     </div>
                                 </div>
                             </div>
-                            <button class="btn btn-primary">Modifier</button>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="input-group">                        
+                                        {{ form_row(formCharge.type) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <div class="input-group">                        
+                                        {{ form_row(formCharge.total) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group pt-20">
+                                    <div class="row" id="button_add_coeff">
+                                        <button id='addButtonCoeffSpe'  data-list-selector="#coeff" class="btn btn-primary ml-15 "><i class="icon-user"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" style="width:100%">
+                            <h6>Coefficients spécifiques</h6>
+                                <div class="form-group">
+                                        <div id="coeff" class="flex"
+                                            data-prototype="{{ form_widget(formCharge.coefficientSpecifiques.vars.prototype)|e }}"
+                                            data-widget-tags="{{ '<div class="coeff-form card"></div>'|e }}"
+                                            data-widget-counter="{{ formCharge.coefficientSpecifiques|length }}"
+                                        >                                                
+                                            {% for coeff in formCharge.coefficientSpecifiques %}
+                                                <div class="coeff-form card" >
+                                                {{form_widget(coeff.user)}}
+                                                {{form_widget(coeff.coefficient)}}
+                                                </div>
+                                            {% endfor %}                                                
+                                        </div>
+                                </div>
+                            </div>
                         </div>
+                        <button class="btn btn-primary">Modifier</button>
                     </div>
                 </div>
             </div>

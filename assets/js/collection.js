@@ -7,9 +7,11 @@ function putDeleteButton($form) {
 }
 
 function putDeleteButtonCoeff($form) {
-    let $deleteButton = $('<div class="row" id="button_remove_coeff"><button type="button" class="btn btn-danger mb-10 ml-15 col-sm-1 col-lg-12 col-md-8">Supprimer</button></div>')
+    let $deleteButton = $('<div class="row" id="button_remove_coeff"><button type="button" class="btn btn-danger mt-10 ml-15 col-sm-1 col-lg-6 col-md-8">Supprimer</button></div>')
     $form.append($deleteButton)
     $deleteButton.on('click', function () {
+        console.log($form.parents('.coeff-form'))
+        $form.parents('.coeff-form').remove()
         $form.remove()
     })
 }
@@ -60,13 +62,6 @@ $(document).ready(function () {
             $($("#coeff").data("widget-tags")).html($newCoeffForm)
         )
         $(".test").append($buttonContainerCoeff)
-    })
-    $('.del-coeff').on('click',function(e){
-        e.preventDefault()
-        let coeff =$(this).data('coeff').replace(" ","")
-        $('#'+coeff).remove()
-        $(this).remove()
-        
     })
   
 })

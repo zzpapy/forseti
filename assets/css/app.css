@@ -18,3 +18,28 @@
 td{
     border-right:1px solid #dedede !important ;
 }
+.flex{
+    display: flex;
+    flex-wrap:wrap;
+    justify-content: flex-start;
+}
+.coeff-form{
+    border: 1px solid rgba(33, 33, 33, 0.12);
+    padding: 1em;
+    margin: 0 1em 1em 0;
+    animation: rotate 3s ;
+    animation-direction: alternate;
+}
+#coeff{
+    max-width: 100%;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotateY(-90deg);
+    }
+    100% {
+        transform: rotateY(0deg);
+    }
+  }
+  
