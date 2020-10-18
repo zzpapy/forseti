@@ -110,9 +110,19 @@ class ChargeController extends BankinApiController
                 
                 $entityManager = $this->getDoctrine()->getManager();
                 dump(count($formCharge->getData()->getCoefficientSpecifiques()));
-                
+                $totalCoeffSpe = 0;
                 foreach ($formCharge->getData()->getCoefficientSpecifiques() as $value) {
-                    $entityManager->persist($value);
+                    $totalCoeffSpe = $totalCoeffSpe + $value->getCoefficient();
+                    if($totalCoeffSpe < 100){
+                        $entityManager->persist($value);
+                    }
+                    else{
+                        $this->addFlash('error','coefficient trop élevé');
+                        return $this->render('charge/charge_update.html.twig', [
+                            'charge' => $charge,
+                            'formCharge' => $formCharge->createView()
+                        ]);
+                    }
                 }
     
                 $entityManager->persist($charge);

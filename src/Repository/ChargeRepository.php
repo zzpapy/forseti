@@ -148,5 +148,18 @@ class ChargeRepository extends ServiceEntityRepository
             ->getArrayResult();
     }
 
+    public function getTotalchargeCalcCoeffs($scm_id)
+    {
+        return $this->createQueryBuilder('c')
+            ->select( 'c.id','c.label','ABS(c.total) as total','MONTH(c.payedAt) AS mois','u.firstname' , 'ABS((cs.coefficient * c.total / 100 )) AS totalUser', 'ABS(c.total-(cs.coefficient * c.total / 100 )) AS reste','cs.coefficient')
+            ->leftjoin(CoefficientSpecifique::class, 'cs', Join::WITH, 'cs.charge = c.id')
+            ->leftjoin(User::class, 'u', Join::WITH, 'cs.user = u.id')
+            ->andWhere('c.scm = :scm_id')
+            ->setParameter('scm_id', $scm_id)
+            ->orderBy('mois') 
+            ->getQuery()
+            ->getArrayResult();
+    }
+
 
 }

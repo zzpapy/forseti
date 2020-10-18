@@ -6,6 +6,12 @@
     <li class="active">Modifier</li>
 {% endblock %}
 {% block body %}
+{% for message in app.flashes('error') %}
+            <div id="alert" class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+
 <div>
     {{form_start(formCharge)}}
     <div class="panel panel-wrapper collapse in">
@@ -64,4 +70,12 @@
 {% endblock %}
 {% block javascripts_specifique %}
 {{ encore_entry_script_tags('forseti_collection') }}
+<script>
+ $("#alert").slideDown(500, function () {
+    setTimeout(function () {
+        $("#alert").slideUp(500)
+        $("#alert").html("")
+    }, 5000)
+})
+</script>
 {% endblock %}

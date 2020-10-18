@@ -402,11 +402,11 @@
                                                                 {% set totalgene = 0 %}
                                                                 {% set totaluser = 0 %}
                                                                 {% for detail in coeffSpeUser %}
-                                                                <tr>                                                            
+                                                                <tr>                                       
                                                                     <td>{{detail.label}}</td>
                                                                     {% set totalgene = totalgene + detail.total_calc  %}
                                                                     <td>{{detail.total}} €</td>
-                                                                    <td>{{detail.coefficient}} %</td>
+                                                                    <td>{{detail.coeff}} %</td>
                                                                     <td>{{detail.total_calc}} €</td>
                                                                 </tr>
                                                                 {% endfor %}

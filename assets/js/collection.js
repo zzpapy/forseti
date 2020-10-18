@@ -51,8 +51,8 @@ $(document).ready(function () {
         event.preventDefault()
         
         let counter = $("#coeff").children('.coeff-form').length
-        console.log(counter)
-        let $newCoeffForm = $("#coeff").data("prototype")
+        
+        let $newCoeffForm = $("#coeff").data("prototype").replace("fieldset", "div")
         
         $newCoeffForm = $($newCoeffForm.replace(/_name_/g, counter))
         putDeleteButtonCoeff($newCoeffForm)
