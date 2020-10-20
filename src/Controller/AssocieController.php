@@ -290,6 +290,7 @@ class AssocieController extends RegistrationController
             $bool = false;
             foreach ($calc as $key => $value) {
                 if($next == 0 || $next != $value["id"] && $bool == false){
+                    dump($value);
                     $totalMois= $totalMois + $value["total"]; 
                     $next = $value["id"];
                     if($value["reste"] == null){
@@ -313,7 +314,7 @@ class AssocieController extends RegistrationController
                
                 $totalUser = $totalUser + $value["totalUser"];
             }
-
+            // dd($calc,$totalUser,$totalReste,$totalMois);
             return $this->render('associe/associe.html.twig', [
                 'controller_name' => 'AssocieController',
                 'assoc_form_list' => $formArrayView,

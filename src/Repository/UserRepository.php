@@ -63,6 +63,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('scm', $scm)
         ;
     }
+
+    public function getCalcCoeffSpe($user)
+    {
+        return $this->createQueryBuilder('u')
+            ->select( 'u.id','cs.id AS coeff_id' ,'ch.label','ABS((cs.coefficient * ch.total / 100))AS total_calc',' ABS(ch.total) AS total,cs.coefficient as coeff')
+            ->leftjoin(CoefficientSpecifique::class, 'cs', Join::WITH, 'cs.user = u.id')
+            ->innerjoin(User::class, 'us', Join::WITH, 'us.id = cs.user')
+            ->innerjoin(Charge::class, 'ch', Join::WITH, 'cs.charge = ch.id')
+            ->andWhere('cs.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getArrayResult();
+    }
     
     
 }
