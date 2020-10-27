@@ -73,6 +73,7 @@ class HomeController extends BankinApiController
         $this->session->set("is_transactionRecette",$isTransactionRecette);
         $this->session->set("is_transaction",$isTransaction);
         $this->session->set("transaction_list",$transactionList);
+        $this->session->set("scm",$this->getUser()->getScm());
             return $this->render('home/index.html.twig', [
                 'render_bankin_conf' => $renderBankinConf,
                 'total_detail_per_type' => $totalDetail,
@@ -87,8 +88,18 @@ class HomeController extends BankinApiController
             ]);
         }
         else{
+            // dd('toto');
             return $this->render('home/index.html.twig', [
                 'render_bankin_conf' => $renderBankinConf,
+                'is_transactionRecette' => false,
+                'is_transaction' => false,
+                'total_detail_per_type' => false,
+                'total_detail_per_type_per_month' => false,
+                'users' => false,
+                'usersCoefs' => false,
+                'totalTab' => false,
+                'transaction_list' => false,
+                "totalRecetteUsers" => false,
             ]);
 
         }

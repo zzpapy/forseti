@@ -62,7 +62,6 @@ class AssocieController extends RegistrationController
             
             if(null !== $request->request->get("user_id")){ //on vérif si ev post existe
                 $user_id = $request->request->get("user_id");
-
                 //on récupère l'id de l'user pour récupérer l'objet user
                 $id = intval(str_replace("user_", "", $user_id));
 
@@ -102,7 +101,7 @@ class AssocieController extends RegistrationController
                             //on vérifie que la nouvelle valeur est différente de l'actuelle
                             
                             if($formArray[$user_id]->getData()[$keys[$index-1]] != $coefficientGeneral->getCoefficient()){
-                                //vérif si le total des coef est sup à 100           
+                                //vérif si le total des coef est sup à 100  
                                 if(($totalCoeff - $coefficientGeneral->getCoefficient()) + $formArray[$user_id]->getData()[$keys[$index-1]] <= 100 && $formArray[$user_id]->getData()[$keys[$index-1]] >= 0){
                                     $coefficientGeneral->setCoefficient($formArray[$user_id]->getData()[$keys[$index-1]]);
                                 }
@@ -142,9 +141,9 @@ class AssocieController extends RegistrationController
                             ]));
                             return $response;
                         }
-                        //si erreur on retourne erreur
                         $totalCoeffUsersPerMonth = $coeffRepo->getTotalUserCoefPerMonth($this->scm,$this->getUser());
                         $totalChargePerMonth = $chargeRepo->getTotalChargePerMonth($this->scm,'2020-01601','2020-12-31');
+                        //si erreur on retourne erreur
                         if($error != ""){
                             $response->setStatusCode(Response::HTTP_NOT_FOUND);
                             $response->setContent(json_encode([
@@ -314,9 +313,8 @@ class AssocieController extends RegistrationController
                
                 $totalUser = $totalUser + $value["totalUser"];
             }
-            // dd($calc,$totalUser,$totalReste,$totalMois);
+
             return $this->render('associe/associe.html.twig', [
-                'controller_name' => 'AssocieController',
                 'assoc_form_list' => $formArrayView,
                 'tabAssoc' => $tabCoefsUsers,
                 'allUsers' => $allUsers,

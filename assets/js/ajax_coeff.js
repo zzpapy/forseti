@@ -7,16 +7,16 @@ $(document).ready(function() {
         //récup url traitement
         let url = $(e.target).data('ajax-url')
 
-        //lancement de la req avec les data du form serializé
-        let req = $.post(url, $( "#form_coeff_" + user ).serialize(),function( json ) { 
+        //lancement de la req avec les data du form serialize
+        $.post(url, $( "#form_coeff_" + user ).serialize(),function( json ) { 
 
             
             //traitement réponse
             //on récup l'user en cours
             user_id = json.coeff[1].user_id
-            //on init un tableau avec les nouveaux totaux des coeffs users
-            let coeff = []
             id = user_id.replace('user_','');
+            //on init un tab pour mise à jour coeffs admin et total parts restantes.
+            let coeff = []
             //on parcours les cases coeff de l'user dans le tableau
             for(i=0; i < json.totalChargeMonth.length; i++){
                     totalUser = (json.totalChargeMonth[i].total * json.coeff[json.totalChargeMonth[i].mois].coeff / 100).toFixed(2).replace(".", ",");
@@ -27,22 +27,22 @@ $(document).ready(function() {
                 //on met à jour l'affichage avec la nouvelle valeure
                 $("#"+user_id+"_coeff_"+i).html(json.coeff[i].coeff)
 
-                //on init un tab pour mise à jour coeffs admin et tiotal parts restantes.
+                //on init un tab pour mise à jour coeffs admin et total parts restantes.
                 coeff.push(json.coeff[i].coeff)
 
                 //flash message mise à jour
                 
-                $("#success").html(json.success)
-                $("#success").removeClass('hide')
-                $("#success").css('width','25%')
-                $("#success").slideDown(500, function () {
-                    setTimeout(function () {
-                        $("#success").slideUp(500)
-                        $("#success").addClass('hide')
-                        $("#success").html("")
-                    }, 5000);
-                });
             }
+            $("#success").html(json.success)
+            $("#success").removeClass('hide')
+            $("#success").css('width','25%')
+            $("#success").slideDown(500, function () {
+                setTimeout(function () {
+                    $("#success").slideUp(500)
+                    $("#success").addClass('hide')
+                    $("#success").html("")
+                }, 5000);
+            });
            
         },"json" ).done( function(coeff){  
             

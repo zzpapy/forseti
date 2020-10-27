@@ -50,13 +50,13 @@ class CoefficientGeneralRepository extends ServiceEntityRepository
     }
     */
     /**
-     * SELECT MONTH(c.month) AS toto, SUM(coefficient) AS total
+     * SELECT MONTH(c.month) AS month, SUM(coefficient) AS total
      *FROM coefficient_general c
      *INNER JOIN user 
      *ON c.user_id = user.id
      *WHERE  JSON_LENGTH(roles) = 0 
      *AND scm_id = 58
-     *GROUP BY toto
+     *GROUP BY month
      * 
      */
 

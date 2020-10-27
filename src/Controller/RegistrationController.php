@@ -48,7 +48,6 @@ class RegistrationController extends AbstractController
 
         $formScm = $this->createForm(ScmType::class, $scm);
         $formScm->handleRequest($request);
-        $submittedToken = $request->request->get('token');
 
         if ($form->isSubmitted()) {
 
@@ -79,7 +78,7 @@ class RegistrationController extends AbstractController
                 $entityManager->persist($assoc);
                 $entityManager->flush();
 
-                // $this->sendEmailVerifier($assoc);
+                $this->sendEmailVerifier($assoc);
             }
 
             $userAdminAvatar = $request->files->get("picture");

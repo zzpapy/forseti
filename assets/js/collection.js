@@ -6,15 +6,7 @@ function putDeleteButton($form) {
     })
 }
 
-function putDeleteButtonCoeff($form) {
-    let $deleteButton = $('<div class="row" id="button_remove_coeff"><button type="button" class="btn btn-danger mt-10 ml-15 col-sm-1 col-lg-6 col-md-8">Supprimer</button></div>')
-    $form.append($deleteButton)
-    $deleteButton.on('click', function () {
-        console.log($form.parents('.coeff-form'))
-        $form.parents('.coeff-form').remove()
-        $form.remove()
-    })
-}
+
 
 $(document).ready(function () {
 
@@ -42,6 +34,16 @@ $(document).ready(function () {
     })
 
     // coefficient specifique collection
+
+    function putDeleteButtonCoeff($form) {
+        let $deleteButton = $('<div class="row" id="button_remove_coeff"><button type="button" class="btn btn-danger mt-10 ml-15 col-sm-1 col-lg-6 col-md-8">Supprimer</button></div>')
+        $form.append($deleteButton)
+        $deleteButton.on('click', function () {
+            console.log($form.parents('.coeff-form'))
+            $form.parents('.coeff-form').remove()
+            $form.remove()
+        })
+    }
     $collectionFormsCoeff = $('#coeff');
     $collectionFormsCoeff.find('.coeff-form').each(function () {
         putDeleteButtonCoeff($(this));
