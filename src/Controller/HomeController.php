@@ -22,11 +22,12 @@ class HomeController extends BankinApiController
             $renderBankinConf = true;
         }
         if(!$renderBankinConf){
-
+            
             $totalDetail = $chargeManager->calculatePercentCharge();
-
+            
             $totalDetail2 = $chargeManager->getChargePerMonthPerType();
-
+            
+            // dd($renderBankinConf);
             $totalTab =[];
 
             foreach ($totalDetail2 as $key => $typeCharge) {
@@ -40,9 +41,14 @@ class HomeController extends BankinApiController
 
             foreach ($users as $user) {
                 $usersCoefs[$user->getId()] = $user->getCoefficientGeneral()->toArray();
+                if(in_array('ROLE_ADMIN',$user->getRoles())){
+                    $admin = $user;
+
+                }
             }
-            $this->denyAccessUnlessGranted('ROLE_ADMIN');
-            $this->reconnectApiUser();
+            // $this->denyAccessUnlessGranted('ROLE_ADMIN');
+            $UserRepository = $this->getDoctrine()->getRepository(User::class);
+            $this->reconnectApiUser($admin->getApiUser()->getEmail(),$admin->getApiUser()->getPassword());
             $transactionList = $chargeManager->getTransactionToSynchronise('onlyCharge');
 
             if($transactionList){
@@ -61,7 +67,7 @@ class HomeController extends BankinApiController
             $totalRecetteNullUser[0]["firstname"] = "Non attribué";
             array_push($totalRecetteUsers,$totalRecetteNullUser[0]);
 
-            $this->reconnectApiUser();
+            // $this->reconnectApiUser();
             $transactionListRecette = $chargeManager->getTransactionToSynchronise('onlyRecette');
             
         if($transactionListRecette){

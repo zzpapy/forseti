@@ -32,11 +32,11 @@ class BankinApiManager
 
     public function authenticateApiUser(string $email, string $password)
     {
-        // dd($email);
         $response = $this->bankin->request('POST', '/v2/authenticate', [
             'json' => ['email' => $email,
-                'password' => $password,],
-        ]);
+            'password' => $password,],
+            ]);
+            // dd($response->toArray());
 
         return $response->toArray();
     }

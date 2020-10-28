@@ -109,8 +109,13 @@ class BankinApiController extends AbstractController
         return $this->redirectToRoute('app_charge');
     }
 
-    protected function reconnectApiUser(){
-        $apiResponse = $this->bankinApiManager->authenticateApiUser($this->getUser()->getApiUser()->getEmail(), $this->getUser()->getApiUser()->getPassword());
+    protected function reconnectApiUser($email = null, $pass = null){
+        if($email == null){
+            $email = $this->getUser()->getApiUser()->getEmail();
+            $pass = $this->getUser()->getApiUser()->getPassword();
+        }
+        // dd($pass);
+        $apiResponse = $this->bankinApiManager->authenticateApiUser($email, $pass);
         $this->session->set('bankin_api_auth_token', $apiResponse['access_token']);
     }
 }

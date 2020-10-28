@@ -32,6 +32,10 @@ class LoginListener
                 $this->session->set('bankin_account_id', $user->getScm()->getBankAccount()->getBankinAccountId());
             }
         }
+        else{
+            $this->session->set('bank_account_id', $user->getScm()->getBankAccount()->getId());
+            $this->session->set('bankin_account_id', $user->getScm()->getBankAccount()->getBankinAccountId());
+        }
 
     }
 }
