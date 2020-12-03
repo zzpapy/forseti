@@ -24,9 +24,9 @@ class BankinApiManager
     {
         $response = $this->bankin->request('POST', '/v2/users', [
             'json' => ['email' => $email,
-                'password' => $password,],
+                'password' => $password],
         ]);
-
+        // dd($email);
         return $response->toArray();
     }
 

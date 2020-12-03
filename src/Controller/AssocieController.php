@@ -110,7 +110,7 @@ class AssocieController extends RegistrationController
                                     $pluriel = $totalCoeff > 1 ? "s" : "";
                                     $coefficientGeneral->setCoefficient(0);
                                     if($formArray[$user_id]->getData()[$keys[$index-1]] < 0){
-                                        $error = "coefficient negatif impossible";
+                                            $error = "coefficient negatif impossible";
                                         }
                                         else{
                                             $mois = $moisTab[date_format($coefficientGeneral->getMonth(), "n")];
@@ -337,7 +337,8 @@ class AssocieController extends RegistrationController
         $form = $this->createForm(UserAdminType::class, $user);
         $form->add('submit', SubmitType::class, array('label' => 'Valider'));
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
+        // dd($form->isSubmitted());
+        if ($form->isSubmitted()){
             $pass = $form->get("password")->get("first")->getData();
             $user->setPassword(
                 $passwordEncoder->encodePassword(

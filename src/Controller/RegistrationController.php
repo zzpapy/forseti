@@ -50,7 +50,7 @@ class RegistrationController extends AbstractController
         $formScm->handleRequest($request);
 
         if ($form->isSubmitted()) {
-
+            
             $entityManager = $this->getDoctrine()->getManager();
 
             $scmLogo = $request->files->get("logo");
@@ -78,9 +78,9 @@ class RegistrationController extends AbstractController
                 $entityManager->persist($assoc);
                 $entityManager->flush();
 
-                $this->sendEmailVerifier($assoc);
+                // $this->sendEmailVerifier($assoc);
             }
-
+            
             $userAdminAvatar = $request->files->get("picture");
 
             $user->setPicture($this->recordPhoto($userAdminAvatar, $user->getEmail()));
@@ -93,10 +93,11 @@ class RegistrationController extends AbstractController
             );
             $user->setRoles(["ROLE_ADMIN"]);
             $user->setScm($scm);
+            
             $entityManager->persist($user);
             $entityManager->flush();
-            
             // dd($user);
+            
             // $this->sendEmailVerifier($user);
 
             return $this->redirectToRoute('home');
