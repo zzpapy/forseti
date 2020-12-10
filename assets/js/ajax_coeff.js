@@ -14,16 +14,18 @@ $(document).ready(function() {
             //traitement réponse
             //on récup l'user en cours
             user_id = json.coeff[1].user_id
+            // console.log(json.coeff)
             id = user_id.replace('user_','');
             //on init un tab pour mise à jour coeffs admin et total parts restantes.
             let coeff = []
             //on parcours les cases coeff de l'user dans le tableau
             for(i=0; i < json.totalChargeMonth.length; i++){
-                    totalUser = (json.totalChargeMonth[i].total * json.coeff[json.totalChargeMonth[i].mois].coeff / 100).toFixed(2).replace(".", ",");
+                totalUser = (json.totalChargeMonth[i].total * json.coeff[json.totalChargeMonth[i].mois].coeff / 100).toFixed(2).replace(".", ",");
+                // console.log(totalUser)
                     $("#total_"+json.totalChargeMonth[i].mois+"_"+id).html(totalUser)
             }
             for( i=1; i<=12; i++){
-
+               
                 //on met à jour l'affichage avec la nouvelle valeure
                 $("#"+user_id+"_coeff_"+i).html(json.coeff[i].coeff)
 
@@ -45,9 +47,16 @@ $(document).ready(function() {
             });
            
         },"json" ).done( function(coeff){  
-            
+            console.log(coeff)
+            for (let i = 0; i < coeff.totalChargeMonth.length; i++) {
+                console.log(coeff.totalCoeff[coeff.totalChargeMonth[i]["mois"]-1].total,coeff.totalChargeMonth[i]["mois"])
+                $("."+coeff.totalChargeMonth[i]["mois"]).html((coeff.totalChargeMonth[i]["total"]*(100 - coeff.totalCoeff[coeff.totalChargeMonth[i]["mois"]-1].total) / 100).toFixed(2).replace(".", ","))
+                
+            }
+           
                 //on met à jour l'affichage des coeffs admin et des parts restantes
                 $(".updateAdmin").each(function(){
+                    console.log(coeff.totalCoeff[$(this).index()-2].total)
                     $(this).html(100 - coeff.totalCoeff[$(this).index()-2].total)
                 })
                 $(".updateTotal").each(function(){      

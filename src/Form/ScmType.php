@@ -49,7 +49,7 @@ class ScmType extends AbstractType
             ->add('ref_local', TextType::class)
             ->add('invariant_local', TextType::class)
             ->add('local_owner', TextType::class)
-            ->add('local_siren', TextType::class)
+            ->add('local_siren', NumberType::class)
             ->add('typeTenantOwner',ChoiceType::class,[
                 'choices'  => [
                     'Locataire' => 'locataire',

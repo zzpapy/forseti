@@ -56,7 +56,7 @@ class RegistrationController extends AbstractController
             $scmLogo = $request->files->get("logo");
 
             $scm->setLogo($this->recordPhoto($scmLogo, $scm->getCompanyName()));
-
+           
             $entityManager->persist($scm);
 
             $users = $scm->getUsers();

@@ -60,8 +60,9 @@ class BankinApiController extends AbstractController
     public function accountlist(Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
+        
         if($request->get('success')){
+            // dd($request->get('success'));
             $authToken = $this->session->get('bankin_api_auth_token');
             $accountList = $this->bankinApiManager->listAccounts($authToken);
             return $this->render('bankin/account_list.html.twig', [
