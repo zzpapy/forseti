@@ -26,7 +26,8 @@ class PdfGeneratorController extends AbstractController
         $options->set('defaultFont', 'Roboto');
         foreach ($totalChargePerType as $key => $value) {
             // dump($totalChargePerType);
-            // dd(in_array("Autres frais divers de gestion" ,array_values($value)));
+            // dump($scm->getUsers());
+            // dd($totalChargePerMonth);
         }
     
         $dompdf = new Dompdf($options);

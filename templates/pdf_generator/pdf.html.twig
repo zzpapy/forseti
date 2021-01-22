@@ -697,7 +697,8 @@
 									{% for type in totalChargePerType %}
 										{% if type["label"] ==  "Frais de réception, de représentation et de congrès" %}
 											{{(type["total"] * Tabmoyenne["user"~user.id] / 100)|round}}
-										{% endif %}
+											{#   abmoyenne["user"~user.id]}} #}
+				 						{% endif %}
 									{% endfor %}
 								</td>
 								<td>
